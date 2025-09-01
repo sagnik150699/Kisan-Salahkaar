@@ -14,6 +14,7 @@ const GenerateCropRecommendationsInputSchema = z.object({
   location: z.string().describe('The location of the farm.'),
   soilType: z.string().describe('The type of soil on the farm.'),
   weatherPatterns: z.string().describe('The typical weather patterns for the location.'),
+  language: z.string().describe('The language for the response (e.g., "English", "Hindi").'),
 });
 export type GenerateCropRecommendationsInput = z.infer<typeof GenerateCropRecommendationsInputSchema>;
 
@@ -31,6 +32,8 @@ const prompt = ai.definePrompt({
   input: {schema: GenerateCropRecommendationsInputSchema},
   output: {schema: GenerateCropRecommendationsOutputSchema},
   prompt: `You are an expert agricultural advisor. Based on the provided location, soil type, and weather patterns, recommend the best crops to plant.
+
+Respond in the following language: {{{language}}}
 
 Location: {{{location}}}
 Soil Type: {{{soilType}}}

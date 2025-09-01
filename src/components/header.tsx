@@ -1,5 +1,6 @@
 'use client';
 
+import type { UseFormReturn } from 'react-hook-form';
 import { Leaf, Languages } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,8 +11,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useI18n } from "@/context/i18n-provider";
 import { languages } from "@/lib/i18n";
+import type { CropRecFormType } from '@/app/page';
 
-export function Header() {
+interface HeaderProps {
+  form: UseFormReturn<CropRecFormType>;
+}
+
+export function Header({ form }: HeaderProps) {
   const { t, setLanguage, language } = useI18n();
 
   return (

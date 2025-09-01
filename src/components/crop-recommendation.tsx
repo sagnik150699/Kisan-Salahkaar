@@ -43,7 +43,7 @@ interface CropRecommendationProps {
 }
 
 export function CropRecommendation({ form, onLocationSubmit, loading, setLoading }: CropRecommendationProps) {
-  const { t } = useI18n();
+  const { t, language } = useI18n();
   const [loadingLocation, setLoadingLocation] = useState(false);
   const [result, setResult] = useState<GenerateCropRecommendationsOutput | null>(null);
   const { toast } = useToast();
@@ -98,7 +98,7 @@ export function CropRecommendation({ form, onLocationSubmit, loading, setLoading
     setResult(null);
     onLocationSubmit(values.location);
 
-    const response = await handleCropRecommendation(values);
+    const response = await handleCropRecommendation({...values, language});
 
     if (response.success && response.data) {
       setResult(response.data);

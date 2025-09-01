@@ -31,19 +31,15 @@ export default function Home() {
     },
   });
 
-  const handleLocationSubmit = (newLocation: string) => {
-    setLocation(newLocation);
-  };
-
   return (
     <div className="flex flex-col min-h-screen">
-      <Header />
+      <Header form={form} />
       <main className="flex-1 p-4 md:p-6 lg:p-8">
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           <div className="lg:col-span-2">
             <CropRecommendation
               form={form}
-              onLocationSubmit={handleLocationSubmit}
+              onLocationSubmit={setLocation}
               loading={loading}
               setLoading={setLoading}
             />
