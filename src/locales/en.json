@@ -89,7 +89,8 @@
     "title": "Weather Alerts",
     "frost": "Frost warning tonight. Cover sensitive plants.",
     "rain": "Heavy rain expected tomorrow afternoon. Plan irrigation accordingly.",
-    "sun": "Strong sun and high UV index for the next 3 days."
+    "sun": "Strong sun and high UV index for the next 3 days.",
+    "noAlerts": "Enter a location to see weather alerts."
   },
   "marketPrices": {
     "title": "Market Prices",

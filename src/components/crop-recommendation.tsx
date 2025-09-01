@@ -1,9 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import type { UseFormReturn } from 'react-hook-form';
 import { Loader2, Locate, Trees } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -35,28 +33,20 @@ import type { GenerateCropRecommendationsOutput } from '@/ai/flows/generate-crop
 import { useToast } from '@/hooks/use-toast';
 import { Separator } from './ui/separator';
 import { useI18n } from '@/context/i18n-provider';
+import type { CropRecFormType } from '@/app/page';
 
-const formSchema = z.object({
-  location: z.string().min(2, { message: 'Location is required.' }),
-  soilType: z.string().min(1, { message: 'Please select a soil type.' }),
-  weatherPatterns: z.string().min(1, { message: 'Please select weather patterns.' }),
-});
+interface CropRecommendationProps {
+  form: UseFormReturn<CropRecFormType>;
+  onLocationSubmit: (location: string) => void;
+  loading: boolean;
+  setLoading: (loading: boolean) => void;
+}
 
-export function CropRecommendation() {
+export function CropRecommendation({ form, onLocationSubmit, loading, setLoading }: CropRecommendationProps) {
   const { t } = useI18n();
-  const [loading, setLoading] = useState(false);
   const [loadingLocation, setLoadingLocation] = useState(false);
   const [result, setResult] = useState<GenerateCropRecommendationsOutput | null>(null);
   const { toast } = useToast();
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      location: '',
-      soilType: '',
-      weatherPatterns: '',
-    },
-  });
 
   const handleGeoLocation = () => {
     if (navigator.geolocation) {
@@ -69,6 +59,7 @@ export function CropRecommendation() {
           if (response.success && response.data) {
             form.setValue('location', response.data.location);
             form.setValue('weatherPatterns', response.data.weatherPatterns);
+            onLocationSubmit(response.data.location);
             toast({
               title: t('locationDetected.title'),
               description: t('locationDetected.description'),
@@ -102,9 +93,10 @@ export function CropRecommendation() {
   };
 
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: CropRecFormType) {
     setLoading(true);
     setResult(null);
+    onLocationSubmit(values.location);
 
     const response = await handleCropRecommendation(values);
 
