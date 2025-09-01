@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Image from 'next/image';
-import { Bug, Leaf, Loader2, Upload } from 'lucide-react';
+import { Bug, Leaf, Loader2, Upload, Crop } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -17,6 +17,47 @@ import { handlePestIdentification } from '@/lib/actions';
 import type { IdentifyPestOrDiseaseOutput } from '@/ai/flows/identify-pests-and-diseases';
 import { useToast } from '@/hooks/use-toast';
 import { Separator } from './ui/separator';
+import ReactCrop, { type Crop as CropType, centerCrop, makeAspectCrop } from 'react-image-crop';
+import 'react-image-crop/dist/ReactCrop.css';
+
+function getCroppedImg(
+  image: HTMLImageElement,
+  crop: CropType,
+  fileName: string
+): Promise<string> {
+  const canvas = document.createElement('canvas');
+  const scaleX = image.naturalWidth / image.width;
+  const scaleY = image.naturalHeight / image.height;
+  canvas.width = crop.width;
+  canvas.height = crop.height;
+  const ctx = canvas.getContext('2d');
+
+  if (!ctx) {
+    return Promise.reject(new Error('Failed to get canvas context'));
+  }
+
+  const pixelRatio = window.devicePixelRatio;
+  canvas.width = crop.width * pixelRatio;
+  canvas.height = crop.height * pixelRatio;
+  ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+  ctx.imageSmoothingQuality = 'high';
+
+  ctx.drawImage(
+    image,
+    crop.x * scaleX,
+    crop.y * scaleY,
+    crop.width * scaleX,
+    crop.height * scaleY,
+    0,
+    0,
+    crop.width,
+    crop.height
+  );
+
+  return new Promise((resolve, reject) => {
+    resolve(canvas.toDataURL('image/jpeg'));
+  });
+}
 
 export function PestIdentification() {
   const [loading, setLoading] = useState(false);
@@ -24,6 +65,11 @@ export function PestIdentification() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageData, setImageData] = useState<string | null>(null);
   const { toast } = useToast();
+  const [crop, setCrop] = useState<CropType>();
+  const [completedCrop, setCompletedCrop] = useState<CropType>();
+  const imgRef = useRef<HTMLImageElement>(null);
+  const [isCropping, setIsCropping] = useState(false);
+
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -34,10 +80,58 @@ export function PestIdentification() {
         setImagePreview(dataUrl);
         setImageData(dataUrl);
         setResult(null);
+        setIsCropping(true); // Enter cropping mode
       };
       reader.readAsDataURL(file);
     }
   };
+
+  const onImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    imgRef.current = e.currentTarget;
+    const { width, height } = e.currentTarget;
+    const newCrop = centerCrop(
+      makeAspectCrop(
+        {
+          unit: '%',
+          width: 90,
+        },
+        1,
+        width,
+        height
+      ),
+      width,
+      height
+    );
+    setCrop(newCrop);
+    setCompletedCrop(newCrop)
+  };
+
+  const handleCropImage = async () => {
+    if (completedCrop && imgRef.current) {
+        try {
+            const croppedDataUrl = await getCroppedImg(
+                imgRef.current,
+                completedCrop,
+                'cropped-plant.jpg'
+            );
+            setImagePreview(croppedDataUrl);
+            setImageData(croppedDataUrl);
+            setIsCropping(false);
+            toast({
+                title: 'Image Cropped',
+                description: 'The image has been successfully cropped.',
+            });
+        } catch (error) {
+            console.error('Cropping failed', error);
+            toast({
+                variant: 'destructive',
+                title: 'Cropping Failed',
+                description: 'Could not crop the image.',
+            });
+        }
+    }
+  };
+
 
   const handleSubmit = async () => {
     if (!imageData) {
@@ -47,6 +141,15 @@ export function PestIdentification() {
         description: 'Please upload an image first.',
       });
       return;
+    }
+
+    if(isCropping) {
+        toast({
+            variant: 'destructive',
+            title: 'Crop in Progress',
+            description: 'Please crop the image before diagnosing.',
+        });
+        return;
     }
 
     setLoading(true);
@@ -78,9 +181,26 @@ export function PestIdentification() {
         </CardDescription>
       </CardHeader>
       <CardContent className="flex-grow flex flex-col gap-4">
-        <div className="relative border-2 border-dashed border-border rounded-lg p-4 text-center h-48 flex flex-col items-center justify-center">
-          {imagePreview ? (
-            <Image
+        <div className="relative border-2 border-dashed border-border rounded-lg p-4 text-center h-64 flex flex-col items-center justify-center">
+          {imagePreview && isCropping ? (
+            <ReactCrop
+              crop={crop}
+              onChange={(_, percentCrop) => setCrop(percentCrop)}
+              onComplete={(c) => setCompletedCrop(c)}
+              aspect={1}
+              className="max-h-full"
+            >
+              <Image
+                ref={imgRef}
+                src={imagePreview}
+                alt="Plant to crop"
+                onLoad={onImageLoad}
+                fill
+                style={{ objectFit: 'contain' }}
+              />
+            </ReactCrop>
+          ) : imagePreview ? (
+             <Image
               src={imagePreview}
               alt="Plant preview"
               fill
@@ -104,10 +224,17 @@ export function PestIdentification() {
               accept="image/*"
               onChange={handleFileChange}
               className="cursor-pointer"
+              disabled={loading}
             />
              <span className="sr-only">Choose file</span>
           </label>
-          <Button onClick={handleSubmit} disabled={loading || !imageData} className="w-full sm:w-auto">
+          {isCropping && (
+             <Button onClick={handleCropImage} disabled={!completedCrop}>
+                <Crop className="mr-2 h-4 w-4" />
+                Crop Image
+            </Button>
+          )}
+          <Button onClick={handleSubmit} disabled={loading || !imageData || isCropping} className="w-full sm:w-auto">
             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Diagnose Plant
           </Button>
