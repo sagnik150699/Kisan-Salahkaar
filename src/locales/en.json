@@ -1,0 +1,95 @@
+{
+  "title": "Kisan Salahkaar",
+  "changeLanguage": "Change language",
+  "useVoice": "Use voice interface",
+  "language": {
+    "en": "English",
+    "hi": "हिंदी (Hindi)",
+    "ta": "தமிழ் (Tamil)",
+    "kn": "ಕನ್ನಡ (Kannada)"
+  },
+  "cropRecommendation": {
+    "title": "Crop Recommendations",
+    "description": "Get AI-powered crop suggestions based on your local conditions."
+  },
+  "useMyLocation": "Use My Location",
+  "location": "Location (City/District)",
+  "location.placeholder": "e.g., Mysore",
+  "soilType": {
+    "label": "Soil Type",
+    "placeholder": "Select a soil type",
+    "alluvial": "Alluvial",
+    "black": "Black (Cotton) Soil",
+    "redAndYellow": "Red and Yellow Soil",
+    "laterite": "Laterite Soil",
+    "arid": "Arid Soil"
+  },
+  "weatherPatterns": {
+    "label": "Weather Patterns",
+    "placeholder": "Select weather patterns",
+    "tropicalMonsoon": "Tropical Monsoon",
+    "hotAndDry": "Hot and Dry Summer",
+    "mildWinter": "Mild, Wet Winter",
+    "semiArid": "Semi-Arid",
+    "tropicalWetAndDry": "Tropical Wet and Dry",
+    "humidSubtropical": "Humid Subtropical",
+    "mountain": "Mountain"
+  },
+  "getRecommendations": "Get Recommendations",
+  "ourRecommendation": "Our Recommendation:",
+  "locationDetected": {
+    "title": "Location Detected",
+    "description": "Location and weather patterns have been filled in."
+  },
+  "error": {
+    "title": "Error"
+  },
+  "geolocationError": {
+    "title": "Geolocation Error",
+    "description": "Could not get your location. Please enter it manually."
+  },
+  "geolocationNotSupported": {
+    "title": "Geolocation Not Supported",
+    "description": "Your browser does not support geolocation."
+  },
+  "pestIdentification": {
+    "title": "Pest & Disease ID",
+    "description": "Upload a photo of an affected plant to get a diagnosis.",
+    "cropAlt": "Plant to crop",
+    "previewAlt": "Plant preview",
+    "uploadPlaceholder": "Upload an image to get started"
+  },
+  "chooseFile": "Choose file",
+  "cropImage": "Crop Image",
+  "diagnosePlant": "Diagnose Plant",
+  "diagnosis": "Diagnosis",
+  "organicRemedies": "Organic Remedies",
+  "imageCropped": {
+    "title": "Image Cropped",
+    "description": "The image has been successfully cropped."
+  },
+  "croppingFailed": {
+    "title": "Cropping Failed",
+    "description": "Could not crop the image."
+  },
+  "noImage": {
+    "title": "No Image",
+    "description": "Please upload an image first."
+  },
+  "cropInProgress": {
+    "title": "Crop in Progress",
+    "description": "Please crop the image before diagnosing."
+  },
+  "weatherAlerts": {
+    "title": "Weather Alerts",
+    "frost": "Frost warning tonight. Cover sensitive plants.",
+    "rain": "Heavy rain expected tomorrow afternoon. Plan irrigation accordingly.",
+    "sun": "Strong sun and high UV index for the next 3 days."
+  },
+  "marketPrices": {
+    "title": "Market Prices",
+    "crop": "Crop",
+    "market": "Market",
+    "price": "Price"
+  }
+}

@@ -8,24 +8,19 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useState } from "react";
+import { useI18n } from "@/context/i18n-provider";
+import { languages } from "@/lib/i18n";
 
-const languages = [
-  { value: "en", label: "English" },
-  { value: "hi", label: "हिंदी (Hindi)" },
-  { value: "ta", label: "தமிழ் (Tamil)" },
-  { value: "kn", label: "ಕನ್ನಡ (Kannada)" },
-];
 
 export function Header() {
-  const [selectedLanguage, setSelectedLanguage] = useState(languages[0]);
-  
+  const { t, setLanguage, language } = useI18n();
+
   return (
     <header className="flex items-center justify-between p-4 border-b bg-card shadow-sm">
       <div className="flex items-center gap-2">
         <Leaf className="w-8 h-8 text-primary" />
         <h1 className="text-2xl font-bold font-headline text-foreground">
-          Kisan Salahkaar
+          {t('title')}
         </h1>
       </div>
       <div className="flex items-center gap-2">
@@ -33,23 +28,24 @@ export function Header() {
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="icon">
               <Languages className="w-5 h-5" />
-              <span className="sr-only">Change language</span>
+              <span className="sr-only">{t('changeLanguage')}</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             {languages.map((lang) => (
               <DropdownMenuItem
                 key={lang.value}
-                onSelect={() => setSelectedLanguage(lang)}
+                onSelect={() => setLanguage(lang.value)}
+                className={lang.value === language ? "bg-accent" : ""}
               >
-                {lang.label}
+                {t(lang.labelKey)}
               </DropdownMenuItem>
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
         <Button variant="outline" size="icon">
           <Mic className="w-5 h-5" />
-          <span className="sr-only">Use voice interface</span>
+          <span className="sr-only">{t('useVoice')}</span>
         </Button>
       </div>
     </header>

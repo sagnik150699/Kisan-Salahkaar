@@ -1,0 +1,95 @@
+{
+  "title": "किसान सलाहकार",
+  "changeLanguage": "भाषा बदलें",
+  "useVoice": "आवाज का प्रयोग करें",
+  "language": {
+    "en": "English",
+    "hi": "हिंदी (Hindi)",
+    "ta": "தமிழ் (Tamil)",
+    "kn": "ಕನ್ನಡ (Kannada)"
+  },
+  "cropRecommendation": {
+    "title": "फ़सल सिफ़ारिशें",
+    "description": "अपनी स्थानीय परिस्थितियों के आधार पर AI-संचालित फ़सल सुझाव प्राप्त करें।"
+  },
+  "useMyLocation": "मेरी लोकेशन का प्रयोग करें",
+  "location": "स्थान (शहर/जिला)",
+  "location.placeholder": "जैसे, मैसूर",
+  "soilType": {
+    "label": "मिट्टी का प्रकार",
+    "placeholder": "एक मिट्टी का प्रकार चुनें",
+    "alluvial": "जलोढ़",
+    "black": "काली (कपास) मिट्टी",
+    "redAndYellow": "लाल और पीली मिट्टी",
+    "laterite": "लैटेराइट मिट्टी",
+    "arid": "शुष्क मिट्टी"
+  },
+  "weatherPatterns": {
+    "label": "मौसम के पैटर्न",
+    "placeholder": "मौसम के पैटर्न चुनें",
+    "tropicalMonsoon": "उष्णकटिबंधीय मानसून",
+    "hotAndDry": "गर्म और शुष्क गर्मी",
+    "mildWinter": "हल्की, गीली सर्दी",
+    "semiArid": "अर्ध-शुष्क",
+    "tropicalWetAndDry": "उष्णकटिबंधीय गीला और सूखा",
+    "humidSubtropical": "आर्द्र उपोष्णकटिबंधीय",
+    "mountain": "पहाड़ी"
+  },
+  "getRecommendations": "सिफ़ारिशें प्राप्त करें",
+  "ourRecommendation": "हमारी सिफ़ारिश:",
+  "locationDetected": {
+    "title": "लोकेशन का पता चला",
+    "description": "लोकेशन और मौसम के पैटर्न भर दिए गए हैं।"
+  },
+  "error": {
+    "title": "त्रुटि"
+  },
+  "geolocationError": {
+    "title": "जियोलोकेशन त्रुटि",
+    "description": "आपकी लोकेशन नहीं मिल सकी। कृपया इसे मैन्युअल रूप से दर्ज करें।"
+  },
+  "geolocationNotSupported": {
+    "title": "जियोलोकेशन समर्थित नहीं",
+    "description": "आपका ब्राउज़र जियोलोकेशन का समर्थन नहीं करता है।"
+  },
+  "pestIdentification": {
+    "title": "कीट और रोग की पहचान",
+    "description": "निदान पाने के लिए प्रभावित पौधे की तस्वीर अपलोड करें।",
+    "cropAlt": "काटने के लिए पौधा",
+    "previewAlt": "पौधे का पूर्वावलोकन",
+    "uploadPlaceholder": "शुरू करने के लिए एक छवि अपलोड करें"
+  },
+  "chooseFile": "फ़ाइल चुनें",
+  "cropImage": "छवि काटें",
+  "diagnosePlant": "पौधे का निदान करें",
+  "diagnosis": "निदान",
+  "organicRemedies": "जैविक उपचार",
+  "imageCropped": {
+    "title": "छवि काटी गई",
+    "description": "छवि सफलतापूर्वक काट दी गई है।"
+  },
+  "croppingFailed": {
+    "title": "काटना विफल",
+    "description": "छवि को काटा नहीं जा सका।"
+  },
+  "noImage": {
+    "title": "कोई छवि नहीं",
+    "description": "कृपया पहले एक छवि अपलोड करें।"
+  },
+  "cropInProgress": {
+    "title": "काटना प्रगति पर है",
+    "description": "निदान करने से पहले कृपया छवि को काटें।"
+  },
+  "weatherAlerts": {
+    "title": "मौसम की चेतावनी",
+    "frost": "आज रात पाले की चेतावनी। संवेदनशील पौधों को ढक दें।",
+    "rain": "कल दोपहर भारी बारिश की उम्मीद है। सिंचाई की योजना उसी के अनुसार बनाएं।",
+    "sun": "अगले 3 दिनों के लिए तेज धूप और उच्च यूवी इंडेक्स।"
+  },
+  "marketPrices": {
+    "title": "बाजार मूल्य",
+    "crop": "फ़सल",
+    "market": "बाज़ार",
+    "price": "कीमत"
+  }
+}

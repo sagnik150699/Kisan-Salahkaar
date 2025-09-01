@@ -19,6 +19,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Separator } from './ui/separator';
 import ReactCrop, { type Crop as CropType, centerCrop, makeAspectCrop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
+import { useI18n } from '@/context/i18n-provider';
 
 function getCroppedImg(
   image: HTMLImageElement,
@@ -60,6 +61,7 @@ function getCroppedImg(
 }
 
 export function PestIdentification() {
+  const { t } = useI18n();
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<IdentifyPestOrDiseaseOutput | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -118,15 +120,15 @@ export function PestIdentification() {
             setImageData(croppedDataUrl);
             setIsCropping(false);
             toast({
-                title: 'Image Cropped',
-                description: 'The image has been successfully cropped.',
+                title: t('imageCropped.title'),
+                description: t('imageCropped.description'),
             });
         } catch (error) {
             console.error('Cropping failed', error);
             toast({
                 variant: 'destructive',
-                title: 'Cropping Failed',
-                description: 'Could not crop the image.',
+                title: t('croppingFailed.title'),
+                description: t('croppingFailed.description'),
             });
         }
     }
@@ -137,8 +139,8 @@ export function PestIdentification() {
     if (!imageData) {
       toast({
         variant: 'destructive',
-        title: 'No Image',
-        description: 'Please upload an image first.',
+        title: t('noImage.title'),
+        description: t('noImage.description'),
       });
       return;
     }
@@ -146,8 +148,8 @@ export function PestIdentification() {
     if(isCropping) {
         toast({
             variant: 'destructive',
-            title: 'Crop in Progress',
-            description: 'Please crop the image before diagnosing.',
+            title: t('cropInProgress.title'),
+            description: t('cropInProgress.description'),
         });
         return;
     }
@@ -162,7 +164,7 @@ export function PestIdentification() {
     } else {
       toast({
         variant: 'destructive',
-        title: 'Error',
+        title: t('error.title'),
         description: response.error,
       });
     }
@@ -174,10 +176,10 @@ export function PestIdentification() {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Bug className="w-6 h-6 text-primary" />
-          Pest & Disease ID
+          {t('pestIdentification.title')}
         </CardTitle>
         <CardDescription>
-          Upload a photo of an affected plant to get a diagnosis.
+          {t('pestIdentification.description')}
         </CardDescription>
       </CardHeader>
       <CardContent className="flex-grow flex flex-col gap-4">
@@ -193,7 +195,7 @@ export function PestIdentification() {
               <Image
                 ref={imgRef}
                 src={imagePreview}
-                alt="Plant to crop"
+                alt={t('pestIdentification.cropAlt')}
                 onLoad={onImageLoad}
                 fill
                 style={{ objectFit: 'contain' }}
@@ -202,7 +204,7 @@ export function PestIdentification() {
           ) : imagePreview ? (
              <Image
               src={imagePreview}
-              alt="Plant preview"
+              alt={t('pestIdentification.previewAlt')}
               fill
               className="object-contain rounded-md"
             />
@@ -210,7 +212,7 @@ export function PestIdentification() {
             <>
               <Upload className="mx-auto h-10 w-10 text-muted-foreground" />
               <p className="mt-2 text-sm text-muted-foreground">
-                Upload an image to get started
+                {t('pestIdentification.uploadPlaceholder')}
               </p>
             </>
           )}
@@ -226,17 +228,17 @@ export function PestIdentification() {
               className="cursor-pointer"
               disabled={loading}
             />
-             <span className="sr-only">Choose file</span>
+             <span className="sr-only">{t('chooseFile')}</span>
           </label>
           {isCropping && (
              <Button onClick={handleCropImage} disabled={!completedCrop}>
                 <Crop className="mr-2 h-4 w-4" />
-                Crop Image
+                {t('cropImage')}
             </Button>
           )}
           <Button onClick={handleSubmit} disabled={loading || !imageData || isCropping} className="w-full sm:w-auto">
             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Diagnose Plant
+            {t('diagnosePlant')}
           </Button>
         </div>
       </CardContent>
@@ -245,11 +247,11 @@ export function PestIdentification() {
           <Separator className="my-0" />
           <CardFooter className="flex-col items-start gap-4 pt-6">
             <div>
-              <h3 className="font-bold text-lg flex items-center gap-2"><Bug className="w-5 h-5"/>Diagnosis:</h3>
+              <h3 className="font-bold text-lg flex items-center gap-2"><Bug className="w-5 h-5"/>{t('diagnosis')}:</h3>
               <p className="text-sm text-foreground/80">{result.diagnosis}</p>
             </div>
             <div>
-              <h3 className="font-bold text-lg flex items-center gap-2"><Leaf className="w-5 h-5"/>Organic Remedies:</h3>
+              <h3 className="font-bold text-lg flex items-center gap-2"><Leaf className="w-5 h-5"/>{t('organicRemedies')}:</h3>
               <p className="text-sm text-foreground/80">{result.organicRemedies}</p>
             </div>
           </CardFooter>

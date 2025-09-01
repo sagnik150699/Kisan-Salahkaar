@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Card,
   CardContent,
@@ -13,6 +15,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { TrendingUp } from "lucide-react";
+import { useI18n } from "@/context/i18n-provider";
 
 const marketData = [
   { crop: "Tomato", market: "Bangalore", price: "₹25/kg" },
@@ -23,21 +26,22 @@ const marketData = [
 ];
 
 export function MarketPrices() {
+  const { t } = useI18n();
   return (
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <TrendingUp className="w-6 h-6" />
-          Market Prices
+          {t('marketPrices.title')}
         </CardTitle>
       </CardHeader>
       <CardContent>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Crop</TableHead>
-              <TableHead>Market</TableHead>
-              <TableHead className="text-right">Price</TableHead>
+              <TableHead>{t('marketPrices.crop')}</TableHead>
+              <TableHead>{t('marketPrices.market')}</TableHead>
+              <TableHead className="text-right">{t('marketPrices.price')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
