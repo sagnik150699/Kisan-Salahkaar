@@ -19,7 +19,6 @@ const formSchema = z.object({
 export type CropRecFormType = z.infer<typeof formSchema>;
 
 export default function Home() {
-  const [location, setLocation] = useState('');
   const [loading, setLoading] = useState(false);
 
   const form = useForm<CropRecFormType>({
@@ -39,7 +38,6 @@ export default function Home() {
           <div className="lg:col-span-2">
             <CropRecommendation
               form={form}
-              onLocationSubmit={setLocation}
               loading={loading}
               setLoading={setLoading}
             />
@@ -48,7 +46,7 @@ export default function Home() {
             <PestIdentification />
           </div>
           <div className="lg:col-span-1">
-            <WeatherAlerts location={location} />
+            <WeatherAlerts />
           </div>
           <div className="lg:col-span-1">
             <MarketPrices />

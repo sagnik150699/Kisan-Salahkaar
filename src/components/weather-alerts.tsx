@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CloudFog, CloudRain, Sun, ThermometerSnowflake, Wind, Loader2 } from "lucide-react";
 import { useI18n } from "@/context/i18n-provider";
-import { handleGetWeatherAlerts } from '@/lib/actions';
+import { handleGetWeatherAlerts, handleLocationDetails } from '@/lib/actions';
 import type { GetWeatherAlertsOutput } from '@/ai/flows/get-weather-alerts';
 import { useToast } from '@/hooks/use-toast';
 
@@ -16,24 +16,19 @@ const iconMap: { [key: string]: React.ReactNode } = {
   'CloudFog': <CloudFog className="w-5 h-5 text-gray-400" />,
 };
 
-interface WeatherAlertsProps {
-  location: string;
-}
-
-export function WeatherAlerts({ location }: WeatherAlertsProps) {
+export function WeatherAlerts() {
   const { t } = useI18n();
   const [alerts, setAlerts] = useState<GetWeatherAlertsOutput['alerts']>([]);
   const [translations, setTranslations] = useState<Record<string, string>>({});
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [location, setLocation] = useState('');
   const { toast } = useToast();
 
   useEffect(() => {
-    async function fetchAlerts() {
-      if (!location) return;
-
+    async function fetchAlertsForLocation(loc: string) {
       setLoading(true);
       setAlerts([]);
-      const response = await handleGetWeatherAlerts({ location });
+      const response = await handleGetWeatherAlerts({ location: loc });
       if (response.success && response.data) {
         setAlerts(response.data.alerts);
         setTranslations(response.data.translations);
@@ -46,14 +41,53 @@ export function WeatherAlerts({ location }: WeatherAlertsProps) {
       }
       setLoading(false);
     }
+    
+    function fetchInitialData() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+              async (position) => {
+                const { latitude, longitude } = position.coords;
+                const response = await handleLocationDetails({ latitude, longitude });
+      
+                if (response.success && response.data) {
+                  setLocation(response.data.location);
+                  fetchAlertsForLocation(response.data.location);
+                } else {
+                    setLoading(false);
+                    toast({
+                        variant: 'destructive',
+                        title: t('error.title'),
+                        description: response.error,
+                    });
+                }
+              },
+              (error) => {
+                console.error(error);
+                setLoading(false);
+                toast({
+                  variant: 'destructive',
+                  title: t('geolocationError.title'),
+                  description: t('geolocationError.description'),
+                });
+              }
+            );
+          } else {
+            setLoading(false);
+            toast({
+              variant: 'destructive',
+              title: t('geolocationNotSupported.title'),
+              description: t('geolocationNotSupported.description'),
+            });
+          }
+    }
 
-    fetchAlerts();
-  }, [location, t, toast]);
+    fetchInitialData();
+  }, [t, toast]);
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{t('weatherAlerts.title')}</CardTitle>
+        <CardTitle>{location ? `${t('weatherAlerts.title')} for ${location}` : t('weatherAlerts.title')}</CardTitle>
       </CardHeader>
       <CardContent>
         {loading ? (

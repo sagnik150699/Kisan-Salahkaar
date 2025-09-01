@@ -37,12 +37,11 @@ import type { CropRecFormType } from '@/app/page';
 
 interface CropRecommendationProps {
   form: UseFormReturn<CropRecFormType>;
-  onLocationSubmit: (location: string) => void;
   loading: boolean;
   setLoading: (loading: boolean) => void;
 }
 
-export function CropRecommendation({ form, onLocationSubmit, loading, setLoading }: CropRecommendationProps) {
+export function CropRecommendation({ form, loading, setLoading }: CropRecommendationProps) {
   const { t, language } = useI18n();
   const [loadingLocation, setLoadingLocation] = useState(false);
   const [result, setResult] = useState<GenerateCropRecommendationsOutput | null>(null);
@@ -59,7 +58,6 @@ export function CropRecommendation({ form, onLocationSubmit, loading, setLoading
           if (response.success && response.data) {
             form.setValue('location', response.data.location);
             form.setValue('weatherPatterns', response.data.weatherPatterns);
-            onLocationSubmit(response.data.location);
             toast({
               title: t('locationDetected.title'),
               description: t('locationDetected.description'),
@@ -96,7 +94,6 @@ export function CropRecommendation({ form, onLocationSubmit, loading, setLoading
   async function onSubmit(values: CropRecFormType) {
     setLoading(true);
     setResult(null);
-    onLocationSubmit(values.location);
 
     const response = await handleCropRecommendation({...values, language});
 
