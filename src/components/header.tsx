@@ -1,3 +1,5 @@
+'use client';
+
 import { Leaf, Languages, Mic } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -6,8 +8,18 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useState } from "react";
+
+const languages = [
+  { value: "en", label: "English" },
+  { value: "hi", label: "हिंदी (Hindi)" },
+  { value: "ta", label: "தமிழ் (Tamil)" },
+  { value: "kn", label: "ಕನ್ನಡ (Kannada)" },
+];
 
 export function Header() {
+  const [selectedLanguage, setSelectedLanguage] = useState(languages[0]);
+  
   return (
     <header className="flex items-center justify-between p-4 border-b bg-card shadow-sm">
       <div className="flex items-center gap-2">
@@ -25,10 +37,14 @@ export function Header() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>English</DropdownMenuItem>
-            <DropdownMenuItem>हिंदी (Hindi)</DropdownMenuItem>
-            <DropdownMenuItem>தமிழ் (Tamil)</DropdownMenuItem>
-            <DropdownMenuItem>ಕನ್ನಡ (Kannada)</DropdownMenuItem>
+            {languages.map((lang) => (
+              <DropdownMenuItem
+                key={lang.value}
+                onSelect={() => setSelectedLanguage(lang)}
+              >
+                {lang.label}
+              </DropdownMenuItem>
+            ))}
           </DropdownMenuContent>
         </DropdownMenu>
         <Button variant="outline" size="icon">
