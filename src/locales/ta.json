@@ -1,3 +1,4 @@
+
 {
   "title": "கிசான் सलाहकार",
   "changeLanguage": "மொழியை மாற்று",
@@ -6,7 +7,11 @@
     "en": "English",
     "hi": "हिंदी (Hindi)",
     "ta": "தமிழ் (Tamil)",
-    "kn": "ಕನ್ನಡ (Kannada)"
+    "kn": "ಕನ್ನಡ (Kannada)",
+    "bn": "বাংলা (Bengali)",
+    "raj": "राजस्थानी (Rajasthani)",
+    "mr": "मराठी (Marathi)",
+    "gu": "ગુજરાતી (Gujarati)"
   },
   "cropRecommendation": {
     "title": "பயிர் பரிந்துரைகள்",

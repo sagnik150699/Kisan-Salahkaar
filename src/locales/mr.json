@@ -1,0 +1,100 @@
+
+{
+  "title": "किसान सल्लागार",
+  "changeLanguage": "भाषा बदला",
+  "useVoice": "आवाजाचा वापर करा",
+  "language": {
+    "en": "English",
+    "hi": "हिंदी (Hindi)",
+    "ta": "தமிழ் (Tamil)",
+    "kn": "ಕನ್ನಡ (Kannada)",
+    "bn": "বাংলা (Bengali)",
+    "raj": "राजस्थानी (Rajasthani)",
+    "mr": "मराठी (Marathi)",
+    "gu": "ગુજરાતી (Gujarati)"
+  },
+  "cropRecommendation": {
+    "title": "पीक शिफारसी",
+    "description": "तुमच्या स्थानिक परिस्थितीवर आधारित AI-चालित पीक सूचना मिळवा."
+  },
+  "useMyLocation": "माझे स्थान वापरा",
+  "location": "स्थान (शहर/जिल्हा)",
+  "location.placeholder": "उदा., म्हैसूर",
+  "soilType": {
+    "label": "मातीचा प्रकार",
+    "placeholder": "एक मातीचा प्रकार निवडा",
+    "alluvial": "गाळाची माती",
+    "black": "काळी (कापूस) माती",
+    "redAndYellow": "लाल आणि पिवळी माती",
+    "laterite": "लॅटेराइट माती",
+    "arid": "शुष्क माती"
+  },
+  "weatherPatterns": {
+    "label": "हवामानाचे नमुने",
+    "placeholder": "हवामानाचे नमुने निवडा",
+    "tropicalMonsoon": "उष्णकटिबंधीय मान्सून",
+    "hotAndDry": "गरम आणि कोरडा उन्हाळा",
+    "mildWinter": "सौम्य, ओला हिवाळा",
+    "semiArid": "अर्ध-शुष्क",
+    "tropicalWetAndDry": "उष्णकटिबंधीय ओला आणि कोरडा",
+    "humidSubtropical": "दमट उपोष्णकटिबंधीय",
+    "mountain": "पर्वतीय"
+  },
+  "getRecommendations": "शिफारसी मिळवा",
+  "ourRecommendation": "आमची शिफारस:",
+  "locationDetected": {
+    "title": "स्थान शोधले",
+    "description": "स्थान आणि हवामानाचे नमुने भरले आहेत."
+  },
+  "error": {
+    "title": "त्रुटी"
+  },
+  "geolocationError": {
+    "title": "जिओलोकेशन त्रुटी",
+    "description": "तुमचे स्थान मिळू शकले नाही. कृपया ते मॅन्युअली प्रविष्ट करा."
+  },
+  "geolocationNotSupported": {
+    "title": "जिओलोकेशन समर्थित नाही",
+    "description": "तुमचा ब्राउझर जिओलोकेशनला समर्थन देत नाही."
+  },
+  "pestIdentification": {
+    "title": "कीड आणि रोग ओळख",
+    "description": "निदान मिळविण्यासाठी प्रभावित वनस्पनाचा फोटो अपलोड करा.",
+    "cropAlt": "कापणीसाठी वनस्पती",
+    "previewAlt": "वनस्पतीचे पूर्वावलोकन",
+    "uploadPlaceholder": "सुरुवात करण्यासाठी एक प्रतिमा अपलोड करा"
+  },
+  "chooseFile": "फाईल निवडा",
+  "cropImage": "प्रतिमा कापा",
+  "diagnosePlant": "वनस्पतीचे निदान करा",
+  "diagnosis": "निदान",
+  "organicRemedies": "सेंद्रिय उपाय",
+  "imageCropped": {
+    "title": "प्रतिमा कापली आहे",
+    "description": "प्रतिमा यशस्वीरित्या कापली आहे."
+  },
+  "croppingFailed": {
+    "title": "कापणी अयशस्वी",
+    "description": "प्रतिमा कापता आली नाही."
+  },
+  "noImage": {
+    "title": "प्रतिमा नाही",
+    "description": "कृपया प्रथम एक प्रतिमा अपलोड करा."
+  },
+  "cropInProgress": {
+    "title": "कापणी प्रगतीपथावर आहे",
+    "description": "निदान करण्यापूर्वी कृपया प्रतिमा कापा."
+  },
+  "weatherAlerts": {
+    "title": "हवामान सूचना",
+    "frost": "आज रात्री दंवाची चेतावणी. संवेदनशील वनस्पती झाका.",
+    "rain": "उद्या दुपारी मुसळधार पावसाची शक्यता आहे. त्यानुसार सिंचनाची योजना करा.",
+    "sun": "पुढील ३ दिवस तीव्र सूर्यप्रकाश आणि उच्च यूव्ही निर्देशांक."
+  },
+  "marketPrices": {
+    "title": "बाजार भाव",
+    "crop": "पीक",
+    "market": "बाजार",
+    "price": "भाव"
+  }
+}

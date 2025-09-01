@@ -1,0 +1,100 @@
+
+{
+  "title": "કિસાન સલાહકાર",
+  "changeLanguage": "ભાષા બદલો",
+  "useVoice": "અવાજનો ઉપયોગ કરો",
+  "language": {
+    "en": "English",
+    "hi": "हिंदी (Hindi)",
+    "ta": "தமிழ் (Tamil)",
+    "kn": "ಕನ್ನಡ (Kannada)",
+    "bn": "বাংলা (Bengali)",
+    "raj": "राजस्थानी (Rajasthani)",
+    "mr": "मराठी (Marathi)",
+    "gu": "ગુજરાતી (Gujarati)"
+  },
+  "cropRecommendation": {
+    "title": "પાકની ભલામણો",
+    "description": "તમારી સ્થાનિક પરિસ્થિતિઓના આધારે AI-સંચાલિત પાકના સૂચનો મેળવો."
+  },
+  "useMyLocation": "મારા સ્થાનનો ઉપયોગ કરો",
+  "location": "સ્થાન (શહેર/જિલ્લો)",
+  "location.placeholder": "દા.ત., મૈસૂર",
+  "soilType": {
+    "label": "જમીનનો પ્રકાર",
+    "placeholder": "એક જમીનનો પ્રકાર પસંદ કરો",
+    "alluvial": "કાંપવાળી જમીન",
+    "black": "કાળી (કપાસ) જમીન",
+    "redAndYellow": "લાલ અને પીળી જમીન",
+    "laterite": "લેટેરાઇટ જમીન",
+    "arid": "સૂકી જમીન"
+  },
+  "weatherPatterns": {
+    "label": "હવામાનની પેટર્ન",
+    "placeholder": "હવામાનની પેટર્ન પસંદ કરો",
+    "tropicalMonsoon": "ઉષ્ણકટિબંધીય ચોમાસું",
+    "hotAndDry": "ગરમ અને સૂકો ઉનાળો",
+    "mildWinter": "હળવો, ભીનો શિયાળો",
+    "semiArid": "અર્ધ-સૂકી",
+    "tropicalWetAndDry": "ઉષ્ણકટિબંધીય ભીનું અને સૂકું",
+    "humidSubtropical": "ભેજવાળું ઉષ્ણકટિબંધીય",
+    "mountain": "પર્વતીય"
+  },
+  "getRecommendations": "ભલામણો મેળવો",
+  "ourRecommendation": "અમારી ભલામણ:",
+  "locationDetected": {
+    "title": "સ્થાન શોધાયું",
+    "description": "સ્થાન અને હવામાનની પેટર્ન ભરાઈ ગઈ છે."
+  },
+  "error": {
+    "title": "ભૂલ"
+  },
+  "geolocationError": {
+    "title": "જીઓલોકેશન ભૂલ",
+    "description": "તમારું સ્થાન મેળવી શકાયું નથી. કૃપા કરીને તેને જાતે દાખલ કરો."
+  },
+  "geolocationNotSupported": {
+    "title": "જીઓલોકેશન સમર્થિત નથી",
+    "description": "તમારું બ્રાઉઝર જીઓલોકેશનને સમર્થન આપતું નથી."
+  },
+  "pestIdentification": {
+    "title": "જંતુ અને રોગની ઓળખ",
+    "description": "નિદાન મેળવવા માટે અસરગ્રસ્ત છોડનો ફોટો અપલોડ કરો.",
+    "cropAlt": "કાપવા માટેનો છોડ",
+    "previewAlt": "છોડનું પૂર્વાવલોકન",
+    "uploadPlaceholder": "શરૂ કરવા માટે એક છબી અપલોડ કરો"
+  },
+  "chooseFile": "ફાઈલ પસંદ કરો",
+  "cropImage": "છબી કાપો",
+  "diagnosePlant": "છોડનું નિદાન કરો",
+  "diagnosis": "નિદાન",
+  "organicRemedies": "ઓર્ગેનિક ઉપાયો",
+  "imageCropped": {
+    "title": "છબી કાપવામાં આવી છે",
+    "description": "છબી સફળતાપૂર્વક કાપવામાં આવી છે."
+  },
+  "croppingFailed": {
+    "title": "કાપણી નિષ્ફળ",
+    "description": "છબી કાપી શકાઈ નથી."
+  },
+  "noImage": {
+    "title": "કોઈ છબી નથી",
+    "description": "કૃપા કરીને પહેલા એક છબી અપલોડ કરો."
+  },
+  "cropInProgress": {
+    "title": "કાપણી પ્રગતિમાં છે",
+    "description": "નિદાન કરતા પહેલા કૃપા કરીને છબીને કાપો."
+  },
+  "weatherAlerts": {
+    "title": "હવામાનની ચેતવણીઓ",
+    "frost": "આજ રાત્રે હિમની ચેતવણી. સંવેદનશીલ છોડને ઢાંકી દો.",
+    "rain": "આવતીકાલે બપોરે ભારે વરસાદની અપેક્ષા છે. તે મુજબ સિંચાઈની યોજના બનાવો.",
+    "sun": "આગામી 3 દિવસ માટે તીવ્ર સૂર્ય અને ઉચ્ચ યુવી ઇન્ડેક્સ."
+  },
+  "marketPrices": {
+    "title": "બજાર ભાવ",
+    "crop": "પાક",
+    "market": "બજાર",
+    "price": "ભાવ"
+  }
+}

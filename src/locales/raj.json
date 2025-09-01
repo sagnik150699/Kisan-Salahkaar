@@ -1,0 +1,100 @@
+
+{
+  "title": "किसान सलाहकार",
+  "changeLanguage": "भाषा बदलो",
+  "useVoice": "आवाज रो उपयोग करो",
+  "language": {
+    "en": "English",
+    "hi": "हिंदी (Hindi)",
+    "ta": "தமிழ் (Tamil)",
+    "kn": "ಕನ್ನಡ (Kannada)",
+    "bn": "বাংলা (Bengali)",
+    "raj": "राजस्थानी (Rajasthani)",
+    "mr": "मराठी (Marathi)",
+    "gu": "ગુજરાતી (Gujarati)"
+  },
+  "cropRecommendation": {
+    "title": "फसल री सिफारिसां",
+    "description": "थारी स्थानीय परिस्थितियां रे आधार पर AI-संचालित फसल रा सुझाव प्राप्त करो।"
+  },
+  "useMyLocation": "म्हारी लोकेशन रो उपयोग करो",
+  "location": "स्थान (शहर/जिलो)",
+  "location.placeholder": "उदा., मैसूर",
+  "soilType": {
+    "label": "माटी रो प्रकार",
+    "placeholder": "एक माटी रो प्रकार चुणो",
+    "alluvial": "जलोढ़",
+    "black": "काळी (कपास) माटी",
+    "redAndYellow": "लाल अर पीळी माटी",
+    "laterite": "लैटेराइट माटी",
+    "arid": "सुखी माटी"
+  },
+  "weatherPatterns": {
+    "label": "मौसम रा पैटर्न",
+    "placeholder": "मौसम रा पैटर्न चुणो",
+    "tropicalMonsoon": "उष्णकटिबंधीय मानसून",
+    "hotAndDry": "गरम अर सुखो गर्मी",
+    "mildWinter": "हलकी, गीली सर्दी",
+    "semiArid": "अर्ध-सुखो",
+    "tropicalWetAndDry": "उष्णकटिबंधीय गीलो अर सुखो",
+    "humidSubtropical": "आर्द्र उपोष्णकटिबंधीय",
+    "mountain": "पहाड़ी"
+  },
+  "getRecommendations": "सिफारिसां प्राप्त करो",
+  "ourRecommendation": "म्हारी सिफारिस:",
+  "locationDetected": {
+    "title": "लोकेशन रो पतो चाल्यो",
+    "description": "लोकेशन अर मौसम रा पैटर्न भर दिया गया है।"
+  },
+  "error": {
+    "title": "त्रुटि"
+  },
+  "geolocationError": {
+    "title": "जियोलोकेशन त्रुटि",
+    "description": "थारी लोकेशन नीं मिल सकी। कृपया इने मैन्युअल रूप सूं दर्ज करो।"
+  },
+  "geolocationNotSupported": {
+    "title": "जियोलोकेशन समर्थित नीं",
+    "description": "थारो ब्राउज़र जियोलोकेशन रो समर्थन नीं करे है।"
+  },
+  "pestIdentification": {
+    "title": "कीड़ा अर रोग री पिछाण",
+    "description": "निदान पाने के लिए प्रभावित पौधे की तस्वीर अपलोड करो।",
+    "cropAlt": "काटण वास्ते पौधो",
+    "previewAlt": "पौधा रो पूर्वावलोकन",
+    "uploadPlaceholder": "शुरू करण वास्ते एक छवि अपलोड करो"
+  },
+  "chooseFile": "फ़ाइल चुणो",
+  "cropImage": "छवि काटो",
+  "diagnosePlant": "पौधो रो निदान करो",
+  "diagnosis": "निदान",
+  "organicRemedies": "जैविक उपचार",
+  "imageCropped": {
+    "title": "छवि काटी गई",
+    "description": "छवि सफलतापूर्वक काटी गई है।"
+  },
+  "croppingFailed": {
+    "title": "काटण में विफल",
+    "description": "छवि नीं काटी जा सकी।"
+  },
+  "noImage": {
+    "title": "कोई छवि नीं",
+    "description": "कृपया पैली एक छवि अपलोड करो।"
+  },
+  "cropInProgress": {
+    "title": "काटण प्रगति पर है",
+    "description": "निदान करने से पैली कृपया छवि ने काटो।"
+  },
+  "weatherAlerts": {
+    "title": "मौसम री चेतावनी",
+    "frost": "आज रात पाळा री चेतावनी। संवेदनशील पौधा ने ढक द्यो।",
+    "rain": "काल दोपहर भारी बिरखा री उम्मीद है। सिंचाई री योजना उण रे अनुसार बणावो।",
+    "sun": "आगला 3 दिनां वास्ते तेज धूप अर उच्च यूवी इंडेक्स।"
+  },
+  "marketPrices": {
+    "title": "बाजार रा भाव",
+    "crop": "फसल",
+    "market": "बाजार",
+    "price": "भाव"
+  }
+}

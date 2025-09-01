@@ -1,0 +1,100 @@
+
+{
+  "title": "কিষাণ পরামর্শদাতা",
+  "changeLanguage": "ভাষা পরিবর্তন করুন",
+  "useVoice": "ভয়েস ইন্টারফেস ব্যবহার করুন",
+  "language": {
+    "en": "English",
+    "hi": "हिंदी (Hindi)",
+    "ta": "தமிழ் (Tamil)",
+    "kn": "ಕನ್ನಡ (Kannada)",
+    "bn": "বাংলা (Bengali)",
+    "raj": "राजस्थानी (Rajasthani)",
+    "mr": "मराठी (Marathi)",
+    "gu": "ગુજરાતી (Gujarati)"
+  },
+  "cropRecommendation": {
+    "title": "শস্য সুপারিশ",
+    "description": "আপনার স্থানীয় অবস্থার উপর ভিত্তি করে AI-চালিত শস্য পরামর্শ পান।"
+  },
+  "useMyLocation": "আমার অবস্থান ব্যবহার করুন",
+  "location": "অবস্থান (শহর/জেলা)",
+  "location.placeholder": "যেমন, মহীশূর",
+  "soilType": {
+    "label": "মাটির ধরন",
+    "placeholder": "একটি মাটির ধরন নির্বাচন করুন",
+    "alluvial": "পলিমাটি",
+    "black": "কালো (তুলা) মাটি",
+    "redAndYellow": "লাল এবং হলুদ মাটি",
+    "laterite": "ল্যাটেরাইট মাটি",
+    "arid": "শুষ্ক মাটি"
+  },
+  "weatherPatterns": {
+    "label": "আবহাওয়ার ধরণ",
+    "placeholder": "আবহাওয়ার ধরণ নির্বাচন করুন",
+    "tropicalMonsoon": "ক্রান্তীয় মৌসুমী",
+    "hotAndDry": "গরম এবং শুষ্ক গ্রীষ্ম",
+    "mildWinter": "মৃদু, ভেজা শীত",
+    "semiArid": "আধা-শুষ্ক",
+    "tropicalWetAndDry": "ক্রান্তীয় ভেজা এবং শুষ্ক",
+    "humidSubtropical": "আর্দ্র উপক্রান্তীয়",
+    "mountain": "পার্বত্য"
+  },
+  "getRecommendations": "সুপারিশ পান",
+  "ourRecommendation": "আমাদের সুপারিশ:",
+  "locationDetected": {
+    "title": "অবস্থান সনাক্ত করা হয়েছে",
+    "description": "অবস্থান এবং আবহাওয়ার ধরণ পূরণ করা হয়েছে।"
+  },
+  "error": {
+    "title": "ত্রুটি"
+  },
+  "geolocationError": {
+    "title": "জিওলোকেশন ত্রুটি",
+    "description": "আপনার অবস্থান পেতে முடியவில்லை। দয়া করে এটি ম্যানুয়ালি প্রবেশ করান।"
+  },
+  "geolocationNotSupported": {
+    "title": "জিওলোকেশন সমর্থিত নয়",
+    "description": "আপনার ব্রাউজার জিওলোকেশন সমর্থন করে না।"
+  },
+  "pestIdentification": {
+    "title": " কীটপতঙ্গ ও রোগ সনাক্তকরণ",
+    "description": "একটি রোগ নির্ণয় পেতে একটি ক্ষতিগ্রস্ত গাছের ছবি আপলোড করুন।",
+    "cropAlt": "ফসলের জন্য গাছ",
+    "previewAlt": "গাছের পূর্বরূপ",
+    "uploadPlaceholder": "শুরু করতে একটি ছবি আপলোড করুন"
+  },
+  "chooseFile": "ফাইল পছন্দ কর",
+  "cropImage": "ছবি কাটুন",
+  "diagnosePlant": "উদ্ভিদ নির্ণয় করুন",
+  "diagnosis": "রোগ নির্ণয়",
+  "organicRemedies": "জৈব প্রতিকার",
+  "imageCropped": {
+    "title": "ছবি কাটা হয়েছে",
+    "description": "ছবিটি সফলভাবে কাটা হয়েছে।"
+  },
+  "croppingFailed": {
+    "title": "ফসল কাটতে ব্যর্থ",
+    "description": "ছবিটি কাটা যায়নি।"
+  },
+  "noImage": {
+    "title": "কোন ছবি নেই",
+    "description": "দয়া করে প্রথমে একটি ছবি আপলোড করুন।"
+  },
+  "cropInProgress": {
+    "title": "ফসল কাটা চলছে",
+    "description": "রোগ নির্ণয়ের আগে দয়া করে ছবিটি কাটুন।"
+  },
+  "weatherAlerts": {
+    "title": "আবহাওয়ার সতর্কতা",
+    "frost": "আজ রাতে তুষারপাতের সতর্কতা। সংবেদনশীল গাছপালা ঢেকে রাখুন।",
+    "rain": "আগামীকাল বিকেলে ভারী বৃষ্টির সম্ভাবনা। সেই অনুযায়ী সেচের পরিকল্পনা করুন।",
+    "sun": "পরবর্তী ৩ দিনের জন্য শক্তিশালী সূর্য এবং উচ্চ UV সূচক।"
+  },
+  "marketPrices": {
+    "title": "বাজার দর",
+    "crop": "শস্য",
+    "market": "বাজার",
+    "price": "দাম"
+  }
+}
