@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -32,7 +32,6 @@ import {
 } from '@/components/ui/select';
 import { handleCropRecommendation, handleLocationDetails } from '@/lib/actions';
 import type { GenerateCropRecommendationsOutput } from '@/ai/flows/generate-crop-recommendations';
-import type { ExtractCropDetailsFromQueryOutput } from '@/ai/flows/extract-crop-details-from-query';
 import { useToast } from '@/hooks/use-toast';
 import { Separator } from './ui/separator';
 import { useI18n } from '@/context/i18n-provider';
@@ -43,11 +42,7 @@ const formSchema = z.object({
   weatherPatterns: z.string().min(1, { message: 'Please select weather patterns.' }),
 });
 
-interface CropRecommendationProps {
-  voiceData: ExtractCropDetailsFromQueryOutput | null;
-}
-
-export function CropRecommendation({ voiceData }: CropRecommendationProps) {
+export function CropRecommendation() {
   const { t } = useI18n();
   const [loading, setLoading] = useState(false);
   const [loadingLocation, setLoadingLocation] = useState(false);
@@ -62,14 +57,6 @@ export function CropRecommendation({ voiceData }: CropRecommendationProps) {
       weatherPatterns: '',
     },
   });
-
-  useEffect(() => {
-    if (voiceData) {
-      form.setValue('location', voiceData.location);
-      form.setValue('soilType', voiceData.soilType);
-      form.setValue('weatherPatterns', voiceData.weatherPatterns);
-    }
-  }, [voiceData, form]);
 
   const handleGeoLocation = () => {
     if (navigator.geolocation) {
