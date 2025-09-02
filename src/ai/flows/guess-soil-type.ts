@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview An AI agent that guesses the soil type for a given location.
@@ -31,7 +32,7 @@ const prompt = ai.definePrompt({
   name: 'guessSoilTypePrompt',
   input: {schema: GuessSoilTypeInputSchema},
   output: {schema: GuessSoilTypeOutputSchema},
-  prompt: `You are an expert in Indian soil types. Given a location in India, guess the predominant soil type.
+  prompt: `You are an expert in Indian soil types. Given a location in India, guess the predominant soil type. If you are uncertain, make the best guess you can based on the available information.
 
 The soil type must be one of the following: ${SOIL_TYPES.join(', ')}.
 
