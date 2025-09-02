@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CloudFog, CloudRain, Sun, ThermometerSnowflake, Wind, Loader2 } from "lucide-react";
 import { useI18n } from "@/context/i18n-provider";
@@ -24,10 +24,10 @@ export function WeatherAlerts() {
   const [location, setLocation] = useState('');
   const { toast } = useToast();
 
-  useEffect(() => {
-    async function fetchAlertsForLocation(loc: string) {
-      setLoading(true);
-      setAlerts([]);
+  const fetchInitialData = useCallback(async () => {
+    setLoading(true);
+
+    const fetchAlertsForLocation = async (loc: string) => {
       const response = await handleGetWeatherAlerts({ location: loc });
       if (response.success && response.data) {
         setAlerts(response.data.alerts);
@@ -40,49 +40,50 @@ export function WeatherAlerts() {
         });
       }
       setLoading(false);
-    }
-    
-    function fetchInitialData() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-              async (position) => {
-                const { latitude, longitude } = position.coords;
-                const response = await handleLocationDetails({ latitude, longitude });
-      
-                if (response.success && response.data) {
-                  setLocation(response.data.location);
-                  fetchAlertsForLocation(response.data.location);
-                } else {
-                    setLoading(false);
-                    toast({
-                        variant: 'destructive',
-                        title: t('error.title'),
-                        description: response.error,
-                    });
-                }
-              },
-              (error) => {
-                console.error(error);
-                setLoading(false);
-                toast({
-                  variant: 'destructive',
-                  title: t('geolocationError.title'),
-                  description: t('geolocationError.description'),
-                });
-              }
-            );
+    };
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords;
+          const response = await handleLocationDetails({ latitude, longitude });
+
+          if (response.success && response.data) {
+            setLocation(response.data.location);
+            await fetchAlertsForLocation(response.data.location);
           } else {
             setLoading(false);
             toast({
               variant: 'destructive',
-              title: t('geolocationNotSupported.title'),
-              description: t('geolocationNotSupported.description'),
+              title: t('error.title'),
+              description: response.error,
             });
           }
+        },
+        (error) => {
+          console.error(error);
+          setLoading(false);
+          toast({
+            variant: 'destructive',
+            title: t('geolocationError.title'),
+            description: t('geolocationError.description'),
+          });
+        }
+      );
+    } else {
+      setLoading(false);
+      toast({
+        variant: 'destructive',
+        title: t('geolocationNotSupported.title'),
+        description: t('geolocationNotSupported.description'),
+      });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
+  useEffect(() => {
     fetchInitialData();
-  }, [t, toast]);
+  }, [fetchInitialData]);
 
   return (
     <Card>
