@@ -52,7 +52,7 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
   const audioRef = useRef<HTMLAudioElement>(null);
 
 
-  const handleGeoLocation = () => {
+  const handleGeoLocation = async () => {
     if (!navigator.geolocation) {
       toast({
         variant: 'destructive',
@@ -64,54 +64,43 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
 
     setLoadingLocation(true);
 
-    navigator.geolocation.getCurrentPosition(
-      // Success callback
-      async (position) => {
-        try {
-          const { latitude, longitude } = position.coords;
-          const locationResponse = await handleLocationDetails({ latitude, longitude });
+    try {
+      const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject);
+      });
 
-          if (locationResponse.success && locationResponse.data) {
-            const { location, weatherPatterns } = locationResponse.data;
-            form.setValue('location', location);
-            form.setValue('weatherPatterns', weatherPatterns);
-            toast({
-              title: t('locationDetected.title'),
-              description: t('locationDetected.description'),
-            });
-            
-            // Now guess the soil type
-            await handleSoilTypeGuess(location);
+      const { latitude, longitude } = position.coords;
+      const locationResponse = await handleLocationDetails({ latitude, longitude });
 
-          } else {
-            toast({
-              variant: 'destructive',
-              title: t('error.title'),
-              description: locationResponse.error,
-            });
-          }
-        } catch (error) {
-            console.error(error);
-            toast({
-              variant: 'destructive',
-              title: t('geolocationError.title'),
-              description: t('geolocationError.description'),
-            });
-        } finally {
-            setLoadingLocation(false);
-        }
-      },
-      // Error callback
-      (error) => {
+      if (locationResponse.success && locationResponse.data) {
+        const { location, weatherPatterns } = locationResponse.data;
+        form.setValue('location', location);
+        form.setValue('weatherPatterns', weatherPatterns);
+        toast({
+          title: t('locationDetected.title'),
+          description: t('locationDetected.description'),
+        });
+        
+        // Now guess the soil type
+        await handleSoilTypeGuess(location);
+
+      } else {
+        toast({
+          variant: 'destructive',
+          title: t('error.title'),
+          description: locationResponse.error,
+        });
+      }
+    } catch (error) {
         console.error(error);
         toast({
           variant: 'destructive',
           title: t('geolocationError.title'),
           description: t('geolocationError.description'),
         });
+    } finally {
         setLoadingLocation(false);
-      }
-    );
+    }
   };
 
   const handleSoilTypeGuess = async (location: string) => {
@@ -244,7 +233,7 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
                     <FormLabel>{t('location')}</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder={t('location')}
+                        placeholder={t('location.placeholder')}
                         {...field}
                         onBlur={() => handleSoilTypeGuess(field.value)}
                       />
