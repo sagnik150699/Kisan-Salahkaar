@@ -6,6 +6,7 @@ import bn from '@/locales/bn.json';
 import raj from '@/locales/raj.json';
 import mr from '@/locales/mr.json';
 import gu from '@/locales/gu.json';
+import pa from '@/locales/pa.json';
 
 export const languages = [
   { value: 'en' as const, labelKey: 'language.en' },
@@ -16,6 +17,7 @@ export const languages = [
   { value: 'raj' as const, labelKey: 'language.raj' },
   { value: 'mr' as const, labelKey: 'language.mr' },
   { value: 'gu' as const, labelKey: 'language.gu' },
+  { value: 'pa' as const, labelKey: 'language.pa' },
 ];
 
 export type Language = typeof languages[number]['value'];
@@ -31,4 +33,5 @@ export const translations = {
   raj,
   mr,
   gu,
+  pa,
 };

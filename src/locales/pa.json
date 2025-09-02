@@ -1,0 +1,107 @@
+
+{
+  "title": "ਕਿਸਾਨ ਸਲਾਹਕਾਰ",
+  "changeLanguage": "ਭਾਸ਼ਾ ਬਦਲੋ",
+  "useVoice": "ਵੌਇਸ ਇੰਟਰਫੇਸ ਦੀ ਵਰਤੋਂ ਕਰੋ",
+  "language": {
+    "en": "English",
+    "hi": "हिंदी (Hindi)",
+    "ta": "தமிழ் (Tamil)",
+    "kn": "ಕನ್ನಡ (Kannada)",
+    "bn": "বাংলা (Bengali)",
+    "raj": "राजस्थानी (Rajasthani)",
+    "mr": "मराठी (Marathi)",
+    "gu": "ગુજરાતી (Gujarati)",
+    "pa": "ਪੰਜਾਬੀ (Punjabi)"
+  },
+  "cropRecommendation": {
+    "title": "ਫਸਲ ਸਿਫਾਰਸ਼ਾਂ",
+    "description": "ਆਪਣੀਆਂ ਸਥਾਨਕ ਸਥਿਤੀਆਂ ਦੇ ਅਧਾਰ ਤੇ ਏਆਈ-ਸੰਚਾਲਿਤ ਫਸਲ ਸੁਝਾਅ ਪ੍ਰਾਪਤ ਕਰੋ."
+  },
+  "useMyLocation": "ਮੇਰੀ ਸਥਿਤੀ ਦੀ ਵਰਤੋਂ ਕਰੋ",
+  "location": "ਸਥਾਨ (ਸ਼ਹਿਰ/ਜ਼ਿਲ੍ਹਾ)",
+  "location.placeholder": "ਉਦਾਹਰਨ ਲਈ, ਮੈਸੂਰ",
+  "soilType": {
+    "label": "ਮਿੱਟੀ ਦੀ ਕਿਸਮ",
+    "placeholder": "ਇੱਕ ਮਿੱਟੀ ਦੀ ਕਿਸਮ ਚੁਣੋ",
+    "alluvial": "ਜਲੋਢੀ",
+    "black": "ਕਾਲੀ (ਕਪਾਹ) ਮਿੱਟੀ",
+    "redAndYellow": "ਲਾਲ ਅਤੇ ਪੀਲੀ ਮਿੱਟੀ",
+    "laterite": "ਲੈਟਰਾਈਟ ਮਿੱਟੀ",
+    "arid": "ਸੁੱਕੀ ਮਿੱਟੀ"
+  },
+  "weatherPatterns": {
+    "label": "ਮੌਸਮ ਦੇ ਪੈਟਰਨ",
+    "placeholder": "ਮੌਸਮ ਦੇ ਪੈਟਰਨ ਚੁਣੋ",
+    "tropicalMonsoon": "ਉਸ਼ਣਕਟਬੰਧੀ ਮਾਨਸੂਨ",
+    "hotAndDry": "ਗਰਮ ਅਤੇ ਸੁੱਕਾ ਗਰਮੀ",
+    "mildWinter": "ਹਲਕੀ, ਗਿੱਲੀ ਸਰਦੀ",
+    "semiArid": "ਅਰਧ-ਸੁੱਕਾ",
+    "tropicalWetAndDry": "ਉਸ਼ਣਕਟਬੰਧੀ ਗਿੱਲਾ ਅਤੇ ਸੁੱਕਾ",
+    "humidSubtropical": "ਨਮੀ ਵਾਲਾ ਉਪ-ਉਸ਼ਣਕਟਬੰਧੀ",
+    "mountain": "ਪਹਾੜੀ"
+  },
+  "getRecommendations": "ਸਿਫਾਰਸ਼ਾਂ ਪ੍ਰਾਪਤ ਕਰੋ",
+  "ourRecommendation": "ਸਾਡੀ ਸਿਫਾਰਸ਼:",
+  "locationDetected": {
+    "title": "ਸਥਾਨ ਦਾ ਪਤਾ ਲਗਾਇਆ ਗਿਆ",
+    "description": "ਸਥਾਨ ਅਤੇ ਮੌਸਮ ਦੇ ਪੈਟਰਨ ਭਰੇ ਗਏ ਹਨ."
+  },
+  "error": {
+    "title": "ਗਲਤੀ"
+  },
+  "geolocationError": {
+    "title": "ਜੀਓਲੋਕੇਸ਼ਨ ਗਲਤੀ",
+    "description": "ਤੁਹਾਡੀ ਸਥਿਤੀ ਪ੍ਰਾਪਤ ਨਹੀਂ ਹੋ ਸਕੀ। ਕਿਰਪਾ ਕਰਕੇ ਇਸਨੂੰ ਹੱਥੀਂ ਦਾਖਲ ਕਰੋ।"
+  },
+  "geolocationNotSupported": {
+    "title": "ਜੀਓਲੋਕੇਸ਼ਨ ਸਮਰਥਿਤ ਨਹੀਂ ਹੈ",
+    "description": "ਤੁਹਾਡਾ ਬ੍ਰਾਊਜ਼ਰ ਜੀਓਲੋਕੇਸ਼ਨ ਦਾ ਸਮਰਥਨ ਨਹੀਂ ਕਰਦਾ ਹੈ."
+  },
+  "pestIdentification": {
+    "title": "ਕੀੜੇ ਅਤੇ ਬਿਮਾਰੀ ਦੀ ਪਛਾਣ",
+    "description": "ਨਿਦਾਨ ਪ੍ਰਾਪਤ ਕਰਨ ਲਈ ਪ੍ਰਭਾਵਿਤ ਪੌਦੇ ਦੀ ਫੋਟੋ ਅਪਲੋਡ ਕਰੋ.",
+    "cropAlt": "ਫਸਲ ਲਈ ਪੌਦਾ",
+    "previewAlt": "ਪੌਦਾ ਪ੍ਰੀਵਿਊ",
+    "uploadPlaceholder": "ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਇੱਕ ਚਿੱਤਰ ਅਪਲੋਡ ਕਰੋ"
+  },
+  "chooseFile": "ਫਾਈਲ ਚੁਣੋ",
+  "cropImage": "ਚਿੱਤਰ ਨੂੰ ਕੱਟੋ",
+  "diagnosePlant": "ਪੌਦੇ ਦਾ ਨਿਦਾਨ ਕਰੋ",
+  "diagnosis": "ਨਿਦਾਨ",
+  "organicRemedies": "ਜੈਵਿਕ ਉਪਚਾਰ",
+  "imageCropped": {
+    "title": "ਚਿੱਤਰ ਕੱਟਿਆ ਗਿਆ",
+    "description": "ਚਿੱਤਰ ਨੂੰ ਸਫਲਤਾਪੂਰਵਕ ਕੱਟਿਆ ਗਿਆ ਹੈ."
+  },
+  "croppingFailed": {
+    "title": "ਕ੍ਰੌਪਿੰਗ ਫੇਲ ਹੋ ਗਈ",
+    "description": "ਚਿੱਤਰ ਨੂੰ ਕੱਟਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ."
+  },
+  "noImage": {
+    "title": "ਕੋਈ ਚਿੱਤਰ ਨਹੀਂ",
+    "description": "ਕਿਰਪਾ ਕਰਕੇ ਪਹਿਲਾਂ ਇੱਕ ਚਿੱਤਰ ਅਪਲੋਡ ਕਰੋ."
+  },
+  "cropInProgress": {
+    "title": "ਫਸਲ ਦੀ ਕਟਾਈ ਜਾਰੀ ਹੈ",
+    "description": "ਨਿਦਾਨ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਕਿਰਪਾ ਕਰਕੇ ਚਿੱਤਰ ਨੂੰ ਕੱਟੋ."
+  },
+  "weatherAlerts": {
+    "title": "ਮੌਸਮ ਚੇਤਾਵਨੀਆਂ",
+    "frost": "ਅੱਜ ਰਾਤ ਠੰਡ ਦੀ ਚੇਤਾਵਨੀ। ਸੰਵੇਦਨਸ਼ੀਲ ਪੌਦਿਆਂ ਨੂੰ ਢੱਕੋ।",
+    "rain": "ਕੱਲ੍ਹ ਦੁਪਹਿਰ ਭਾਰੀ ਮੀਂਹ ਦੀ ਉਮੀਦ ਹੈ। ਉਸ ਅਨੁਸਾਰ ਸਿੰਚਾਈ ਦੀ ਯੋਜਨਾ ਬਣਾਓ।",
+    "sun": "ਅਗਲੇ 3 ਦਿਨਾਂ ਲਈ ਤੇਜ਼ ਧੁੱਪ ਅਤੇ ਉੱਚ ਯੂਵੀ ਸੂਚਕਾਂਕ।",
+    "noAlerts": "ਕੋਈ ਚੇਤਾਵਨੀ ਨਹੀਂ ਮਿਲੀ ਜਾਂ ਸਥਾਨ ਨਿਰਧਾਰਤ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ।"
+  },
+  "marketPrices": {
+    "title": "ਮਾਰਕੀਟ ਕੀਮਤਾਂ",
+    "crop": "ਫਸਲ",
+    "market": "ਮਾਰਕੀਟ",
+    "price": "ਕੀਮਤ"
+  },
+  "readAloud": "ਉੱਚੀ ਆਵਾਜ਼ ਵਿੱਚ ਪੜ੍ਹੋ",
+  "audioFailed": {
+    "title": "ਆਡੀਓ ਫੇਲ ਹੋ ਗਿਆ",
+    "description": "ਟੈਕਸਟ ਲਈ ਆਡੀਓ ਤਿਆਰ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ."
+  }
+}
