@@ -106,7 +106,6 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
     const response = await handleGuessSoilType({ location });
     if (response.success && response.data) {
       let soilType = response.data.soilType;
-      // This is a specific mapping to handle a mismatch between AI output and form value.
       if (soilType === "Red and Yellow") {
         soilType = "Red and Yellow";
       }
@@ -116,7 +115,6 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
         description: `${t('soilTypeGuessed.description')} ${t(`soilType.${soilType.toLowerCase().replace(/ and /g, 'And')}`)}`
       });
     } else {
-      // Don't show an error, just fail silently
       console.error("Failed to guess soil type:", response.error);
     }
   };
