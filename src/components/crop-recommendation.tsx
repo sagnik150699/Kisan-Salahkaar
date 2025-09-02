@@ -58,24 +58,33 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
       navigator.geolocation.getCurrentPosition(
         async (position) => {
           const { latitude, longitude } = position.coords;
-          const response = await handleLocationDetails({ latitude, longitude });
+          try {
+            const response = await handleLocationDetails({ latitude, longitude });
 
-          if (response.success && response.data) {
-            form.setValue('location', response.data.location);
-            form.setValue('weatherPatterns', response.data.weatherPatterns);
-            toast({
-              title: t('locationDetected.title'),
-              description: t('locationDetected.description'),
-            });
-            await handleSoilTypeGuess(response.data.location);
-          } else {
-            toast({
-              variant: 'destructive',
-              title: t('error.title'),
-              description: response.error,
-            });
+            if (response.success && response.data) {
+              form.setValue('location', response.data.location);
+              form.setValue('weatherPatterns', response.data.weatherPatterns);
+              toast({
+                title: t('locationDetected.title'),
+                description: t('locationDetected.description'),
+              });
+              await handleSoilTypeGuess(response.data.location);
+            } else {
+              toast({
+                variant: 'destructive',
+                title: t('error.title'),
+                description: response.error,
+              });
+            }
+          } catch(e) {
+             toast({
+                variant: 'destructive',
+                title: t('geolocationError.title'),
+                description: t('geolocationError.description'),
+              });
+          } finally {
+            setLoadingLocation(false);
           }
-          setLoadingLocation(false);
         },
         (error) => {
           console.error(error);
