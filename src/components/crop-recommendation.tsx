@@ -28,7 +28,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { handleCropRecommendation, handleLocationDetails, handleTextToSpeech } from '@/lib/actions';
+import { handleCropRecommendation, handleLocationDetails, handleTextToSpeech, handleGuessSoilType } from '@/lib/actions';
 import type { GenerateCropRecommendationsOutput } from '@/ai/flows/generate-crop-recommendations';
 import { useToast } from '@/hooks/use-toast';
 import { Separator } from './ui/separator';
@@ -66,6 +66,7 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
               title: t('locationDetected.title'),
               description: t('locationDetected.description'),
             });
+            await handleSoilTypeGuess(response.data.location);
           } else {
             toast({
               variant: 'destructive',
@@ -91,6 +92,21 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
         title: t('geolocationNotSupported.title'),
         description: t('geolocationNotSupported.description'),
       });
+    }
+  };
+
+  const handleSoilTypeGuess = async (location: string) => {
+    if (!location) return;
+    const response = await handleGuessSoilType({ location });
+    if (response.success && response.data) {
+      form.setValue('soilType', response.data.soilType);
+       toast({
+        title: t('soilTypeGuessed.title'),
+        description: `${t('soilTypeGuessed.description')} ${t(`soilType.${response.data.soilType.toLowerCase().replace(/ and /g, 'And')}`)}`
+      });
+    } else {
+      // Don't show an error, just fail silently
+      console.error("Failed to guess soil type:", response.error);
     }
   };
 
@@ -200,7 +216,11 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
                   <FormItem>
                     <FormLabel>{t('location')}</FormLabel>
                     <FormControl>
-                      <Input placeholder={t('location')} {...field} />
+                      <Input 
+                        placeholder={t('location.placeholder')} 
+                        {...field}
+                        onBlur={() => handleSoilTypeGuess(field.value)}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

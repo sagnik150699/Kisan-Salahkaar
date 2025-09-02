@@ -8,3 +8,4 @@ import '@/ai/flows/get-location-details.ts';
 import '@/ai/flows/get-weather-report.ts';
 import '@/ai/flows/text-to-speech.ts';
 import '@/ai/flows/get-market-prices.ts';
+import '@/ai/flows/guess-soil-type.ts';

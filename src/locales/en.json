@@ -47,6 +47,10 @@
     "title": "Location Detected",
     "description": "Location and weather patterns have been filled in."
   },
+  "soilTypeGuessed": {
+    "title": "Soil Type Suggested",
+    "description": "We've suggested a soil type based on your location:"
+  },
   "error": {
     "title": "Error"
   },

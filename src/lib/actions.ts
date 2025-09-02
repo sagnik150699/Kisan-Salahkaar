@@ -6,6 +6,7 @@ import { getLocationDetails, type GetLocationDetailsInput } from '@/ai/flows/get
 import { getWeatherReport, type GetWeatherReportInput } from '@/ai/flows/get-weather-report';
 import { textToSpeech, type TextToSpeechInput } from '@/ai/flows/text-to-speech';
 import { getMarketPrices, type GetMarketPricesInput } from '@/ai/flows/get-market-prices';
+import { guessSoilType, type GuessSoilTypeInput } from '@/ai/flows/guess-soil-type';
 
 
 export async function handleCropRecommendation(input: GenerateCropRecommendationsInput) {
@@ -65,5 +66,15 @@ export async function handleGetMarketPrices(input: GetMarketPricesInput) {
   } catch (error) {
     console.error(error);
     return { success: false, error: 'Failed to get market prices.' };
+  }
+}
+
+export async function handleGuessSoilType(input: GuessSoilTypeInput) {
+  try {
+    const result = await guessSoilType(input);
+    return { success: true, data: result };
+  } catch (error) {
+    console.error(error);
+    return { success: false, error: 'Failed to guess soil type.' };
   }
 }
