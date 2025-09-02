@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
@@ -275,7 +276,7 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
                         <SelectItem value="Humid Subtropical">{t('weatherPatterns.humidSubtropical')}</SelectItem>
                         <SelectItem value="Mountain">{t('weatherPatterns.mountain')}</SelectItem>
                       </SelectContent>
-                    </select>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
