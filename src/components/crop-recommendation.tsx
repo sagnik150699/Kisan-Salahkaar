@@ -201,7 +201,7 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder={t('weatherPatterns.placeholder')} />
-                        </Trigger>
+                        </SelectTrigger>
                       </FormControl>
                       <SelectContent>
                         <SelectItem value="Tropical Monsoon">{t('weatherPatterns.tropicalMonsoon')}</SelectItem>
