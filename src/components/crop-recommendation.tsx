@@ -52,7 +52,7 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
   const audioRef = useRef<HTMLAudioElement>(null);
 
 
-  const handleGeoLocation = async () => {
+  const handleGeoLocation = () => {
     if (!navigator.geolocation) {
       toast({
         variant: 'destructive',
@@ -64,58 +64,76 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
 
     setLoadingLocation(true);
 
-    try {
-      const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject);
-      });
+    navigator.geolocation.getCurrentPosition(
+      // Success callback
+      async (position) => {
+        try {
+          const { latitude, longitude } = position.coords;
+          const locationResponse = await handleLocationDetails({ latitude, longitude });
 
-      const { latitude, longitude } = position.coords;
-      const locationResponse = await handleLocationDetails({ latitude, longitude });
+          if (locationResponse.success && locationResponse.data) {
+            const { location, weatherPatterns } = locationResponse.data;
+            form.setValue('location', location);
+            form.setValue('weatherPatterns', weatherPatterns);
+            toast({
+              title: t('locationDetected.title'),
+              description: t('locationDetected.description'),
+            });
+            
+            // Now guess the soil type
+            await handleSoilTypeGuess(location);
 
-      if (locationResponse.success && locationResponse.data) {
-        const { location, weatherPatterns } = locationResponse.data;
-        form.setValue('location', location);
-        form.setValue('weatherPatterns', weatherPatterns);
-        toast({
-          title: t('locationDetected.title'),
-          description: t('locationDetected.description'),
-        });
-
-        await handleSoilTypeGuess(location);
-      } else {
+          } else {
+            toast({
+              variant: 'destructive',
+              title: t('error.title'),
+              description: locationResponse.error,
+            });
+          }
+        } catch (error) {
+            console.error(error);
+            toast({
+              variant: 'destructive',
+              title: t('geolocationError.title'),
+              description: t('geolocationError.description'),
+            });
+        } finally {
+            setLoadingLocation(false);
+        }
+      },
+      // Error callback
+      (error) => {
+        console.error(error);
         toast({
           variant: 'destructive',
-          title: t('error.title'),
-          description: locationResponse.error,
+          title: t('geolocationError.title'),
+          description: t('geolocationError.description'),
         });
+        setLoadingLocation(false);
       }
-    } catch (error) {
-      console.error(error);
-      toast({
-        variant: 'destructive',
-        title: t('geolocationError.title'),
-        description: t('geolocationError.description'),
-      });
-    } finally {
-      setLoadingLocation(false);
-    }
+    );
   };
 
   const handleSoilTypeGuess = async (location: string) => {
     if (!location) return;
-    const response = await handleGuessSoilType({ location });
-    if (response.success && response.data) {
-      let soilType = response.data.soilType;
-      if (soilType === "Red and Yellow") {
-        soilType = "Red and Yellow";
+    try {
+      const response = await handleGuessSoilType({ location });
+      if (response.success && response.data) {
+        let soilType = response.data.soilType;
+        if (soilType === "Red and Yellow") {
+          soilType = "Red and Yellow";
+        }
+        form.setValue('soilType', soilType);
+         toast({
+          title: t('soilTypeGuessed.title'),
+          description: `${t('soilTypeGuessed.description')} ${t(`soilType.${soilType.toLowerCase().replace(/ and /g, 'And')}`)}`
+        });
+      } else {
+        // Don't show an error toast if soil guess fails, it's a non-critical enhancement
+        console.error("Failed to guess soil type:", response.error);
       }
-      form.setValue('soilType', soilType);
-       toast({
-        title: t('soilTypeGuessed.title'),
-        description: `${t('soilTypeGuessed.description')} ${t(`soilType.${soilType.toLowerCase().replace(/ and /g, 'And')}`)}`
-      });
-    } else {
-      console.error("Failed to guess soil type:", response.error);
+    } catch (error) {
+       console.error("Exception in handleSoilTypeGuess:", error);
     }
   };
 
