@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
-import { Loader2, Locate, Trees, Volume2 } from 'lucide-react';
+import { Loader2, Locate, Trees, Volume2, StopCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -45,6 +45,7 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
   const { t, language } = useI18n();
   const [loadingLocation, setLoadingLocation] = useState(false);
   const [loadingAudio, setLoadingAudio] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [result, setResult] = useState<GenerateCropRecommendationsOutput | null>(null);
   const { toast } = useToast();
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -114,6 +115,14 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
   }
 
   const handleReadAloud = async (text: string) => {
+     if (isPlaying && audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      setIsPlaying(false);
+      setLoadingAudio(false);
+      return;
+    }
+    
     setLoadingAudio(true);
     const response = await handleTextToSpeech({ text });
     if (response.success && response.data && audioRef.current) {
@@ -125,6 +134,7 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
             title: t('audioFailed.title'),
             description: t('audioFailed.description'),
         });
+        setLoadingAudio(false);
         });
     } else {
         toast({
@@ -132,9 +142,31 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
             title: t('audioFailed.title'),
             description: response.error || t('audioFailed.description'),
         });
+        setLoadingAudio(false);
     }
-    setLoadingAudio(false);
   };
+  
+  useEffect(() => {
+    const audioElement = audioRef.current;
+    if (audioElement) {
+      const onPlaying = () => {
+        setIsPlaying(true);
+        setLoadingAudio(false);
+      };
+      const onEnded = () => setIsPlaying(false);
+      const onPause = () => setIsPlaying(false);
+
+      audioElement.addEventListener('playing', onPlaying);
+      audioElement.addEventListener('ended', onEnded);
+      audioElement.addEventListener('pause', onPause);
+
+      return () => {
+        audioElement.removeEventListener('playing', onPlaying);
+        audioElement.removeEventListener('ended', onEnded);
+        audioElement.removeEventListener('pause', onPause);
+      };
+    }
+  }, []);
 
   return (
     <Card>
@@ -245,7 +277,7 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
                 disabled={loadingAudio}
                 aria-label={t('readAloud')}
               >
-                {loadingAudio ? <Loader2 className="animate-spin" /> : <Volume2 />}
+                {loadingAudio ? <Loader2 className="animate-spin" /> : isPlaying ? <StopCircle /> : <Volume2 />}
               </Button>
             </div>
             <p className="text-sm text-foreground/80">{result.cropRecommendations}</p>

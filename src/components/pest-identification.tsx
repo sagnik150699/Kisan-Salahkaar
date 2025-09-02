@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
-import { Bug, Leaf, Loader2, Upload, Crop, Volume2 } from 'lucide-react';
+import { Bug, Leaf, Loader2, Upload, Crop, Volume2, StopCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -64,6 +64,7 @@ export function PestIdentification() {
   const { t } = useI18n();
   const [loading, setLoading] = useState(false);
   const [loadingAudio, setLoadingAudio] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [result, setResult] = useState<IdentifyPestOrDiseaseOutput | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageData, setImageData] = useState<string | null>(null);
@@ -174,6 +175,14 @@ export function PestIdentification() {
   };
 
   const handleReadAloud = async (text: string) => {
+    if (isPlaying && audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      setIsPlaying(false);
+      setLoadingAudio(false);
+      return;
+    }
+
     setLoadingAudio(true);
     const response = await handleTextToSpeech({ text });
     if (response.success && response.data && audioRef.current) {
@@ -185,6 +194,7 @@ export function PestIdentification() {
             title: t('audioFailed.title'),
             description: t('audioFailed.description'),
           });
+          setLoadingAudio(false);
         });
     } else {
         toast({
@@ -192,10 +202,31 @@ export function PestIdentification() {
             title: t('audioFailed.title'),
             description: response.error || t('audioFailed.description'),
         });
+        setLoadingAudio(false);
     }
-    setLoadingAudio(false);
   };
+  
+  useEffect(() => {
+    const audioElement = audioRef.current;
+    if (audioElement) {
+      const onPlaying = () => {
+        setIsPlaying(true);
+        setLoadingAudio(false);
+      };
+      const onEnded = () => setIsPlaying(false);
+      const onPause = () => setIsPlaying(false);
 
+      audioElement.addEventListener('playing', onPlaying);
+      audioElement.addEventListener('ended', onEnded);
+      audioElement.addEventListener('pause', onPause);
+
+      return () => {
+        audioElement.removeEventListener('playing', onPlaying);
+        audioElement.removeEventListener('ended', onEnded);
+        audioElement.removeEventListener('pause', onPause);
+      };
+    }
+  }, []);
 
   return (
     <Card className="flex flex-col h-full">
@@ -282,7 +313,7 @@ export function PestIdentification() {
                         disabled={loadingAudio}
                         aria-label={t('readAloud')}
                     >
-                        {loadingAudio ? <Loader2 className="animate-spin" /> : <Volume2 />}
+                        {loadingAudio ? <Loader2 className="animate-spin" /> : isPlaying ? <StopCircle /> : <Volume2 />}
                     </Button>
                 </div>
                 <p className="text-sm text-foreground/80">{result.diagnosis}</p>
