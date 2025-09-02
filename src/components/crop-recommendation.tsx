@@ -142,7 +142,7 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
                   <FormItem>
                     <FormLabel>{t('location')}</FormLabel>
                     <FormControl>
-                      <Input placeholder={t('location.placeholder')} {...field} />
+                      <Input placeholder={t('location')} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
