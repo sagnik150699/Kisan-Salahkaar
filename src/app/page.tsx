@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { Header } from "@/components/header";
 import { CropRecommendation } from "@/components/crop-recommendation";
 import { PestIdentification } from "@/components/pest-identification";
-import { WeatherAlerts } from "@/components/weather-alerts";
+import { WeatherReport } from "@/components/weather-report";
 import { MarketPrices } from "@/components/market-prices";
 
 const formSchema = z.object({
@@ -48,7 +48,7 @@ export default function Home() {
             <PestIdentification />
           </div>
           <div className="lg:col-span-1">
-            <WeatherAlerts location={location} />
+            <WeatherReport location={location} />
           </div>
           <div className="lg:col-span-1">
             <MarketPrices location={location} />

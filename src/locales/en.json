@@ -86,10 +86,13 @@
     "title": "Crop in Progress",
     "description": "Please crop the image before diagnosing."
   },
-  "weatherAlerts": {
-    "title": "Weather Alerts",
-    "noAlerts": "Enter a location to see weather alerts.",
-    "noData": "No weather alerts found for this location."
+  "weatherReport": {
+    "title": "Weather Report",
+    "temperature": "Temperature",
+    "humidity": "Humidity",
+    "wind": "Wind",
+    "forecast": "Forecast",
+    "noData": "Enter a location to see the weather report."
   },
   "marketPrices": {
     "title": "Market Prices",
