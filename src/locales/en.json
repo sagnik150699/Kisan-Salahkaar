@@ -97,5 +97,10 @@
     "crop": "Crop",
     "market": "Market",
     "price": "Price"
+  },
+  "readAloud": "Read aloud",
+  "audioFailed": {
+    "title": "Audio Failed",
+    "description": "Could not generate audio for the text."
   }
 }

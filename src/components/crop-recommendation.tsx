@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
-import { Loader2, Locate, Trees } from 'lucide-react';
+import { Loader2, Locate, Trees, Volume2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -28,7 +28,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { handleCropRecommendation, handleLocationDetails } from '@/lib/actions';
+import { handleCropRecommendation, handleLocationDetails, handleTextToSpeech } from '@/lib/actions';
 import type { GenerateCropRecommendationsOutput } from '@/ai/flows/generate-crop-recommendations';
 import { useToast } from '@/hooks/use-toast';
 import { Separator } from './ui/separator';
@@ -44,8 +44,11 @@ interface CropRecommendationProps {
 export function CropRecommendation({ form, loading, setLoading }: CropRecommendationProps) {
   const { t, language } = useI18n();
   const [loadingLocation, setLoadingLocation] = useState(false);
+  const [loadingAudio, setLoadingAudio] = useState(false);
   const [result, setResult] = useState<GenerateCropRecommendationsOutput | null>(null);
   const { toast } = useToast();
+  const audioRef = useRef<HTMLAudioElement>(null);
+
 
   const handleGeoLocation = () => {
     if (navigator.geolocation) {
@@ -109,6 +112,22 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
 
     setLoading(false);
   }
+
+  const handleReadAloud = async (text: string) => {
+    setLoadingAudio(true);
+    const response = await handleTextToSpeech({ text });
+    if (response.success && response.data && audioRef.current) {
+        audioRef.current.src = response.data.audioDataUri;
+        audioRef.current.play().catch(e => console.error("Audio play failed", e));
+    } else {
+        toast({
+            variant: 'destructive',
+            title: t('audioFailed.title'),
+            description: response.error || t('audioFailed.description'),
+        });
+    }
+    setLoadingAudio(false);
+  };
 
   return (
     <Card>
@@ -182,7 +201,7 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder={t('weatherPatterns.placeholder')} />
-                        </SelectTrigger>
+                        </Trigger>
                       </FormControl>
                       <SelectContent>
                         <SelectItem value="Tropical Monsoon">{t('weatherPatterns.tropicalMonsoon')}</SelectItem>
@@ -210,11 +229,23 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
         <>
         <Separator className="my-4" />
         <CardFooter className="flex-col items-start gap-2">
-            <h3 className="font-bold text-lg">{t('ourRecommendation')}</h3>
+            <div className="flex items-center justify-between w-full">
+              <h3 className="font-bold text-lg">{t('ourRecommendation')}</h3>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => handleReadAloud(result.cropRecommendations)}
+                disabled={loadingAudio}
+                aria-label={t('readAloud')}
+              >
+                {loadingAudio ? <Loader2 className="animate-spin" /> : <Volume2 />}
+              </Button>
+            </div>
             <p className="text-sm text-foreground/80">{result.cropRecommendations}</p>
         </CardFooter>
         </>
       )}
+       <audio ref={audioRef} className="hidden" />
     </Card>
   );
 }

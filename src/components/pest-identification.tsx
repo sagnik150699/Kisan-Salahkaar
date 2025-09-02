@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react';
 import Image from 'next/image';
-import { Bug, Leaf, Loader2, Upload, Crop } from 'lucide-react';
+import { Bug, Leaf, Loader2, Upload, Crop, Volume2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -13,7 +13,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { handlePestIdentification } from '@/lib/actions';
+import { handlePestIdentification, handleTextToSpeech } from '@/lib/actions';
 import type { IdentifyPestOrDiseaseOutput } from '@/ai/flows/identify-pests-and-diseases';
 import { useToast } from '@/hooks/use-toast';
 import { Separator } from './ui/separator';
@@ -63,6 +63,7 @@ function getCroppedImg(
 export function PestIdentification() {
   const { t } = useI18n();
   const [loading, setLoading] = useState(false);
+  const [loadingAudio, setLoadingAudio] = useState(false);
   const [result, setResult] = useState<IdentifyPestOrDiseaseOutput | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageData, setImageData] = useState<string | null>(null);
@@ -70,6 +71,7 @@ export function PestIdentification() {
   const [crop, setCrop] = useState<CropType>();
   const [completedCrop, setCompletedCrop] = useState<CropType>();
   const imgRef = useRef<HTMLImageElement>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
   const [isCropping, setIsCropping] = useState(false);
 
 
@@ -171,6 +173,23 @@ export function PestIdentification() {
     setLoading(false);
   };
 
+  const handleReadAloud = async (text: string) => {
+    setLoadingAudio(true);
+    const response = await handleTextToSpeech({ text });
+    if (response.success && response.data && audioRef.current) {
+        audioRef.current.src = response.data.audioDataUri;
+        audioRef.current.play().catch(e => console.error("Audio play failed", e));
+    } else {
+        toast({
+            variant: 'destructive',
+            title: t('audioFailed.title'),
+            description: response.error || t('audioFailed.description'),
+        });
+    }
+    setLoadingAudio(false);
+  };
+
+
   return (
     <Card className="flex flex-col h-full">
       <CardHeader>
@@ -246,9 +265,20 @@ export function PestIdentification() {
         <>
           <Separator className="my-0" />
           <CardFooter className="flex-col items-start gap-4 pt-6">
-            <div>
-              <h3 className="font-bold text-lg flex items-center gap-2"><Bug className="w-5 h-5"/>{t('diagnosis')}:</h3>
-              <p className="text-sm text-foreground/80">{result.diagnosis}</p>
+             <div className="w-full">
+                <div className="flex items-center justify-between w-full">
+                    <h3 className="font-bold text-lg flex items-center gap-2"><Bug className="w-5 h-5"/>{t('diagnosis')}:</h3>
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleReadAloud(`${t('diagnosis')}: ${result.diagnosis}. ${t('organicRemedies')}: ${result.organicRemedies}`)}
+                        disabled={loadingAudio}
+                        aria-label={t('readAloud')}
+                    >
+                        {loadingAudio ? <Loader2 className="animate-spin" /> : <Volume2 />}
+                    </Button>
+                </div>
+                <p className="text-sm text-foreground/80">{result.diagnosis}</p>
             </div>
             <div>
               <h3 className="font-bold text-lg flex items-center gap-2"><Leaf className="w-5 h-5"/>{t('organicRemedies')}:</h3>
@@ -257,6 +287,7 @@ export function PestIdentification() {
           </CardFooter>
         </>
       )}
+      <audio ref={audioRef} className="hidden" />
     </Card>
   );
 }

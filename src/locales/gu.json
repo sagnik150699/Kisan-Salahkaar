@@ -71,7 +71,7 @@
   "organicRemedies": "ઓર્ગેનિક ઉપાયો",
   "imageCropped": {
     "title": "છબી કાપવામાં આવી છે",
-    "description": "છબી સફળતાપૂર્વક કાપવામાં આવી છે."
+    "description": "छબી સફળતાપૂર્વક કાપવામાં આવી છે."
   },
   "croppingFailed": {
     "title": "કાપણી નિષ્ફળ",
@@ -97,5 +97,10 @@
     "crop": "પાક",
     "market": "બજાર",
     "price": "ભાવ"
+  },
+  "readAloud": "મોટેથી વાંચો",
+  "audioFailed": {
+    "title": "ઓડિયો નિષ્ફળ",
+    "description": "ટેક્સ્ટ માટે ઓડિયો જનરેટ કરી શકાયો નથી."
   }
 }
