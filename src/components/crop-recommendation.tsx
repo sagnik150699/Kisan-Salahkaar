@@ -99,10 +99,14 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
     if (!location) return;
     const response = await handleGuessSoilType({ location });
     if (response.success && response.data) {
-      form.setValue('soilType', response.data.soilType);
+      let soilType = response.data.soilType;
+      if (soilType === "Red and Yellow") {
+        soilType = "Red and Yellow";
+      }
+      form.setValue('soilType', soilType);
        toast({
         title: t('soilTypeGuessed.title'),
-        description: `${t('soilTypeGuessed.description')} ${t(`soilType.${response.data.soilType.toLowerCase().replace(/ and /g, 'And')}`)}`
+        description: `${t('soilTypeGuessed.description')} ${t(`soilType.${soilType.toLowerCase().replace(/ and /g, 'And')}`)}`
       });
     } else {
       // Don't show an error, just fail silently
@@ -217,7 +221,7 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
                     <FormLabel>{t('location')}</FormLabel>
                     <FormControl>
                       <Input 
-                        placeholder={t('location.placeholder')} 
+                        placeholder={t('location')} 
                         {...field}
                         onBlur={() => handleSoilTypeGuess(field.value)}
                       />
@@ -271,7 +275,7 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
                         <SelectItem value="Humid Subtropical">{t('weatherPatterns.humidSubtropical')}</SelectItem>
                         <SelectItem value="Mountain">{t('weatherPatterns.mountain')}</SelectItem>
                       </SelectContent>
-                    </Select>
+                    </select>
                     <FormMessage />
                   </FormItem>
                 )}
