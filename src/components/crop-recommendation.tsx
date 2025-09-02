@@ -52,56 +52,52 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
   const audioRef = useRef<HTMLAudioElement>(null);
 
 
-  const handleGeoLocation = () => {
-    if (navigator.geolocation) {
-      setLoadingLocation(true);
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          const { latitude, longitude } = position.coords;
-          try {
-            const response = await handleLocationDetails({ latitude, longitude });
-
-            if (response.success && response.data) {
-              form.setValue('location', response.data.location);
-              form.setValue('weatherPatterns', response.data.weatherPatterns);
-              toast({
-                title: t('locationDetected.title'),
-                description: t('locationDetected.description'),
-              });
-              await handleSoilTypeGuess(response.data.location);
-            } else {
-              toast({
-                variant: 'destructive',
-                title: t('error.title'),
-                description: response.error,
-              });
-            }
-          } catch(e) {
-             toast({
-                variant: 'destructive',
-                title: t('geolocationError.title'),
-                description: t('geolocationError.description'),
-              });
-          } finally {
-            setLoadingLocation(false);
-          }
-        },
-        (error) => {
-          console.error(error);
-          toast({
-            variant: 'destructive',
-            title: t('geolocationError.title'),
-            description: t('geolocationError.description'),
-          });
-          setLoadingLocation(false);
-        }
-      );
-    } else {
+  const handleGeoLocation = async () => {
+    if (!navigator.geolocation) {
       toast({
         variant: 'destructive',
         title: t('geolocationNotSupported.title'),
         description: t('geolocationNotSupported.description'),
       });
+      return;
+    }
+
+    setLoadingLocation(true);
+
+    try {
+      const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject);
+      });
+
+      const { latitude, longitude } = position.coords;
+      const locationResponse = await handleLocationDetails({ latitude, longitude });
+
+      if (locationResponse.success && locationResponse.data) {
+        const { location, weatherPatterns } = locationResponse.data;
+        form.setValue('location', location);
+        form.setValue('weatherPatterns', weatherPatterns);
+        toast({
+          title: t('locationDetected.title'),
+          description: t('locationDetected.description'),
+        });
+
+        await handleSoilTypeGuess(location);
+      } else {
+        toast({
+          variant: 'destructive',
+          title: t('error.title'),
+          description: locationResponse.error,
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      toast({
+        variant: 'destructive',
+        title: t('geolocationError.title'),
+        description: t('geolocationError.description'),
+      });
+    } finally {
+      setLoadingLocation(false);
     }
   };
 
@@ -110,6 +106,7 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
     const response = await handleGuessSoilType({ location });
     if (response.success && response.data) {
       let soilType = response.data.soilType;
+      // This is a specific mapping to handle a mismatch between AI output and form value.
       if (soilType === "Red and Yellow") {
         soilType = "Red and Yellow";
       }
@@ -274,7 +271,7 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder={t('weatherPatterns.placeholder')} />
-                        </SelectTrigger>
+                        </Trigger>
                       </FormControl>
                       <SelectContent>
                         <SelectItem value="Tropical Monsoon">{t('weatherPatterns.tropicalMonsoon')}</SelectItem>
