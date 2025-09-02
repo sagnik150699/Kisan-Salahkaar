@@ -178,7 +178,14 @@ export function PestIdentification() {
     const response = await handleTextToSpeech({ text });
     if (response.success && response.data && audioRef.current) {
         audioRef.current.src = response.data.audioDataUri;
-        audioRef.current.play().catch(e => console.error("Audio play failed", e));
+        audioRef.current.play().catch(e => {
+          console.error("Audio play failed", e)
+          toast({
+            variant: 'destructive',
+            title: t('audioFailed.title'),
+            description: t('audioFailed.description'),
+          });
+        });
     } else {
         toast({
             variant: 'destructive',
