@@ -19,7 +19,7 @@
     "description": "Get AI-powered crop suggestions based on your local conditions."
   },
   "useMyLocation": "Use My Location",
-  "location": "Location (City/District)",
+  "location": "Location",
   "location.placeholder": "e.g., Mysore",
   "soilType": {
     "label": "Soil Type",
@@ -91,13 +91,14 @@
     "frost": "Frost warning tonight. Cover sensitive plants.",
     "rain": "Heavy rain expected tomorrow afternoon. Plan irrigation accordingly.",
     "sun": "Strong sun and high UV index for the next 3 days.",
-    "noAlerts": "No alerts found or location could not be determined."
+    "noAlerts": "Enter a location to see weather alerts."
   },
   "marketPrices": {
     "title": "Market Prices",
     "crop": "Crop",
     "market": "Market",
-    "price": "Price"
+    "price": "Price",
+    "noData": "Enter a location to see market prices."
   },
   "readAloud": "Read aloud",
   "audioFailed": {

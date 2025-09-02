@@ -5,6 +5,7 @@ import { identifyPestOrDisease, type IdentifyPestOrDiseaseInput } from '@/ai/flo
 import { getLocationDetails, type GetLocationDetailsInput } from '@/ai/flows/get-location-details';
 import { getWeatherAlerts, type GetWeatherAlertsInput } from '@/ai/flows/get-weather-alerts';
 import { textToSpeech, type TextToSpeechInput } from '@/ai/flows/text-to-speech';
+import { getMarketPrices, type GetMarketPricesInput } from '@/ai/flows/get-market-prices';
 
 
 export async function handleCropRecommendation(input: GenerateCropRecommendationsInput) {
@@ -54,5 +55,15 @@ export async function handleTextToSpeech(input: TextToSpeechInput) {
   } catch (error) {
     console.error(error);
     return { success: false, error: 'Failed to generate audio.' };
+  }
+}
+
+export async function handleGetMarketPrices(input: GetMarketPricesInput) {
+  try {
+    const result = await getMarketPrices(input);
+    return { success: true, data: result };
+  } catch (error) {
+    console.error(error);
+    return { success: false, error: 'Failed to get market prices.' };
   }
 }

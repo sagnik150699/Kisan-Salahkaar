@@ -30,6 +30,8 @@ export default function Home() {
     },
   });
 
+  const location = form.watch('location');
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header form={form} />
@@ -46,10 +48,10 @@ export default function Home() {
             <PestIdentification />
           </div>
           <div className="lg:col-span-1">
-            <WeatherAlerts />
+            <WeatherAlerts location={location} />
           </div>
           <div className="lg:col-span-1">
-            <MarketPrices />
+            <MarketPrices location={location} />
           </div>
         </div>
       </main>
