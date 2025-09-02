@@ -56,7 +56,7 @@
   },
   "geolocationError": {
     "title": "Geolocation Error",
-    "description": "Could not get your location. Please enter it manually."
+    "description": "Could not get your location. Please check your browser's site permissions and try again."
   },
   "geolocationNotSupported": {
     "title": "Geolocation Not Supported",
