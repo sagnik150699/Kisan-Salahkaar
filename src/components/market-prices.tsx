@@ -50,7 +50,9 @@ export function MarketPrices({ location }: MarketPricesProps) {
   }, [t, toast]);
 
   useEffect(() => {
-    fetchMarketPrices(location);
+    if (location) {
+      fetchMarketPrices(location);
+    }
   }, [location, fetchMarketPrices]);
 
 
