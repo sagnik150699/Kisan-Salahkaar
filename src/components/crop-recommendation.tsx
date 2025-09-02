@@ -227,8 +227,8 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
                   <FormItem>
                     <FormLabel>{t('location')}</FormLabel>
                     <FormControl>
-                      <Input 
-                        placeholder={t('location')} 
+                      <Input
+                        placeholder={t('location')}
                         {...field}
                         onBlur={() => handleSoilTypeGuess(field.value)}
                       />
