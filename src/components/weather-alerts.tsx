@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
@@ -78,8 +79,7 @@ export function WeatherAlerts() {
         description: t('geolocationNotSupported.description'),
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [t, toast]);
 
   useEffect(() => {
     fetchInitialData();
