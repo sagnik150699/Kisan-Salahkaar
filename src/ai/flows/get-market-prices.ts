@@ -35,7 +35,7 @@ const prompt = ai.definePrompt({
   name: 'getMarketPricesPrompt',
   input: {schema: GetMarketPricesInputSchema},
   output: {schema: GetMarketPricesOutputSchema},
-  prompt: `You are a helpful assistant that provides current market prices for crops. Given a location, provide a list of 5 common crops with their prices at a nearby major market.
+  prompt: `You are a helpful assistant that provides current market prices for crops. Given a location, provide a list of 5 common crops with their prices at a nearby major market. Ensure the currency is in Indian Rupees, using the '₹' symbol.
 
 Location: {{{location}}}
 

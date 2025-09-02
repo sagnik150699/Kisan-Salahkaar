@@ -29,16 +29,18 @@ export function WeatherAlerts({ location }: WeatherAlertsProps) {
   const { t } = useI18n();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const [alerts, setAlerts] = useState<GetWeatherAlertsOutput['alerts']>([]);
-  const [translations, setTranslations] = useState<GetWeatherAlertsOutput['translations']>({});
+  const [alerts, setAlerts] = useState<GetWeatherAlertsOutput['alerts'] | null>(null);
+  const [translations, setTranslations] = useState<GetWeatherAlertsOutput['translations'] | null>(null);
 
   const fetchWeatherAlerts = useCallback(async (currentLocation: string) => {
     if (!currentLocation) {
-        setAlerts([]);
-        setTranslations({});
+        setAlerts(null);
+        setTranslations(null);
         return;
     };
     setLoading(true);
+    setAlerts(null);
+    setTranslations(null);
     const response = await handleGetWeatherAlerts({ location: currentLocation });
 
     if (response.success && response.data) {
@@ -57,7 +59,12 @@ export function WeatherAlerts({ location }: WeatherAlertsProps) {
   }, [t, toast]);
 
   useEffect(() => {
-    fetchWeatherAlerts(location);
+    if (location) {
+      fetchWeatherAlerts(location);
+    } else {
+      setAlerts(null);
+      setTranslations(null);
+    }
   }, [location, fetchWeatherAlerts]);
 
   const renderedAlerts = useMemo(() => {
@@ -69,9 +76,14 @@ export function WeatherAlerts({ location }: WeatherAlertsProps) {
       );
     }
     
-    if (alerts.length === 0) {
+    if (!alerts) {
       return <p className="text-sm text-center text-muted-foreground">{t('weatherAlerts.noAlerts')}</p>;
     }
+
+    if (alerts.length === 0) {
+      return <p className="text-sm text-center text-muted-foreground">{t('weatherAlerts.noData')}</p>;
+    }
+
 
     return (
       <ul className="space-y-4">
@@ -79,7 +91,7 @@ export function WeatherAlerts({ location }: WeatherAlertsProps) {
           <li key={index} className="flex items-start gap-3">
             <div className="mt-1">{iconMap[alert.icon] || <BellDot className="w-5 h-5" />}</div>
             <div>
-                <p className="text-sm font-semibold">{translations[alert.textKey] || alert.textKey}</p>
+                <p className="text-sm font-semibold">{translations?.[alert.textKey] || alert.textKey}</p>
                 <p className="text-xs text-muted-foreground">{alert.time}</p>
             </div>
           </li>
