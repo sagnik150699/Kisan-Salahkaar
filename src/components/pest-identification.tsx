@@ -277,16 +277,12 @@ export function PestIdentification() {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-2">
-          <Label htmlFor="file-upload" className="flex-1 cursor-pointer bg-secondary text-secondary-foreground hover:bg-secondary/80 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2">
-            <Upload />
-            {t('chooseFile')}
-          </Label>
           <Input
             id="file-upload"
             type="file"
             accept="image/*"
             onChange={handleFileChange}
-            className="hidden"
+            className="flex-1 cursor-pointer"
             disabled={loading}
           />
           {isCropping && (
