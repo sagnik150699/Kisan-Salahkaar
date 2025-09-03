@@ -22,6 +22,7 @@ export type IdentifyPestOrDiseaseInput = z.infer<typeof IdentifyPestOrDiseaseInp
 const IdentifyPestOrDiseaseOutputSchema = z.object({
   diagnosis: z.string().describe('The diagnosis of the plant issue, pest or disease.'),
   organicRemedies: z.string().describe('Suggested organic remedies for the identified issue.'),
+  inorganicRemedies: z.string().describe('Suggested inorganic or chemical remedies for the identified issue.'),
 });
 export type IdentifyPestOrDiseaseOutput = z.infer<typeof IdentifyPestOrDiseaseOutputSchema>;
 
@@ -34,7 +35,7 @@ const prompt = ai.definePrompt({
   input: {schema: IdentifyPestOrDiseaseInputSchema},
   output: {schema: IdentifyPestOrDiseaseOutputSchema},
   model: 'googleai/gemini-1.5-pro',
-  prompt: `You are an expert in plant pathology. A farmer will provide a photo of a plant and you must diagnose the plant issue, pest or disease, and suggest organic remedies.
+  prompt: `You are an expert in plant pathology. A farmer will provide a photo of a plant and you must diagnose the plant issue, pest or disease. Then, suggest both organic and inorganic (chemical) remedies.
 
 Photo: {{media url=photoDataUri}}
 `,

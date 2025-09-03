@@ -3,7 +3,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
-import { Bug, Leaf, Loader2, Upload, Crop, Volume2, StopCircle, Camera } from 'lucide-react';
+import { Bug, Leaf, Loader2, Upload, Crop, Volume2, StopCircle, Camera, FlaskConical } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -281,7 +281,7 @@ export function PestIdentification() {
                     <Button
                         variant="ghost"
                         size="icon"
-                        onClick={() => handleReadAloud(`${t('diagnosis')}: ${result.diagnosis}. ${t('organicRemedies')}: ${result.organicRemedies}`)}
+                        onClick={() => handleReadAloud(`${t('diagnosis')}: ${result.diagnosis}. ${t('organicRemedies')}: ${result.organicRemedies}. ${t('inorganicRemedies')}: ${result.inorganicRemedies}`)}
                         disabled={loadingAudio}
                         aria-label={t('readAloud')}
                     >
@@ -290,9 +290,13 @@ export function PestIdentification() {
                 </div>
                 <p className="text-sm text-foreground/80">{result.diagnosis}</p>
             </div>
-            <div>
+            <div className="w-full">
               <h3 className="font-bold text-lg flex items-center gap-2"><Leaf className="w-5 h-5"/>{t('organicRemedies')}:</h3>
               <p className="text-sm text-foreground/80">{result.organicRemedies}</p>
+            </div>
+            <div className="w-full">
+              <h3 className="font-bold text-lg flex items-center gap-2"><FlaskConical className="w-5 h-5"/>{t('inorganicRemedies')}:</h3>
+              <p className="text-sm text-foreground/80">{result.inorganicRemedies}</p>
             </div>
           </CardFooter>
         </>
@@ -301,5 +305,3 @@ export function PestIdentification() {
     </Card>
   );
 }
-
-    

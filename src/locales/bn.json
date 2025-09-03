@@ -74,6 +74,7 @@
   "diagnosePlant": "উদ্ভিদ নির্ণয় করুন",
   "diagnosis": "রোগ নির্ণয়",
   "organicRemedies": "জৈব প্রতিকার",
+  "inorganicRemedies": "অজৈব প্রতিকার",
   "imageCropped": {
     "title": "ছবি কাটা হয়েছে",
     "description": "ছবিটি সফলভাবে কাটা হয়েছে।"

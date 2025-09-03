@@ -74,6 +74,7 @@
   "diagnosePlant": "Diagnose Plant",
   "diagnosis": "Diagnosis",
   "organicRemedies": "Organic Remedies",
+  "inorganicRemedies": "Inorganic Remedies",
   "imageCropped": {
     "title": "Image Cropped",
     "description": "The image has been successfully cropped."

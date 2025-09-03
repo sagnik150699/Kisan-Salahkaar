@@ -74,6 +74,7 @@
   "diagnosePlant": "தாவரத்தை கண்டறி",
   "diagnosis": "நோய் నిర్ధారణ",
   "organicRemedies": "கரிம சிகிச்சைகள்",
+  "inorganicRemedies": "கனிம சிகிச்சைகள்",
   "imageCropped": {
     "title": "படம் కత్తిరించబడింది",
     "description": "படம் வெற்றிகரமாக కత్తిరించబడింది."
