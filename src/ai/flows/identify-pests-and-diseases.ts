@@ -33,6 +33,7 @@ const prompt = ai.definePrompt({
   name: 'identifyPestOrDiseasePrompt',
   input: {schema: IdentifyPestOrDiseaseInputSchema},
   output: {schema: IdentifyPestOrDiseaseOutputSchema},
+  model: 'googleai/gemini-1.5-pro',
   prompt: `You are an expert in plant pathology. A farmer will provide a photo of a plant and you must diagnose the plant issue, pest or disease, and suggest organic remedies.
 
 Photo: {{media url=photoDataUri}}
