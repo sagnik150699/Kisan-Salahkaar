@@ -1,8 +1,9 @@
+
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
-import { Bug, Leaf, Loader2, Upload, Crop, Volume2, StopCircle } from 'lucide-react';
+import { Bug, Leaf, Loader2, Upload, Crop, Volume2, StopCircle, Camera } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -67,28 +68,26 @@ export function PestIdentification() {
   const [loadingAudio, setLoadingAudio] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [result, setResult] = useState<IdentifyPestOrDiseaseOutput | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [imageData, setImageData] = useState<string | null>(null);
+  const [imgSrc, setImgSrc] = useState('');
+  const [croppedImageData, setCroppedImageData] = useState<string | null>(null);
   const { toast } = useToast();
   const [crop, setCrop] = useState<CropType>();
   const [completedCrop, setCompletedCrop] = useState<CropType>();
   const imgRef = useRef<HTMLImageElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
-  const [isCropping, setIsCropping] = useState(false);
 
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      setCrop(undefined) // Makes crop preview update between images.
       const reader = new FileReader();
-      reader.onloadend = () => {
-        const dataUrl = reader.result as string;
-        setImagePreview(dataUrl);
-        setImageData(dataUrl);
-        setResult(null);
-        setIsCropping(true); // Enter cropping mode
-      };
+      reader.addEventListener('load', () =>
+        setImgSrc(reader.result?.toString() || ''),
+      )
       reader.readAsDataURL(file);
+      setResult(null);
+      setCroppedImageData(null);
     }
   };
 
@@ -120,9 +119,7 @@ export function PestIdentification() {
                 completedCrop,
                 'cropped-plant.jpg'
             );
-            setImagePreview(croppedDataUrl);
-            setImageData(croppedDataUrl);
-            setIsCropping(false);
+            setCroppedImageData(croppedDataUrl);
             toast({
                 title: t('imageCropped.title'),
                 description: t('imageCropped.description'),
@@ -140,7 +137,8 @@ export function PestIdentification() {
 
 
   const handleSubmit = async () => {
-    if (!imageData) {
+    const imageDataToSubmit = croppedImageData || imgSrc;
+    if (!imageDataToSubmit) {
       toast({
         variant: 'destructive',
         title: t('noImage.title'),
@@ -149,19 +147,10 @@ export function PestIdentification() {
       return;
     }
 
-    if(isCropping) {
-        toast({
-            variant: 'destructive',
-            title: t('cropInProgress.title'),
-            description: t('cropInProgress.description'),
-        });
-        return;
-    }
-
     setLoading(true);
     setResult(null);
 
-    const response = await handlePestIdentification({ photoDataUri: imageData });
+    const response = await handlePestIdentification({ photoDataUri: imageDataToSubmit });
 
     if (response.success && response.data) {
       setResult(response.data);
@@ -242,7 +231,7 @@ export function PestIdentification() {
       </CardHeader>
       <CardContent className="flex-grow flex flex-col gap-4">
         <div className="relative border-2 border-dashed border-border rounded-lg p-4 text-center h-64 flex flex-col items-center justify-center">
-          {imagePreview && isCropping ? (
+         {imgSrc ? (
             <ReactCrop
               crop={crop}
               onChange={(_, percentCrop) => setCrop(percentCrop)}
@@ -252,32 +241,25 @@ export function PestIdentification() {
             >
               <Image
                 ref={imgRef}
-                src={imagePreview}
+                src={imgSrc}
                 alt={t('pestIdentification.cropAlt')}
                 onLoad={onImageLoad}
                 fill
                 style={{ objectFit: 'contain' }}
               />
             </ReactCrop>
-          ) : imagePreview ? (
-             <Image
-              src={imagePreview}
-              alt={t('pestIdentification.previewAlt')}
-              fill
-              className="object-contain rounded-md"
-            />
           ) : (
-            <>
+            <div className="flex flex-col items-center justify-center h-full">
               <Upload className="mx-auto h-10 w-10 text-muted-foreground" />
               <p className="mt-2 text-sm text-muted-foreground">
                 {t('pestIdentification.uploadPlaceholder')}
               </p>
-            </>
+            </div>
           )}
         </div>
 
         <div className="flex flex-col sm:flex-row gap-2">
-          <Input
+           <Input
             id="file-upload"
             type="file"
             accept="image/*"
@@ -285,13 +267,13 @@ export function PestIdentification() {
             className="flex-1 cursor-pointer"
             disabled={loading}
           />
-          {isCropping && (
+          {imgSrc && (
              <Button onClick={handleCropImage} disabled={!completedCrop}>
                 <Crop className="mr-2 h-4 w-4" />
                 {t('cropImage')}
             </Button>
           )}
-          <Button onClick={handleSubmit} disabled={loading || !imageData || isCropping} className="w-full sm:w-auto">
+          <Button onClick={handleSubmit} disabled={loading || !imgSrc} className="w-full sm:w-auto">
             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {t('diagnosePlant')}
           </Button>
@@ -327,3 +309,5 @@ export function PestIdentification() {
     </Card>
   );
 }
+
+
