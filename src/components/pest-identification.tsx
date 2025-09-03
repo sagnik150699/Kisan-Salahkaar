@@ -26,22 +26,25 @@ import { Label } from './ui/label';
 function getCroppedImg(
   image: HTMLImageElement,
   crop: CropType,
-  fileName: string
 ): Promise<string> {
   const canvas = document.createElement('canvas');
   const scaleX = image.naturalWidth / image.width;
   const scaleY = image.naturalHeight / image.height;
-  canvas.width = crop.width;
-  canvas.height = crop.height;
+  
+  const targetWidth = crop.width;
+  const targetHeight = crop.height;
+  
+  canvas.width = targetWidth;
+  canvas.height = targetHeight;
   const ctx = canvas.getContext('2d');
 
   if (!ctx) {
     return Promise.reject(new Error('Failed to get canvas context'));
   }
 
-  const pixelRatio = window.devicePixelRatio;
-  canvas.width = crop.width * pixelRatio;
-  canvas.height = crop.height * pixelRatio;
+  const pixelRatio = window.devicePixelRatio || 1;
+  canvas.width = targetWidth * pixelRatio;
+  canvas.height = targetHeight * pixelRatio;
   ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
   ctx.imageSmoothingQuality = 'high';
 
@@ -53,14 +56,15 @@ function getCroppedImg(
     crop.height * scaleY,
     0,
     0,
-    crop.width,
-    crop.height
+    targetWidth,
+    targetHeight
   );
 
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     resolve(canvas.toDataURL('image/jpeg'));
   });
 }
+
 
 export function PestIdentification() {
   const { t } = useI18n();
@@ -69,7 +73,6 @@ export function PestIdentification() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [result, setResult] = useState<IdentifyPestOrDiseaseOutput | null>(null);
   const [imgSrc, setImgSrc] = useState('');
-  const [croppedImageData, setCroppedImageData] = useState<string | null>(null);
   const { toast } = useToast();
   const [crop, setCrop] = useState<CropType>();
   const [completedCrop, setCompletedCrop] = useState<CropType>();
@@ -81,13 +84,12 @@ export function PestIdentification() {
     const file = event.target.files?.[0];
     if (file) {
       setCrop(undefined) // Makes crop preview update between images.
+      setResult(null);
       const reader = new FileReader();
       reader.addEventListener('load', () =>
         setImgSrc(reader.result?.toString() || ''),
       )
       reader.readAsDataURL(file);
-      setResult(null);
-      setCroppedImageData(null);
     }
   };
 
@@ -111,34 +113,8 @@ export function PestIdentification() {
     setCompletedCrop(newCrop)
   };
 
-  const handleCropImage = async () => {
-    if (completedCrop && imgRef.current) {
-        try {
-            const croppedDataUrl = await getCroppedImg(
-                imgRef.current,
-                completedCrop,
-                'cropped-plant.jpg'
-            );
-            setCroppedImageData(croppedDataUrl);
-            toast({
-                title: t('imageCropped.title'),
-                description: t('imageCropped.description'),
-            });
-        } catch (error) {
-            console.error('Cropping failed', error);
-            toast({
-                variant: 'destructive',
-                title: t('croppingFailed.title'),
-                description: t('croppingFailed.description'),
-            });
-        }
-    }
-  };
-
-
   const handleSubmit = async () => {
-    const imageDataToSubmit = croppedImageData || imgSrc;
-    if (!imageDataToSubmit) {
+    if (!imgSrc) {
       toast({
         variant: 'destructive',
         title: t('noImage.title'),
@@ -146,9 +122,30 @@ export function PestIdentification() {
       });
       return;
     }
-
+    
     setLoading(true);
     setResult(null);
+    
+    let imageDataToSubmit = imgSrc;
+    if (completedCrop && imgRef.current && completedCrop.width > 0 && completedCrop.height > 0) {
+      try {
+        const croppedDataUrl = await getCroppedImg(
+          imgRef.current,
+          completedCrop
+        );
+        imageDataToSubmit = croppedDataUrl;
+      } catch (error) {
+        console.error('Cropping failed', error);
+        toast({
+            variant: 'destructive',
+            title: t('croppingFailed.title'),
+            description: t('croppingFailed.description'),
+        });
+        setLoading(false);
+        return;
+      }
+    }
+
 
     const response = await handlePestIdentification({ photoDataUri: imageDataToSubmit });
 
@@ -230,22 +227,23 @@ export function PestIdentification() {
         </CardDescription>
       </CardHeader>
       <CardContent className="flex-grow flex flex-col gap-4">
-        <div className="relative border-2 border-dashed border-border rounded-lg p-4 text-center h-64 flex flex-col items-center justify-center">
+        <div className="relative border-2 border-dashed border-border rounded-lg p-4 text-center min-h-64 flex flex-col items-center justify-center">
          {imgSrc ? (
             <ReactCrop
               crop={crop}
               onChange={(_, percentCrop) => setCrop(percentCrop)}
               onComplete={(c) => setCompletedCrop(c)}
               aspect={1}
-              className="max-h-full"
+              className="max-h-[50vh] w-auto"
             >
               <Image
                 ref={imgRef}
                 src={imgSrc}
                 alt={t('pestIdentification.cropAlt')}
                 onLoad={onImageLoad}
-                fill
-                style={{ objectFit: 'contain' }}
+                width={800}
+                height={600}
+                style={{ objectFit: 'contain', maxHeight: '50vh' }}
               />
             </ReactCrop>
           ) : (
@@ -267,12 +265,6 @@ export function PestIdentification() {
             className="flex-1 cursor-pointer"
             disabled={loading}
           />
-          {imgSrc && (
-             <Button onClick={handleCropImage} disabled={!completedCrop}>
-                <Crop className="mr-2 h-4 w-4" />
-                {t('cropImage')}
-            </Button>
-          )}
           <Button onClick={handleSubmit} disabled={loading || !imgSrc} className="w-full sm:w-auto">
             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {t('diagnosePlant')}
@@ -310,4 +302,4 @@ export function PestIdentification() {
   );
 }
 
-
+    
