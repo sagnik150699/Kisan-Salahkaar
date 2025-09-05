@@ -21,7 +21,6 @@ import { Separator } from './ui/separator';
 import ReactCrop, { type Crop as CropType, centerCrop, makeAspectCrop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import { useI18n } from '@/context/i18n-provider';
-import { Textarea } from './ui/textarea';
 
 function getCroppedImg(
   image: HTMLImageElement,
@@ -251,7 +250,7 @@ const RemedyChat = ({ diagnosis, remedy, remedyTitle }: { diagnosis: string, rem
 
 
 export function PestIdentification() {
-  const { t, language } = useI18n();
+  const { t } = useI18n();
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<IdentifyPestOrDiseaseOutput | null>(null);
   const [imgSrc, setImgSrc] = useState('');

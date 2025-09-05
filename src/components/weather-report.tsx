@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import {
   Card,
   CardContent,
@@ -53,52 +53,6 @@ export function WeatherReport({ location }: WeatherReportProps) {
     }
   }, [location, fetchWeatherReport]);
 
-  const renderedReport = useMemo(() => {
-     if (loading) {
-      return (
-        <div className="flex items-center justify-center h-40">
-          <Loader2 className="w-8 h-8 animate-spin" />
-        </div>
-      );
-    }
-    
-    if (!report) {
-      return <p className="text-sm text-center text-muted-foreground">{t('weatherReport.noData')}</p>;
-    }
-
-    return (
-        <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4 text-sm">
-                <div className="flex items-center gap-2">
-                    <Thermometer className="w-5 h-5 text-destructive" />
-                    <div>
-                        <p className="text-muted-foreground">{t('weatherReport.temperature')}</p>
-                        <p className="font-semibold">{report.temperature}</p>
-                    </div>
-                </div>
-                <div className="flex items-center gap-2">
-                    <Droplets className="w-5 h-5 text-blue-500" />
-                    <div>
-                        <p className="text-muted-foreground">{t('weatherReport.humidity')}</p>
-                        <p className="font-semibold">{report.humidity}</p>
-                    </div>
-                </div>
-                 <div className="flex items-center gap-2">
-                    <Wind className="w-5 h-5 text-gray-500" />
-                    <div>
-                        <p className="text-muted-foreground">{t('weatherReport.wind')}</p>
-                        <p className="font-semibold">{report.wind}</p>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <h4 className="font-semibold mb-1">{t('weatherReport.forecast')}</h4>
-                <p className="text-sm text-muted-foreground">{report.forecast}</p>
-            </div>
-        </div>
-    );
-  }, [report, loading, t]);
-
   return (
     <Card>
       <CardHeader>
@@ -108,7 +62,43 @@ export function WeatherReport({ location }: WeatherReportProps) {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        {renderedReport}
+        {loading ? (
+          <div className="flex items-center justify-center h-40">
+            <Loader2 className="w-8 h-8 animate-spin" />
+          </div>
+        ) : !report ? (
+          <p className="text-sm text-center text-muted-foreground">{t('weatherReport.noData')}</p>
+        ) : (
+          <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div className="flex items-center gap-2">
+                      <Thermometer className="w-5 h-5 text-destructive" />
+                      <div>
+                          <p className="text-muted-foreground">{t('weatherReport.temperature')}</p>
+                          <p className="font-semibold">{report.temperature}</p>
+                      </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                      <Droplets className="w-5 h-5 text-blue-500" />
+                      <div>
+                          <p className="text-muted-foreground">{t('weatherReport.humidity')}</p>
+                          <p className="font-semibold">{report.humidity}</p>
+                      </div>
+                  </div>
+                   <div className="flex items-center gap-2">
+                      <Wind className="w-5 h-5 text-gray-500" />
+                      <div>
+                          <p className="text-muted-foreground">{t('weatherReport.wind')}</p>
+                          <p className="font-semibold">{report.wind}</p>
+                      </div>
+                  </div>
+              </div>
+              <div>
+                  <h4 className="font-semibold mb-1">{t('weatherReport.forecast')}</h4>
+                  <p className="text-sm text-muted-foreground">{report.forecast}</p>
+              </div>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

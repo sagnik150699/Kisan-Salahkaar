@@ -173,7 +173,7 @@ const FollowUpChat = ({ recommendation }: { recommendation: string }) => {
 
     return (
         <div className="w-full mt-4 space-y-4 rounded-md border p-4">
-          <p className="text-sm text-foreground/80">{recommendation}</p>
+          <p className="text-sm text-foreground/80 whitespace-pre-wrap">{recommendation}</p>
 
           {followUp.messages.length > 0 && (
             <div className="space-y-4">
@@ -230,7 +230,7 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
   const [loadingLocation, setLoadingLocation] = useState(false);
   const [loadingAudio, setLoadingAudio] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [result, setResult] = useState<GenerateCropRecommendationsOutput | null>(null);
+  const [result, setResult] = useState<{ cropRecommendations: string } | null>(null);
   const { toast } = useToast();
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -489,7 +489,7 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
           </form>
         </Form>
       </CardContent>
-      {result && (
+      {result && result.cropRecommendations && (
         <>
         <Separator className="my-4" />
         <CardFooter className="flex-col items-start gap-2">
@@ -513,5 +513,3 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
     </Card>
   );
 }
-
-    
