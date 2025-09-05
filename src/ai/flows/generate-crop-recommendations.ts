@@ -18,12 +18,22 @@ const GenerateCropRecommendationsInputSchema = z.object({
 });
 export type GenerateCropRecommendationsInput = z.infer<typeof GenerateCropRecommendationsInputSchema>;
 
+const CropRecommendationSchema = z.object({
+    crop: z.string().describe('The name of the recommended crop.'),
+    reason: z.string().describe('A brief reason why this crop is recommended.'),
+});
+
 const GenerateCropRecommendationsOutputSchema = z.object({
-  cropRecommendations: z.string().describe('The recommended crops for the given location, soil type, and weather patterns.'),
+  cropRecommendations: z.array(CropRecommendationSchema).describe('A list of recommended crops.'),
+  introduction: z.string().describe('A short introductory paragraph describing why these crops are being recommended.'),
 });
 export type GenerateCropRecommendationsOutput = z.infer<typeof GenerateCropRecommendationsOutputSchema>;
 
-export async function generateCropRecommendations(input: GenerateCropRecommendationsInput): Promise<GenerateCropRecommendationsOutput> {
+const GenerateCropRecommendationsFlowOutputSchema = z.object({
+    cropRecommendations: z.string().describe('The formatted string of recommended crops for the given location, soil type, and weather patterns.'),
+});
+
+export async function generateCropRecommendations(input: GenerateCropRecommendationsInput): Promise<{ cropRecommendations: string }> {
   return generateCropRecommendationsFlow(input);
 }
 
@@ -32,25 +42,33 @@ const prompt = ai.definePrompt({
   input: {schema: GenerateCropRecommendationsInputSchema},
   output: {schema: GenerateCropRecommendationsOutputSchema},
   model: 'googleai/gemini-1.5-pro',
-  prompt: `You are an expert agricultural advisor. Based on the provided location, soil type, and weather patterns, recommend the best crops to plant.
+  prompt: `You are an expert agricultural advisor. Based on the provided location, soil type, and weather patterns, recommend the 3 best crops to plant.
+
+For each crop, provide a brief reason for the recommendation. Also provide a short introductory paragraph explaining the overall recommendation.
 
 Respond in the following language: {{{language}}}
 
 Location: {{{location}}}
 Soil Type: {{{soilType}}}
-Weather Patterns: {{{weatherPatterns}}}
-
-Give a short paragraph describing why you are recommending these crops.`,
+Weather Patterns: {{{weatherPatterns}}}`,
 });
 
 const generateCropRecommendationsFlow = ai.defineFlow(
   {
     name: 'generateCropRecommendationsFlow',
     inputSchema: GenerateCropRecommendationsInputSchema,
-    outputSchema: GenerateCropRecommendationsOutputSchema,
+    outputSchema: GenerateCropRecommendationsFlowOutputSchema,
   },
   async input => {
     const {output} = await prompt(input);
-    return output!;
+    if (!output) {
+      throw new Error('No output from prompt');
+    }
+    
+    const formattedRecommendations = `${output.introduction}\n\n${output.cropRecommendations.map(rec => `**${rec.crop}:** ${rec.reason}`).join('\n\n')}`;
+    
+    return {
+        cropRecommendations: formattedRecommendations,
+    };
   }
 );
