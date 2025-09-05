@@ -112,7 +112,8 @@
     "description": "Could not generate audio for the text."
   },
   "followUp": {
-    "placeholder": "Ask a follow-up question..."
+    "placeholder": "Ask a follow-up question...",
+    "placeholderRecommendation": "Ask about these recommendations..."
   },
   "you": "You",
   "assistant": "Assistant",
