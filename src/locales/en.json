@@ -116,5 +116,15 @@
   },
   "you": "You",
   "assistant": "Assistant",
-  "send": "Send"
+  "send": "Send",
+  "startRecording": "Start recording",
+  "stopRecording": "Stop recording",
+  "speechNotSupported": {
+    "title": "Speech Recognition Not Supported",
+    "description": "Your browser does not support speech recognition."
+  },
+  "speechError": {
+    "title": "Speech Recognition Error",
+    "description": "An error occurred during speech recognition. Please try again."
+  }
 }

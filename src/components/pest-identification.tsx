@@ -3,7 +3,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
-import { Bug, Leaf, Loader2, Upload, Volume2, StopCircle, FlaskConical, Send, Mic } from 'lucide-react';
+import { Bug, Leaf, Loader2, Upload, Volume2, StopCircle, FlaskConical, Send, Mic, MicOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -82,7 +82,53 @@ const RemedyChat = ({ diagnosis, remedy, remedyTitle }: { diagnosis: string, rem
     const [followUp, setFollowUp] = useState<FollowUpState>({ question: '', loading: false, messages: [] });
     const [loadingAudio, setLoadingAudio] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
+    const [isRecording, setIsRecording] = useState(false);
     const audioRef = useRef<HTMLAudioElement>(null);
+    const recognitionRef = useRef<any>(null);
+
+     useEffect(() => {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (SpeechRecognition) {
+            recognitionRef.current = new SpeechRecognition();
+            recognitionRef.current.continuous = false;
+            recognitionRef.current.interimResults = true;
+            recognitionRef.current.lang = language;
+
+            recognitionRef.current.onresult = (event: any) => {
+                const transcript = Array.from(event.results)
+                    .map((result: any) => result[0])
+                    .map((result) => result.transcript)
+                    .join('');
+                setFollowUp(prev => ({ ...prev, question: transcript }));
+            };
+
+            recognitionRef.current.onerror = (event: any) => {
+                console.error("Speech recognition error", event.error);
+                toast({ variant: "destructive", title: t('speechError.title'), description: t('speechError.description') });
+                setIsRecording(false);
+            };
+
+            recognitionRef.current.onend = () => {
+                setIsRecording(false);
+            };
+        }
+    }, [language, t, toast]);
+    
+    const handleVoiceInput = () => {
+        if (!recognitionRef.current) {
+            toast({ variant: "destructive", title: t('speechNotSupported.title'), description: t('speechNotSupported.description')});
+            return;
+        }
+
+        if (isRecording) {
+            recognitionRef.current.stop();
+            setIsRecording(false);
+        } else {
+            recognitionRef.current.start();
+            setIsRecording(true);
+        }
+    };
+
 
     const handleFollowUpSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -194,8 +240,9 @@ const RemedyChat = ({ diagnosis, remedy, remedyTitle }: { diagnosis: string, rem
             <Button type="submit" size="icon" disabled={followUp.loading || !followUp.question.trim()}>
               {followUp.loading ? <Loader2 className="animate-spin" /> : <Send />}
             </Button>
-            {/* Voice button can be enabled here in the future */}
-            {/* <Button type="button" size="icon" variant="outline" disabled={followUp.loading}><Mic /></Button> */}
+            <Button type="button" size="icon" variant={isRecording ? "destructive" : "outline"} onClick={handleVoiceInput} disabled={followUp.loading} aria-label={isRecording ? t('stopRecording') : t('startRecording')}>
+              {isRecording ? <MicOff /> : <Mic />}
+            </Button>
           </form>
            <audio ref={audioRef} className="hidden" />
         </div>
