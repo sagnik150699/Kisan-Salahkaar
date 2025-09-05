@@ -24,4 +24,7 @@ Kisan Salahkaar is an AI-powered agricultural advisor application designed to as
 
 ## Built By
 
-*   **Sagnik Bhattacharya** - [linkedin.com/in/sagnik-bhattacharya-916b9463/](https://linkedin.com/in/sagnik-bhattacharya-916b9463/)
+*   **Sagnik Bhattacharya**
+    *   **LinkedIn**: [linkedin.com/in/sagnik-bhattacharya-916b9463/](https://linkedin.com/in/sagnik-bhattacharya-916b9463/)
+    *   **Udemy**: [udemy.com/user/sagnik-bhattacharya-5/](https://www.udemy.com/user/sagnik-bhattacharya-5/)
+    *   **YouTube**: [youtube.com/@sagnikteaches](https://www.youtube.com/@sagnikteaches)
