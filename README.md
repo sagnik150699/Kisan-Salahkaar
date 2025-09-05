@@ -4,7 +4,7 @@ Kisan Salahkaar is an AI-powered agricultural advisor application designed to as
 
 ## Live Demo
 
-[Link to your live application will be available here once deployed]
+[https://studio--kisan-salahkaar.us-central1.hosted.app](https://studio--kisan-salahkaar.us-central1.hosted.app)
 
 ## Key Features
 
