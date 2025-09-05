@@ -31,6 +31,7 @@ const prompt = ai.definePrompt({
   name: 'followUpRemedyQuestionPrompt',
   input: { schema: FollowUpRemedyQuestionInputSchema },
   output: { schema: FollowUpRemedyQuestionOutputSchema },
+  model: 'googleai/gemini-1.5-pro',
   prompt: `You are an expert agricultural advisor. A user has received a diagnosis and a suggested remedy for their plant. They now have a follow-up question. Provide a clear and concise answer to their question based on the context provided.
 
 Respond in the following language: {{{language}}}
