@@ -20,9 +20,9 @@ const IdentifyPestOrDiseaseInputSchema = z.object({
 export type IdentifyPestOrDiseaseInput = z.infer<typeof IdentifyPestOrDiseaseInputSchema>;
 
 const IdentifyPestOrDiseaseOutputSchema = z.object({
-  diagnosis: z.string().describe('The diagnosis of the plant issue, pest or disease.'),
-  organicRemedies: z.string().describe('Suggested organic remedies for the identified issue.'),
-  inorganicRemedies: z.string().describe('Suggested inorganic or chemical remedies for the identified issue.'),
+  diagnosis: z.string().describe('The diagnosis of the plant issue, pest or disease. If the image is not a plant or is unclear, state that you can only analyze clear images of plants.'),
+  organicRemedies: z.string().describe('Suggested organic remedies for the identified issue. If no plant is detected, state that remedies cannot be provided.'),
+  inorganicRemedies: z.string().describe('Suggested inorganic or chemical remedies for the identified issue. If no plant is detected, state that remedies cannot be provided.'),
 });
 export type IdentifyPestOrDiseaseOutput = z.infer<typeof IdentifyPestOrDiseaseOutputSchema>;
 
@@ -36,6 +36,8 @@ const prompt = ai.definePrompt({
   output: {schema: IdentifyPestOrDiseaseOutputSchema},
   model: 'googleai/gemini-1.5-pro',
   prompt: `You are an expert in plant pathology. A farmer will provide a photo of a plant and you must diagnose the plant issue, pest or disease. Then, suggest both organic and inorganic (chemical) remedies.
+
+If the image is not a plant or is unclear, state that you can only analyze clear images of plants and cannot provide a diagnosis or remedies.
 
 Photo: {{media url=photoDataUri}}
 `,

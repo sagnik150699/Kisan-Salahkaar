@@ -42,7 +42,9 @@ const prompt = ai.definePrompt({
   input: {schema: GenerateCropRecommendationsInputSchema},
   output: {schema: GenerateCropRecommendationsOutputSchema},
   model: 'googleai/gemini-1.5-pro',
-  prompt: `You are an expert agricultural advisor. Based on the provided location, soil type, and weather patterns, recommend the 3 best crops to plant.
+  prompt: `You are an expert agricultural advisor. Your role is to assist with farming-related questions. If you receive irrelevant or non-agricultural input, provide a helpful message about your purpose.
+
+Based on the provided location, soil type, and weather patterns, recommend the 3 best crops to plant.
 
 For each crop, provide a brief reason for the recommendation. Also provide a short introductory paragraph explaining the overall recommendation.
 
