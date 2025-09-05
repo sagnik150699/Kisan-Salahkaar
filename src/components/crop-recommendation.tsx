@@ -108,10 +108,7 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
     try {
       const response = await handleGuessSoilType({ location });
       if (response.success && response.data) {
-        let soilType = response.data.soilType;
-        if (soilType === "Red and Yellow") {
-          soilType = "Red and Yellow";
-        }
+        const soilType = response.data.soilType;
         form.setValue('soilType', soilType);
          toast({
           title: t('soilTypeGuessed.title'),
