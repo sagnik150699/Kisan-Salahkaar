@@ -7,6 +7,7 @@ import { getWeatherReport, type GetWeatherReportInput } from '@/ai/flows/get-wea
 import { textToSpeech, type TextToSpeechInput } from '@/ai/flows/text-to-speech';
 import { getMarketPrices, type GetMarketPricesInput } from '@/ai/flows/get-market-prices';
 import { guessSoilType, type GuessSoilTypeInput } from '@/ai/flows/guess-soil-type';
+import { followUpRemedyQuestion, type FollowUpRemedyQuestionInput } from '@/ai/flows/follow-up-remedy-question';
 
 
 export async function handleCropRecommendation(input: GenerateCropRecommendationsInput) {
@@ -76,5 +77,15 @@ export async function handleGuessSoilType(input: GuessSoilTypeInput) {
   } catch (error) {
     console.error(error);
     return { success: false, error: 'Failed to guess soil type.' };
+  }
+}
+
+export async function handleFollowUpRemedyQuestion(input: FollowUpRemedyQuestionInput) {
+  try {
+    const result = await followUpRemedyQuestion(input);
+    return { success: true, data: result };
+  } catch (error) {
+    console.error(error);
+    return { success: false, error: 'Failed to get a follow-up answer.' };
   }
 }

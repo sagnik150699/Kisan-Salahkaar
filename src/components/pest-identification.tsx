@@ -3,7 +3,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
-import { Bug, Leaf, Loader2, Upload, Crop, Volume2, StopCircle, Camera, FlaskConical } from 'lucide-react';
+import { Bug, Leaf, Loader2, Upload, Volume2, StopCircle, FlaskConical, Send, Mic } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -14,14 +14,14 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { handlePestIdentification, handleTextToSpeech } from '@/lib/actions';
+import { handlePestIdentification, handleTextToSpeech, handleFollowUpRemedyQuestion } from '@/lib/actions';
 import type { IdentifyPestOrDiseaseOutput } from '@/ai/flows/identify-pests-and-diseases';
 import { useToast } from '@/hooks/use-toast';
 import { Separator } from './ui/separator';
 import ReactCrop, { type Crop as CropType, centerCrop, makeAspectCrop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import { useI18n } from '@/context/i18n-provider';
-import { Label } from './ui/label';
+import { Textarea } from './ui/textarea';
 
 function getCroppedImg(
   image: HTMLImageElement,
@@ -65,21 +65,154 @@ function getCroppedImg(
   });
 }
 
+interface ChatMessages {
+  user: string;
+  assistant: string;
+}
+
+interface FollowUpState {
+  question: string;
+  loading: boolean;
+  messages: ChatMessages[];
+}
+
+const RemedyChat = ({ diagnosis, remedy, remedyTitle }: { diagnosis: string, remedy: string, remedyTitle: string }) => {
+    const { t, language } = useI18n();
+    const { toast } = useToast();
+    const [followUp, setFollowUp] = useState<FollowUpState>({ question: '', loading: false, messages: [] });
+    const [loadingAudio, setLoadingAudio] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const audioRef = useRef<HTMLAudioElement>(null);
+
+    const handleFollowUpSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!followUp.question.trim()) return;
+
+        setFollowUp(prev => ({ ...prev, loading: true }));
+
+        const response = await handleFollowUpRemedyQuestion({
+            diagnosis,
+            remedy,
+            question: followUp.question,
+            language,
+        });
+
+        if (response.success && response.data) {
+            setFollowUp(prev => ({
+                ...prev,
+                loading: false,
+                question: '',
+                messages: [...prev.messages, { user: prev.question, assistant: response.data.answer }],
+            }));
+        } else {
+            toast({
+                variant: 'destructive',
+                title: t('error.title'),
+                description: response.error,
+            });
+            setFollowUp(prev => ({ ...prev, loading: false }));
+        }
+    };
+    
+    const handleReadAloud = async (text: string) => {
+        if (isPlaying && audioRef.current) {
+            audioRef.current.pause();
+            audioRef.current.currentTime = 0;
+            setIsPlaying(false);
+            setLoadingAudio(false);
+            return;
+        }
+
+        setLoadingAudio(true);
+        const response = await handleTextToSpeech({ text });
+        if (response.success && response.data && audioRef.current) {
+            audioRef.current.src = response.data.audioDataUri;
+            audioRef.current.play().catch(err => {
+                console.error("Audio play failed", err);
+                toast({ variant: 'destructive', title: t('audioFailed.title'), description: t('audioFailed.description') });
+                setLoadingAudio(false);
+            });
+        } else {
+            toast({ variant: 'destructive', title: t('audioFailed.title'), description: response.error || t('audioFailed.description') });
+            setLoadingAudio(false);
+        }
+    };
+
+    useEffect(() => {
+        const audioElement = audioRef.current;
+        if (audioElement) {
+            const onPlaying = () => { setLoadingAudio(false); setIsPlaying(true); };
+            const onEnded = () => setIsPlaying(false);
+            const onPause = () => setIsPlaying(false);
+            audioElement.addEventListener('playing', onPlaying);
+            audioElement.addEventListener('ended', onEnded);
+            audioElement.addEventListener('pause', onPause);
+            return () => {
+                audioElement.removeEventListener('playing', onPlaying);
+                audioElement.removeEventListener('ended', onEnded);
+                audioElement.removeEventListener('pause', onPause);
+            };
+        }
+    }, []);
+
+    return (
+        <div className="w-full mt-4 space-y-4 rounded-md border p-4">
+          <p className="text-sm text-foreground/80">{remedy}</p>
+
+          {followUp.messages.length > 0 && (
+            <div className="space-y-4">
+              {followUp.messages.map((msg, index) => (
+                <div key={index} className="space-y-2">
+                  <p className="font-semibold text-sm">{t('you')}: <span className="font-normal">{msg.user}</span></p>
+                  <div className="flex items-start gap-2">
+                    <p className="font-semibold text-sm">{t('assistant')}: <span className="font-normal">{msg.assistant}</span></p>
+                     <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-6 w-6 shrink-0"
+                        onClick={() => handleReadAloud(msg.assistant)}
+                        disabled={loadingAudio}
+                        aria-label={t('readAloud')}
+                    >
+                        {loadingAudio ? <Loader2 className="animate-spin" /> : isPlaying ? <StopCircle /> : <Volume2 />}
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <form onSubmit={handleFollowUpSubmit} className="flex items-center gap-2">
+            <Input
+              type="text"
+              value={followUp.question}
+              onChange={(e) => setFollowUp(prev => ({ ...prev, question: e.target.value }))}
+              placeholder={t('followUp.placeholder')}
+              className="flex-grow"
+              disabled={followUp.loading}
+            />
+            <Button type="submit" size="icon" disabled={followUp.loading || !followUp.question.trim()}>
+              {followUp.loading ? <Loader2 className="animate-spin" /> : <Send />}
+            </Button>
+            {/* Voice button can be enabled here in the future */}
+            {/* <Button type="button" size="icon" variant="outline" disabled={followUp.loading}><Mic /></Button> */}
+          </form>
+           <audio ref={audioRef} className="hidden" />
+        </div>
+    )
+}
+
 
 export function PestIdentification() {
-  const { t } = useI18n();
+  const { t, language } = useI18n();
   const [loading, setLoading] = useState(false);
-  const [loadingAudio, setLoadingAudio] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
   const [result, setResult] = useState<IdentifyPestOrDiseaseOutput | null>(null);
   const [imgSrc, setImgSrc] = useState('');
   const { toast } = useToast();
   const [crop, setCrop] = useState<CropType>();
   const [completedCrop, setCompletedCrop] = useState<CropType>();
   const imgRef = useRef<HTMLImageElement>(null);
-  const audioRef = useRef<HTMLAudioElement>(null);
-
-
+  
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -161,59 +294,6 @@ export function PestIdentification() {
     setLoading(false);
   };
 
-  const handleReadAloud = async (text: string) => {
-    if (isPlaying && audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0;
-      setIsPlaying(false);
-      setLoadingAudio(false);
-      return;
-    }
-
-    setLoadingAudio(true);
-    const response = await handleTextToSpeech({ text });
-    if (response.success && response.data && audioRef.current) {
-        audioRef.current.src = response.data.audioDataUri;
-        audioRef.current.play().catch(e => {
-          console.error("Audio play failed", e)
-          toast({
-            variant: 'destructive',
-            title: t('audioFailed.title'),
-            description: t('audioFailed.description'),
-          });
-          setLoadingAudio(false);
-        });
-    } else {
-        toast({
-            variant: 'destructive',
-            title: t('audioFailed.title'),
-            description: response.error || t('audioFailed.description'),
-        });
-        setLoadingAudio(false);
-    }
-  };
-  
-  useEffect(() => {
-    const audioElement = audioRef.current;
-    if (audioElement) {
-      const onPlaying = () => {
-        setIsPlaying(true);
-        setLoadingAudio(false);
-      };
-      const onEnded = () => setIsPlaying(false);
-      const onPause = () => setIsPlaying(false);
-
-      audioElement.addEventListener('playing', onPlaying);
-      audioElement.addEventListener('ended', onEnded);
-      audioElement.addEventListener('pause', onPause);
-
-      return () => {
-        audioElement.removeEventListener('playing', onPlaying);
-        audioElement.removeEventListener('ended', onEnded);
-        audioElement.removeEventListener('pause', onPause);
-      };
-    }
-  }, []);
 
   return (
     <Card className="flex flex-col h-full">
@@ -278,30 +358,20 @@ export function PestIdentification() {
              <div className="w-full">
                 <div className="flex items-center justify-between w-full">
                     <h3 className="font-bold text-lg flex items-center gap-2"><Bug className="w-5 h-5"/>{t('diagnosis')}:</h3>
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => handleReadAloud(`${t('diagnosis')}: ${result.diagnosis}. ${t('organicRemedies')}: ${result.organicRemedies}. ${t('inorganicRemedies')}: ${result.inorganicRemedies}`)}
-                        disabled={loadingAudio}
-                        aria-label={t('readAloud')}
-                    >
-                        {loadingAudio ? <Loader2 className="animate-spin" /> : isPlaying ? <StopCircle /> : <Volume2 />}
-                    </Button>
                 </div>
                 <p className="text-sm text-foreground/80">{result.diagnosis}</p>
             </div>
             <div className="w-full">
               <h3 className="font-bold text-lg flex items-center gap-2"><Leaf className="w-5 h-5"/>{t('organicRemedies')}:</h3>
-              <p className="text-sm text-foreground/80">{result.organicRemedies}</p>
+              <RemedyChat diagnosis={result.diagnosis} remedy={result.organicRemedies} remedyTitle={t('organicRemedies')} />
             </div>
             <div className="w-full">
               <h3 className="font-bold text-lg flex items-center gap-2"><FlaskConical className="w-5 h-5"/>{t('inorganicRemedies')}:</h3>
-              <p className="text-sm text-foreground/80">{result.inorganicRemedies}</p>
+              <RemedyChat diagnosis={result.diagnosis} remedy={result.inorganicRemedies} remedyTitle={t('inorganicRemedies')} />
             </div>
           </CardFooter>
         </>
       )}
-      <audio ref={audioRef} className="hidden" />
     </Card>
   );
 }

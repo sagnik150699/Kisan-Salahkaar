@@ -110,7 +110,11 @@
   "audioFailed": {
     "title": "Audio Failed",
     "description": "Could not generate audio for the text."
-  }
+  },
+  "followUp": {
+    "placeholder": "Ask a follow-up question..."
+  },
+  "you": "You",
+  "assistant": "Assistant",
+  "send": "Send"
 }
-
-    
