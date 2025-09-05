@@ -64,43 +64,52 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
 
     setLoadingLocation(true);
 
-    try {
-      const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject);
-      });
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        try {
+          const locationResponse = await handleLocationDetails({ latitude, longitude });
 
-      const { latitude, longitude } = position.coords;
-      const locationResponse = await handleLocationDetails({ latitude, longitude });
+          if (locationResponse.success && locationResponse.data) {
+            const { location, weatherPatterns } = locationResponse.data;
+            form.setValue('location', location);
+            form.setValue('weatherPatterns', weatherPatterns);
+            toast({
+              title: t('locationDetected.title'),
+              description: t('locationDetected.description'),
+            });
+            
+            // Now guess the soil type
+            await handleSoilTypeGuess(location);
 
-      if (locationResponse.success && locationResponse.data) {
-        const { location, weatherPatterns } = locationResponse.data;
-        form.setValue('location', location);
-        form.setValue('weatherPatterns', weatherPatterns);
-        toast({
-          title: t('locationDetected.title'),
-          description: t('locationDetected.description'),
-        });
-        
-        // Now guess the soil type
-        await handleSoilTypeGuess(location);
-
-      } else {
-        toast({
-          variant: 'destructive',
-          title: t('error.title'),
-          description: locationResponse.error,
-        });
-      }
-    } catch (error) {
-        console.error(error);
+          } else {
+            toast({
+              variant: 'destructive',
+              title: t('error.title'),
+              description: locationResponse.error,
+            });
+          }
+        } catch (apiError) {
+           console.error("API Error fetching location details:", apiError);
+           toast({
+              variant: 'destructive',
+              title: t('error.title'),
+              description: t('geolocationError.description'), // Generic API error
+           });
+        } finally {
+            setLoadingLocation(false);
+        }
+      },
+      (error) => {
+        console.error("Geolocation Error:", error.message);
         toast({
           variant: 'destructive',
           title: t('geolocationError.title'),
-          description: t('geolocationError.description'),
+          description: t('geolocationError.description'), // More specific error for permissions
         });
-    } finally {
         setLoadingLocation(false);
-    }
+      }
+    );
   };
 
   const handleSoilTypeGuess = async (location: string) => {
@@ -321,3 +330,5 @@ export function CropRecommendation({ form, loading, setLoading }: CropRecommenda
     </Card>
   );
 }
+
+    
