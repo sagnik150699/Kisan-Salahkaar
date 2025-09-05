@@ -47,10 +47,10 @@ export default function Home() {
           <div className="lg:row-span-2">
             <PestIdentification />
           </div>
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-2">
             <WeatherReport location={location} />
           </div>
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-2">
             <MarketPrices location={location} />
           </div>
         </div>
