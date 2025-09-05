@@ -2,6 +2,10 @@
 
 Kisan Salahkaar is an AI-powered agricultural advisor application designed to assist Indian farmers with their daily farming needs. Built with Next.js, Genkit, and Gemini, this application provides real-time, multilingual support for crop recommendations, pest and disease identification, and market information.
 
+## Live Demo
+
+[Link to your live application will be available here once deployed]
+
 ## Key Features
 
 *   **AI-Powered Crop Recommendations**: Get suggestions for the best crops to plant based on your location, soil type, and local weather patterns.
