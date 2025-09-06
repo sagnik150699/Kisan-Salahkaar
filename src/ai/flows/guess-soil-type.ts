@@ -45,6 +45,14 @@ const guessSoilTypeFlow = ai.defineFlow(
     name: 'guessSoilTypeFlow',
     inputSchema: GuessSoilTypeInputSchema,
     outputSchema: GuessSoilTypeOutputSchema,
+    cache: {
+        duration: 3600, // 1 hour
+    },
+    rateLimit: {
+      key: 'user',
+      queries: 10,
+      per: 'minute',
+    },
   },
   async input => {
     const {output} = await prompt(input);

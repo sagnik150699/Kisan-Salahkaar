@@ -17,7 +17,7 @@ export async function handleCropRecommendation(input: GenerateCropRecommendation
     return { success: true, data: result };
   } catch (error) {
     console.error(error);
-    return { success: false, error: 'Failed to get crop recommendations.' };
+    return { success: false, error: 'Failed to get crop recommendations. Please check your connection or try again later.' };
   }
 }
 
@@ -27,7 +27,7 @@ export async function handlePestIdentification(input: IdentifyPestOrDiseaseInput
     return { success: true, data: result };
   } catch (error) {
     console.error(error);
-    return { success: false, error: 'Failed to identify pest or disease.' };
+    return { success: false, error: 'Failed to identify pest or disease. The AI may be unavailable, or the image may be invalid.' };
   }
 }
 
@@ -37,7 +37,7 @@ export async function handleLocationDetails(input: GetLocationDetailsInput) {
         return { success: true, data: result };
     } catch (error) {
         console.error(error);
-        return { success: false, error: 'Failed to get location details.' };
+        return { success: false, error: 'Failed to get location details. Please try again.' };
     }
 }
 
@@ -47,7 +47,7 @@ export async function handleGetWeatherReport(input: GetWeatherReportInput) {
         return { success: true, data: result };
     } catch (error) {
         console.error(error);
-        return { success: false, error: 'Failed to get weather report.' };
+        return { success: false, error: 'Failed to get weather report. Please check the location and try again.' };
     }
 }
 
@@ -57,7 +57,7 @@ export async function handleTextToSpeech(input: TextToSpeechInput) {
     return { success: true, data: result };
   } catch (error) {
     console.error(error);
-    return { success: false, error: 'Failed to generate audio.' };
+    return { success: false, error: 'Failed to generate audio. The text-to-speech service may be temporarily unavailable.' };
   }
 }
 
@@ -67,7 +67,7 @@ export async function handleGetMarketPrices(input: GetMarketPricesInput) {
     return { success: true, data: result };
   } catch (error) {
     console.error(error);
-    return { success: false, error: 'Failed to get market prices.' };
+    return { success: false, error: 'Failed to get market prices. Please check the location and try again.' };
   }
 }
 
@@ -77,7 +77,7 @@ export async function handleGuessSoilType(input: GuessSoilTypeInput) {
     return { success: true, data: result };
   } catch (error) {
     console.error(error);
-    return { success: false, error: 'Failed to guess soil type.' };
+    return { success: false, error: 'Failed to guess soil type. Please select one manually.' };
   }
 }
 
@@ -87,7 +87,7 @@ export async function handleFollowUpRemedyQuestion(input: FollowUpRemedyQuestion
     return { success: true, data: result };
   } catch (error) {
     console.error(error);
-    return { success: false, error: 'Failed to get a follow-up answer.' };
+    return { success: false, error: 'Failed to get a follow-up answer. The AI may be temporarily unavailable.' };
   }
 }
 
@@ -97,6 +97,6 @@ export async function handleFollowUpCropQuestion(input: FollowUpCropQuestionInpu
     return { success: true, data: result };
   } catch (error) {
     console.error(error);
-    return { success: false, error: 'Failed to get a follow-up answer.' };
+    return { success: false, error: 'Failed to get a follow-up answer. The AI may be temporarily unavailable.' };
   }
 }

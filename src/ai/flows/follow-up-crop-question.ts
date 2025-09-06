@@ -48,6 +48,11 @@ const followUpCropQuestionFlow = ai.defineFlow(
     name: 'followUpCropQuestionFlow',
     inputSchema: FollowUpCropQuestionInputSchema,
     outputSchema: FollowUpCropQuestionOutputSchema,
+    rateLimit: {
+      key: 'user',
+      queries: 10,
+      per: 'minute',
+    },
   },
   async (input) => {
     const { output } = await prompt(input);

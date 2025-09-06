@@ -50,6 +50,11 @@ const followUpRemedyQuestionFlow = ai.defineFlow(
     name: 'followUpRemedyQuestionFlow',
     inputSchema: FollowUpRemedyQuestionInputSchema,
     outputSchema: FollowUpRemedyQuestionOutputSchema,
+    rateLimit: {
+      key: 'user',
+      queries: 10,
+      per: 'minute',
+    },
   },
   async (input) => {
     const { output } = await prompt(input);

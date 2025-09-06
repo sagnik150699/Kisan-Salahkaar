@@ -50,6 +50,14 @@ const getWeatherReportFlow = ai.defineFlow(
     name: 'getWeatherReportFlow',
     inputSchema: GetWeatherReportInputSchema,
     outputSchema: GetWeatherReportOutputSchema,
+    cache: {
+      duration: 3600, // 1 hour
+    },
+    rateLimit: {
+      key: 'user',
+      queries: 10,
+      per: 'minute',
+    },
   },
   async input => {
     const {output} = await prompt(input);

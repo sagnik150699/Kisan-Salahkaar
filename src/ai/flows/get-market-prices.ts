@@ -56,6 +56,14 @@ const getMarketPricesFlow = ai.defineFlow(
     name: 'getMarketPricesFlow',
     inputSchema: GetMarketPricesInputSchema,
     outputSchema: GetMarketPricesOutputSchema,
+    cache: {
+      duration: 3600, // 1 hour
+    },
+    rateLimit: {
+      key: 'user',
+      queries: 10,
+      per: 'minute',
+    },
   },
   async input => {
     const {output} = await prompt(input);

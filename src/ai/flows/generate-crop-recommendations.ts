@@ -60,6 +60,14 @@ const generateCropRecommendationsFlow = ai.defineFlow(
     name: 'generateCropRecommendationsFlow',
     inputSchema: GenerateCropRecommendationsInputSchema,
     outputSchema: GenerateCropRecommendationsFlowOutputSchema,
+    cache: {
+        duration: 3600, // 1 hour
+    },
+    rateLimit: {
+      key: 'user',
+      queries: 10,
+      per: 'minute',
+    },
   },
   async input => {
     const {output} = await prompt(input);

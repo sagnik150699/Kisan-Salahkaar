@@ -53,6 +53,14 @@ const getLocationDetailsFlow = ai.defineFlow(
     name: 'getLocationDetailsFlow',
     inputSchema: GetLocationDetailsInputSchema,
     outputSchema: GetLocationDetailsOutputSchema,
+    cache: {
+      duration: 3600, // 1 hour
+    },
+    rateLimit: {
+        key: 'user',
+        queries: 20,
+        per: 'minute',
+    },
   },
   async input => {
     const {output} = await prompt(input);
