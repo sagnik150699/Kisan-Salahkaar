@@ -406,6 +406,7 @@ export function PestIdentification() {
                     <h3 className="font-bold text-lg flex items-center gap-2"><Bug className="w-5 h-5"/>{t('diagnosis')}:</h3>
                 </div>
                 <p className="text-sm text-foreground/80">{result.diagnosis}</p>
+                 <p className="text-xs text-muted-foreground mt-2 italic">{result.disclaimer}</p>
             </div>
             <div className="w-full">
               <h3 className="font-bold text-lg flex items-center gap-2"><Leaf className="w-5 h-5"/>{t('organicRemedies')}:</h3>

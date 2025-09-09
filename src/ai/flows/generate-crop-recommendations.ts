@@ -26,6 +26,7 @@ const CropRecommendationSchema = z.object({
 const GenerateCropRecommendationsOutputSchema = z.object({
   cropRecommendations: z.array(CropRecommendationSchema).describe('A list of recommended crops.'),
   introduction: z.string().describe('A short introductory paragraph describing why these crops are being recommended.'),
+  disclaimer: z.string().describe('A friendly disclaimer stating that these are AI-generated suggestions and local experts should be consulted for critical decisions.'),
 });
 export type GenerateCropRecommendationsOutput = z.infer<typeof GenerateCropRecommendationsOutputSchema>;
 
@@ -47,6 +48,8 @@ const prompt = ai.definePrompt({
 Based on the provided location, soil type, and weather patterns, recommend the 3 best crops to plant.
 
 For each crop, provide a brief reason for the recommendation. Also provide a short introductory paragraph explaining the overall recommendation.
+
+Finally, include a friendly disclaimer. The disclaimer should state that these are AI-generated suggestions and that for critical decisions, consulting a local agricultural expert is recommended.
 
 Respond in the following language: {{{language}}}
 
@@ -75,7 +78,7 @@ const generateCropRecommendationsFlow = ai.defineFlow(
       throw new Error('No output from prompt');
     }
     
-    const formattedRecommendations = `${output.introduction}\n\n${output.cropRecommendations.map(rec => `**${rec.crop}:** ${rec.reason}`).join('\n\n')}`;
+    const formattedRecommendations = `${output.introduction}\n\n${output.cropRecommendations.map(rec => `**${rec.crop}:** ${rec.reason}`).join('\n\n')}\n\n*${output.disclaimer}*`;
     
     return {
         cropRecommendations: formattedRecommendations,
