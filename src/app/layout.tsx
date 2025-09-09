@@ -27,7 +27,6 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Kisan Salahkaar | AI Agricultural Advisor',
     description: 'AI-powered farming assistant for crop recommendations, pest ID, market prices, and weather reports.',
-    // creator: '@yourtwitterhandle', // Good to add your twitter handle
     images: ['/og-image.png'],
   },
 };
