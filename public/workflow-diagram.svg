@@ -1,85 +1,67 @@
-<svg width="800" height="450" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
-  <!-- Define styles and markers -->
-  <defs>
+<svg width="900" height="650" viewBox="0 0 900 650" xmlns="http://www.w3.org/2000/svg">
+    <!-- Styles -->
     <style>
-      .box { rx: 8; ry: 8; stroke: #E5E7EB; stroke-width: 2; }
-      .title-text { font-family: Arial, sans-serif; font-size: 16px; font-weight: bold; fill: #111827; }
-      .desc-text { font-family: Arial, sans-serif; font-size: 12px; fill: #4B5563; }
-      .tech-text { font-family: monospace; font-size: 11px; fill: #374151; }
-      .arrow-head { fill: #4B5563; }
-      .request-text { font-family: Arial, sans-serif; font-size: 12px; font-weight: bold; fill: #059669; }
-      .response-text { font-family: Arial, sans-serif; font-size: 12px; font-weight: bold; fill: #D97706; }
+        .box { fill: hsl(var(--card)); stroke: hsl(var(--border)); stroke-width: 2; rx: 8; }
+        .title-text { font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-weight: bold; fill: hsl(var(--foreground)); text-anchor: middle; }
+        .desc-text { font-family: Arial, Helvetica, sans-serif; font-size: 14px; fill: hsl(var(--muted-foreground)); text-anchor: middle; }
+        .arrow-line { stroke: hsl(var(--primary)); stroke-width: 2.5; marker-end: url(#arrowhead); }
+        .arrow-text { font-family: Arial, Helvetica, sans-serif; font-size: 13px; fill: hsl(var(--foreground)); text-anchor: middle; }
+        .layer-label { font-family: Arial, Helvetica, sans-serif; font-size: 20px; font-weight: bold; fill: hsl(var(--primary)); text-anchor: middle; }
     </style>
-    <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 0 L 10 5 L 0 10 z" class="arrow-head" />
-    </marker>
-  </defs>
 
-  <!-- Background -->
-  <rect width="100%" height="100%" fill="#F9FAFB"/>
+    <!-- Arrowhead Definition -->
+    <defs>
+        <marker id="arrowhead" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="hsl(var(--primary))" />
+        </marker>
+    </defs>
 
-  <!-- Layer 1: Frontend -->
-  <g>
-    <rect x="50" y="50" width="200" height="350" fill="#FFFFFF" class="box" />
-    <text x="150" y="80" text-anchor="middle" class="title-text">1. Frontend</text>
-    <text x="150" y="100" text-anchor="middle" class="desc-text">(User's Browser)</text>
+    <!-- Layer Titles -->
+    <text x="450" y="30" class="layer-label">Kisan Salahkaar - Application Workflow</text>
     
-    <rect x="70" y="130" width="160" height="90" fill="#F3F4F6" rx="6" ry="6"/>
-    <text x="150" y="150" text-anchor="middle" class="desc-text" font-weight="bold">User Interaction</text>
-    <text x="80" y="175" class="tech-text">- UI Components</text>
-    <text x="80" y="190" class="tech-text">- State Management</text>
-    <text x="80" y="205" class="tech-text">- Form Validation</text>
+    <!-- Column 1: Frontend -->
+    <rect x="50" y="80" width="200" height="150" class="box" />
+    <text x="150" y="110" class="title-text">1. Frontend</text>
+    <text x="150" y="135" class="desc-text">(User's Browser)</text>
+    <text x="150" y="165" class="desc-text">Next.js &amp; React Components</text>
+    <text x="150" y="185" class="desc-text">User clicks a button like</text>
+    <text x="150" y="205" class="desc-text">"Get Recommendations"</text>
 
-    <text x="150" y="250" text-anchor="middle" class="tech-text" font-weight="bold">Technology:</text>
-    <text x="150" y="270" text-anchor="middle" class="tech-text">Next.js, React</text>
-    <text x="150" y="285" text-anchor_middle" class="tech-text">ShadCN, Tailwind</text>
-  </g>
+    <!-- Column 2: Server Actions -->
+    <rect x="350" y="250" width="200" height="150" class="box" />
+    <text x="450" y="280" class="title-text">2. Server Actions</text>
+    <text x="450" y="305" class="desc-text">(Secure Backend Bridge)</text>
+    <text x="450" y="335" class="desc-text">`handle...` function is called</text>
+    <text x="450" y="355" class="desc-text">Runs on the server, not</text>
+    <text x="450" y="375" class="desc-text">in the browser</text>
 
-  <!-- Layer 2: Server Actions -->
-  <g>
-    <rect x="300" y="50" width="200" height="350" fill="#FFFFFF" class="box" />
-    <text x="400" y="80" text-anchor="middle" class="title-text">2. Server Actions</text>
-    <text x="400" y="100" text-anchor="middle" class="desc-text">(Secure Backend Bridge)</text>
+    <!-- Column 3: Genkit AI Flows -->
+    <rect x="650" y="420" width="200" height="150" class="box" />
+    <text x="750" y="450" class="title-text">3. AI Flows</text>
+    <text x="750" y="475" class="desc-text">(The AI "Brain")</text>
+    <text x="750" y="505" class="desc-text">Genkit Flow is executed</text>
+    <text x="750" y="525" class="desc-text">Calls Gemini with a</text>
+    <text x="750" y="545" class="desc-text">structured prompt</text>
 
-    <rect x="320" y="130" width="160" height="90" fill="#F3F4F6" rx="6" ry="6"/>
-    <text x="400" y="150" text-anchor="middle" class="desc-text" font-weight="bold">Logic Handling</text>
-    <text x="330" y="175" class="tech-text">- Secure execution</text>
-    <text x="330" y="190" class="tech-text">- Data preparation</text>
-    <text x="330" y="205" class="tech-text">- Error handling</text>
+    <!-- Arrows -->
+    <!-- Frontend -> Server Actions -->
+    <path d="M 250 155 C 300 155, 300 250, 350 325" fill="none" class="arrow-line" />
+    <text x="325" y="220" class="arrow-text">User Action Triggers</text>
+    <text x="325" y="238" class="arrow-text">Server Action</text>
 
-    <text x="400" y="250" text-anchor="middle" class="tech-text" font-weight="bold">File:</text>
-    <text x="400" y="270" text-anchor="middle" class="tech-text">src/lib/actions.ts</text>
-    <text x="400" y_290" text-anchor="middle" class="tech-text">('use server')</text>
-  </g>
+    <!-- Server Actions -> AI Flows -->
+    <path d="M 550 325 C 600 325, 600 420, 650 495" fill="none" class="arrow-line" />
+    <text x="625" y="390" class="arrow-text">Action Calls</text>
+    <text x="625" y="408" class="arrow-text">Genkit Flow</text>
 
-  <!-- Layer 3: AI Flows -->
-  <g>
-    <rect x="550" y="50" width="200" height="350" fill="#FFFFFF" class="box" />
-    <text x="650" y="80" text-anchor="middle" class="title-text">3. AI Flows</text>
-    <text x="650" y="100" text-anchor="middle" class="desc-text">(AI Brain)</text>
-    
-    <rect x="570" y="130" width="160" height="90" fill="#F3F4F6" rx="6" ry="6"/>
-    <text x="650" y="150" text-anchor="middle" class="desc-text" font-weight="bold">AI Communication</text>
-    <text x="580" y="175" class="tech-text">- Prompt engineering</text>
-    <text x="580" y="190" class="tech-text">- Structured Output</text>
-    <text x="580" y="205" class="tech-text">- Calls to Gemini</text>
+    <!-- AI Flows -> Server Actions (Return) -->
+    <path d="M 750 420 Q 750 350 550 350" fill="none" class="arrow-line" />
+    <text x="650" y="365" class="arrow-text">AI Returns</text>
+    <text x="650" y="383" class="arrow-text">Structured Data</text>
 
-    <text x="650" y="250" text-anchor="middle" class="tech-text" font-weight="bold">Technology:</text>
-    <text x="650" y="270" text-anchor="middle" class="tech-text">Genkit, Zod</text>
-    <text x="650" y="285" text-anchor="middle" class="tech-text">Google Gemini API</text>
-  </g>
-
-  <!-- Arrows -->
-  <g>
-    <!-- Request Path -->
-    <path d="M 250 200 H 280" stroke="#059669" stroke-width="2" marker-end="url(#arrow)" stroke-dasharray="5,5"/>
-    <text x="265" y="190" class="request-text">Request</text>
-    <path d="M 500 200 H 530" stroke="#059669" stroke-width="2" marker-end="url(#arrow)" stroke-dasharray="5,5"/>
-    
-    <!-- Response Path -->
-    <path d="M 530 250 H 500" stroke="#D97706" stroke-width="2" marker-end="url(#arrow)" />
-    <text x="405" y="295" class="response-text" text-anchor="middle">Response</text>
-    <path d="M 280 250 H 250" stroke="#D97706" stroke-width="2" marker-end="url(#arrow)" />
-  </g>
+    <!-- Server Actions -> Frontend (Return) -->
+    <path d="M 450 250 Q 450 180 250 180" fill="none" class="arrow-line" />
+    <text x="350" y="195" class="arrow-text">Server Returns</text>
+    <text x="350" y="213" class="arrow-text">Final Result</text>
 
 </svg>
