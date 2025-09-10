@@ -1,67 +1,32 @@
-<svg width="900" height="650" viewBox="0 0 900 650" xmlns="http://www.w3.org/2000/svg">
-    <!-- Styles -->
+<svg width="960" height="640" viewBox="0 0 960 640" xmlns="http://www.w3.org/2000/svg">
+    <!-- Diagram by AI - Corrected Version -->
     <style>
-        .box { fill: hsl(var(--card)); stroke: hsl(var(--border)); stroke-width: 2; rx: 8; }
-        .title-text { font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-weight: bold; fill: hsl(var(--foreground)); text-anchor: middle; }
-        .desc-text { font-family: Arial, Helvetica, sans-serif; font-size: 14px; fill: hsl(var(--muted-foreground)); text-anchor: middle; }
-        .arrow-line { stroke: hsl(var(--primary)); stroke-width: 2.5; marker-end: url(#arrowhead); }
-        .arrow-text { font-family: Arial, Helvetica, sans-serif; font-size: 13px; fill: hsl(var(--foreground)); text-anchor: middle; }
-        .layer-label { font-family: Arial, Helvetica, sans-serif; font-size: 20px; font-weight: bold; fill: hsl(var(--primary)); text-anchor: middle; }
+        .title { font: bold 24px 'Segoe UI', Arial, sans-serif; fill: #1a1a1a; text-anchor: middle; }
+        .box { fill: #2d3748; stroke: #1a202c; stroke-width: 2; }
+        .box-text { font: 600 15px 'Segoe UI', Arial, sans-serif; fill: #ffffff; text-anchor: middle; }
+        .box-subtext { font: 13px 'Segoe UI', Arial, sans-serif; fill: #e2e8f0; text-anchor: middle; }
+        .arrow-text { font: 14px 'Segoe UI', Arial, sans-serif; fill: #4a5568; }
+        .arrow-line { stroke: #4a5568; stroke-width: 2.5; fill: none; }
+        .arrow-head { fill: #4a5568; }
     </style>
 
-    <!-- Arrowhead Definition -->
-    <defs>
-        <marker id="arrowhead" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-            <path d="M 0 0 L 10 5 L 0 10 z" fill="hsl(var(--primary))" />
-        </marker>
-    </defs>
+    <rect x="0" y="0" width="960" height="640" fill="#f7fafc"/>
 
-    <!-- Layer Titles -->
-    <text x="450" y="30" class="layer-label">Kisan Salahkaar - Application Workflow</text>
-    
-    <!-- Column 1: Frontend -->
-    <rect x="50" y="80" width="200" height="150" class="box" />
-    <text x="150" y="110" class="title-text">1. Frontend</text>
-    <text x="150" y="135" class="desc-text">(User's Browser)</text>
-    <text x="150" y="165" class="desc-text">Next.js &amp; React Components</text>
-    <text x="150" y="185" class="desc-text">User clicks a button like</text>
-    <text x="150" y="205" class="desc-text">"Get Recommendations"</text>
+    <text x="480" y="50" class="title">Kisan Salahkaar - Application Workflow</text>
 
-    <!-- Column 2: Server Actions -->
-    <rect x="350" y="250" width="200" height="150" class="box" />
-    <text x="450" y="280" class="title-text">2. Server Actions</text>
-    <text x="450" y="305" class="desc-text">(Secure Backend Bridge)</text>
-    <text x="450" y="335" class="desc-text">`handle...` function is called</text>
-    <text x="450" y="355" class="desc-text">Runs on the server, not</text>
-    <text x="450" y="375" class="desc-text">in the browser</text>
+    <!-- Box 1: Frontend -->
+    <rect x="150" y="100" width="280" height="120" rx="15" class="box"/>
+    <text x="290" y="145" class="box-text">Frontend (User's Browser)</text>
+    <text x="290" y="170" class="box-subtext">Next.js, React, ShadCN</text>
+    <text x="290" y="190" class="box-subtext">User clicks a button</text>
 
-    <!-- Column 3: Genkit AI Flows -->
-    <rect x="650" y="420" width="200" height="150" class="box" />
-    <text x="750" y="450" class="title-text">3. AI Flows</text>
-    <text x="750" y="475" class="desc-text">(The AI "Brain")</text>
-    <text x="750" y="505" class="desc-text">Genkit Flow is executed</text>
-    <text x="750" y="525" class="desc-text">Calls Gemini with a</text>
-    <text x="750" y="545" class="desc-text">structured prompt</text>
+    <!-- Box 2: Server Actions -->
+    <rect x="340" y="260" width="280" height="120" rx="15" class="box"/>
+    <text x="480" y="305" class="box-text">Backend (Server Actions)</text>
+    <text x="480" y="330" class="box-subtext">src/lib/actions.ts</text>
+    <text x="480" y="350" class="box-subtext">Securely runs on the server</text>
 
-    <!-- Arrows -->
-    <!-- Frontend -> Server Actions -->
-    <path d="M 250 155 C 300 155, 300 250, 350 325" fill="none" class="arrow-line" />
-    <text x="325" y="220" class="arrow-text">User Action Triggers</text>
-    <text x="325" y="238" class="arrow-text">Server Action</text>
-
-    <!-- Server Actions -> AI Flows -->
-    <path d="M 550 325 C 600 325, 600 420, 650 495" fill="none" class="arrow-line" />
-    <text x="625" y="390" class="arrow-text">Action Calls</text>
-    <text x="625" y="408" class="arrow-text">Genkit Flow</text>
-
-    <!-- AI Flows -> Server Actions (Return) -->
-    <path d="M 750 420 Q 750 350 550 350" fill="none" class="arrow-line" />
-    <text x="650" y="365" class="arrow-text">AI Returns</text>
-    <text x="650" y="383" class="arrow-text">Structured Data</text>
-
-    <!-- Server Actions -> Frontend (Return) -->
-    <path d="M 450 250 Q 450 180 250 180" fill="none" class="arrow-line" />
-    <text x="350" y="195" class="arrow-text">Server Returns</text>
-    <text x="350" y="213" class="arrow-text">Final Result</text>
-
-</svg>
+    <!-- Box 3: AI Flows -->
+    <rect x="530" y="420" width="280" height="120" rx="15" class="box"/>
+    <text x="670" y="465" class="box-text">AI Brain (Genkit)</text>
+    <text x="670" y
