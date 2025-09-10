@@ -9,6 +9,9 @@ export const metadata: Metadata = {
   title: 'Kisan Salahkaar | AI Agricultural Advisor for Indian Farmers',
   description: 'Get AI-driven crop recommendations, pest and disease identification, real-time market prices, and localized weather reports to help Indian farmers make informed decisions. Your personal AI farming assistant.',
   keywords: ['kisan', 'agricultural advisor', 'ai farming', 'crop recommendation', 'pest identification', 'indian farmer', 'agriculture app', 'salahkaar', 'farming assistant'],
+  icons: {
+    icon: '/favicon.ico',
+  },
   openGraph: {
     title: 'Kisan Salahkaar | AI Agricultural Advisor',
     description: 'AI-powered farming assistant for crop recommendations, pest ID, market prices, and weather reports.',
