@@ -1,0 +1,85 @@
+<svg width="800" height="450" viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+  <!-- Define styles and markers -->
+  <defs>
+    <style>
+      .box { rx: 8; ry: 8; stroke: #E5E7EB; stroke-width: 2; }
+      .title-text { font-family: Arial, sans-serif; font-size: 16px; font-weight: bold; fill: #111827; }
+      .desc-text { font-family: Arial, sans-serif; font-size: 12px; fill: #4B5563; }
+      .tech-text { font-family: monospace; font-size: 11px; fill: #374151; }
+      .arrow-head { fill: #4B5563; }
+      .request-text { font-family: Arial, sans-serif; font-size: 12px; font-weight: bold; fill: #059669; }
+      .response-text { font-family: Arial, sans-serif; font-size: 12px; font-weight: bold; fill: #D97706; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" class="arrow-head" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="#F9FAFB"/>
+
+  <!-- Layer 1: Frontend -->
+  <g>
+    <rect x="50" y="50" width="200" height="350" fill="#FFFFFF" class="box" />
+    <text x="150" y="80" text-anchor="middle" class="title-text">1. Frontend</text>
+    <text x="150" y="100" text-anchor="middle" class="desc-text">(User's Browser)</text>
+    
+    <rect x="70" y="130" width="160" height="90" fill="#F3F4F6" rx="6" ry="6"/>
+    <text x="150" y="150" text-anchor="middle" class="desc-text" font-weight="bold">User Interaction</text>
+    <text x="80" y="175" class="tech-text">- UI Components</text>
+    <text x="80" y="190" class="tech-text">- State Management</text>
+    <text x="80" y="205" class="tech-text">- Form Validation</text>
+
+    <text x="150" y="250" text-anchor="middle" class="tech-text" font-weight="bold">Technology:</text>
+    <text x="150" y="270" text-anchor="middle" class="tech-text">Next.js, React</text>
+    <text x="150" y="285" text-anchor_middle" class="tech-text">ShadCN, Tailwind</text>
+  </g>
+
+  <!-- Layer 2: Server Actions -->
+  <g>
+    <rect x="300" y="50" width="200" height="350" fill="#FFFFFF" class="box" />
+    <text x="400" y="80" text-anchor="middle" class="title-text">2. Server Actions</text>
+    <text x="400" y="100" text-anchor="middle" class="desc-text">(Secure Backend Bridge)</text>
+
+    <rect x="320" y="130" width="160" height="90" fill="#F3F4F6" rx="6" ry="6"/>
+    <text x="400" y="150" text-anchor="middle" class="desc-text" font-weight="bold">Logic Handling</text>
+    <text x="330" y="175" class="tech-text">- Secure execution</text>
+    <text x="330" y="190" class="tech-text">- Data preparation</text>
+    <text x="330" y="205" class="tech-text">- Error handling</text>
+
+    <text x="400" y="250" text-anchor="middle" class="tech-text" font-weight="bold">File:</text>
+    <text x="400" y="270" text-anchor="middle" class="tech-text">src/lib/actions.ts</text>
+    <text x="400" y_290" text-anchor="middle" class="tech-text">('use server')</text>
+  </g>
+
+  <!-- Layer 3: AI Flows -->
+  <g>
+    <rect x="550" y="50" width="200" height="350" fill="#FFFFFF" class="box" />
+    <text x="650" y="80" text-anchor="middle" class="title-text">3. AI Flows</text>
+    <text x="650" y="100" text-anchor="middle" class="desc-text">(AI Brain)</text>
+    
+    <rect x="570" y="130" width="160" height="90" fill="#F3F4F6" rx="6" ry="6"/>
+    <text x="650" y="150" text-anchor="middle" class="desc-text" font-weight="bold">AI Communication</text>
+    <text x="580" y="175" class="tech-text">- Prompt engineering</text>
+    <text x="580" y="190" class="tech-text">- Structured Output</text>
+    <text x="580" y="205" class="tech-text">- Calls to Gemini</text>
+
+    <text x="650" y="250" text-anchor="middle" class="tech-text" font-weight="bold">Technology:</text>
+    <text x="650" y="270" text-anchor="middle" class="tech-text">Genkit, Zod</text>
+    <text x="650" y="285" text-anchor="middle" class="tech-text">Google Gemini API</text>
+  </g>
+
+  <!-- Arrows -->
+  <g>
+    <!-- Request Path -->
+    <path d="M 250 200 H 280" stroke="#059669" stroke-width="2" marker-end="url(#arrow)" stroke-dasharray="5,5"/>
+    <text x="265" y="190" class="request-text">Request</text>
+    <path d="M 500 200 H 530" stroke="#059669" stroke-width="2" marker-end="url(#arrow)" stroke-dasharray="5,5"/>
+    
+    <!-- Response Path -->
+    <path d="M 530 250 H 500" stroke="#D97706" stroke-width="2" marker-end="url(#arrow)" />
+    <text x="405" y="295" class="response-text" text-anchor="middle">Response</text>
+    <path d="M 280 250 H 250" stroke="#D97706" stroke-width="2" marker-end="url(#arrow)" />
+  </g>
+
+</svg>
