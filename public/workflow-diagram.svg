@@ -1,32 +1,45 @@
-<svg width="960" height="640" viewBox="0 0 960 640" xmlns="http://www.w3.org/2000/svg">
-    <!-- Diagram by AI - Corrected Version -->
-    <style>
-        .title { font: bold 24px 'Segoe UI', Arial, sans-serif; fill: #1a1a1a; text-anchor: middle; }
-        .box { fill: #2d3748; stroke: #1a202c; stroke-width: 2; }
-        .box-text { font: 600 15px 'Segoe UI', Arial, sans-serif; fill: #ffffff; text-anchor: middle; }
-        .box-subtext { font: 13px 'Segoe UI', Arial, sans-serif; fill: #e2e8f0; text-anchor: middle; }
-        .arrow-text { font: 14px 'Segoe UI', Arial, sans-serif; fill: #4a5568; }
-        .arrow-line { stroke: #4a5568; stroke-width: 2.5; fill: none; }
-        .arrow-head { fill: #4a5568; }
-    </style>
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="#f8fafc"/>
+  <text x="400" y="50" font-family="Arial, sans-serif" font-size="24" fill="#0f172a" text-anchor="middle" font-weight="bold">Kisan Salahkaar - Application Workflow</text>
+  
+  <!-- Frontend Box -->
+  <g transform="translate(250, 100)">
+    <rect width="300" height="100" rx="15" fill="#1e293b"/>
+    <text x="150" y="40" font-family="Arial, sans-serif" font-size="18" fill="white" text-anchor="middle" font-weight="bold">Frontend (User's Browser)</text>
+    <text x="150" y="70" font-family="Arial, sans-serif" font-size="14" fill="#e2e8f0" text-anchor="middle">Next.js, React, ShadCN, Tailwind</text>
+  </g>
+  
+  <!-- Arrow 1 -->
+  <g>
+    <line x1="400" y1="200" x2="400" y2="250" stroke="#0f172a" stroke-width="2"/>
+    <polygon points="395,245 405,245 400,255" fill="#0f172a"/>
+    <text x="410" y="230" font-family="Arial, sans-serif" font-size="14" fill="#334155">User clicks a button</text>
+  </g>
+  
+  <!-- Backend Box -->
+  <g transform="translate(250, 260)">
+    <rect width="300" height="100" rx="15" fill="#1e293b"/>
+    <text x="150" y="40" font-family="Arial, sans-serif" font-size="18" fill="white" text-anchor="middle" font-weight="bold">Backend (Server Actions)</text>
+    <text x="150" y="70" font-family="Arial, sans-serif" font-size="14" fill="#e2e8f0" text-anchor="middle">src/lib/actions.ts (Runs on Server)</text>
+  </g>
+  
+  <!-- Arrow 2 -->
+  <g>
+    <line x1="400" y1="360" x2="400" y2="410" stroke="#0f172a" stroke-width="2"/>
+    <polygon points="395,405 405,405 400,415" fill="#0f172a"/>
+    <text x="410" y="390" font-family="Arial, sans-serif" font-size="14" fill="#334155">Calls AI flow with user data</text>
+  </g>
+  
+  <!-- AI Brain Box -->
+  <g transform="translate(250, 420)">
+    <rect width="300" height="100" rx="15" fill="#1e293b"/>
+    <text x="150" y="35" font-family="Arial, sans-serif" font-size="18" fill="white" text-anchor="middle" font-weight="bold">AI Brain (Genkit)</text>
+    <text x="150" y="60" font-family="Arial, sans-serif" font-size="14" fill="#e2e8f0" text-anchor="middle">src/ai/flows/*</text>
+    <text x="150" y="80" font-family="Arial, sans-serif" font-size="14" fill="#e2e8f0" text-anchor="middle">Calls Google Gemini model</text>
+  </g>
 
-    <rect x="0" y="0" width="960" height="640" fill="#f7fafc"/>
-
-    <text x="480" y="50" class="title">Kisan Salahkaar - Application Workflow</text>
-
-    <!-- Box 1: Frontend -->
-    <rect x="150" y="100" width="280" height="120" rx="15" class="box"/>
-    <text x="290" y="145" class="box-text">Frontend (User's Browser)</text>
-    <text x="290" y="170" class="box-subtext">Next.js, React, ShadCN</text>
-    <text x="290" y="190" class="box-subtext">User clicks a button</text>
-
-    <!-- Box 2: Server Actions -->
-    <rect x="340" y="260" width="280" height="120" rx="15" class="box"/>
-    <text x="480" y="305" class="box-text">Backend (Server Actions)</text>
-    <text x="480" y="330" class="box-subtext">src/lib/actions.ts</text>
-    <text x="480" y="350" class="box-subtext">Securely runs on the server</text>
-
-    <!-- Box 3: AI Flows -->
-    <rect x="530" y="420" width="280" height="120" rx="15" class="box"/>
-    <text x="670" y="465" class="box-text">AI Brain (Genkit)</text>
-    <text x="670" y
+  <!-- Return Path -->
+  <path d="M 240 470 Q 150 470 150 310 Q 150 150 240 150" stroke="#0f172a" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
+  <polygon points="245,155 245,145 235,150" fill="#0f172a"/>
+  <text x="130" y="310" font-family="Arial, sans-serif" font-size="14" fill="#334155" transform="rotate(-90 130,310)">Data returns to UI</text>
+</svg>
