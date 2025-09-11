@@ -40,25 +40,29 @@ export function ProductSuggestions({ products }: ProductSuggestionsProps) {
       >
         <CarouselContent className="-ml-2">
           {products.map((product, index) => (
-            <CarouselItem key={index} className="pl-2 basis-1/2 sm:basis-1/3 md:basis-1/4">
-              <div className="p-1">
-                <Card className="overflow-hidden">
-                  <CardContent className="flex flex-col items-center justify-between p-2 aspect-square">
-                    <Image
-                      src={product.imageUrl || 'https://placehold.co/200x200/EEE/31343C?text=No+Image'}
-                      alt={product.name}
-                      width={100}
-                      height={100}
-                      data-ai-hint={product.dataAiHint}
-                      className="rounded-md object-cover w-24 h-24"
-                    />
-                    <p className="text-xs font-medium text-center mt-2 leading-tight h-8">
-                      {product.name}
-                    </p>
+            <CarouselItem key={index} className="pl-2 basis-1/2 sm:basis-1/3 lg:basis-1/4">
+              <div className="p-1 h-full">
+                <Card className="overflow-hidden h-full">
+                  <CardContent className="flex flex-col items-center justify-between p-2 h-full">
+                    <div className="flex-shrink-0">
+                      <Image
+                        src={product.imageUrl || 'https://placehold.co/200x200/EEE/31343C?text=No+Image'}
+                        alt={product.name}
+                        width={100}
+                        height={100}
+                        data-ai-hint={product.dataAiHint}
+                        className="rounded-md object-cover w-24 h-24"
+                      />
+                    </div>
+                    <div className="flex-grow flex items-center mt-2">
+                      <p className="text-xs font-medium text-center leading-tight line-clamp-3">
+                        {product.name}
+                      </p>
+                    </div>
                     <Button
                       asChild
                       size="sm"
-                      className="mt-2 w-full"
+                      className="mt-2 w-full flex-shrink-0"
                       variant="outline"
                     >
                       <a href={product.buyLink} target="_blank" rel="noopener noreferrer">
@@ -72,8 +76,8 @@ export function ProductSuggestions({ products }: ProductSuggestionsProps) {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2" />
-        <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2" />
+        <CarouselPrevious />
+        <CarouselNext />
       </Carousel>
     </div>
   );
