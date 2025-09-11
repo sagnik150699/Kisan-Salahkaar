@@ -21,7 +21,7 @@ export type IdentifyPestOrDiseaseInput = z.infer<typeof IdentifyPestOrDiseaseInp
 
 const ProductSuggestionSchema = z.object({
     name: z.string().describe('The name of the product.'),
-    buyLink: z.string().url().describe('The URL for the top search result for this product on a reputable Indian e-commerce site (like BigHaat, IFFCO BAZAR, Amazon.in, or Flipkart).'),
+    buyLink: z.string().url().describe('A valid, working URL to a purchase or search results page for this product on a major Indian online retailer. The link must not be broken.'),
     imageUrl: z.string().url().describe("The direct URL of the product's thumbnail image from the e-commerce page. If a real image URL cannot be found, return an empty string.").optional(),
     dataAiHint: z.string().describe('One or two keywords for the product image, e.g., "neem oil".'),
 });
@@ -49,8 +49,8 @@ const prompt = ai.definePrompt({
 
 For each remedy type (organic and inorganic), provide a list of up to 4 commercially available products that can be used. For each product, you must provide:
 1. The product name (e.g., "Neem Oil Concentrate").
-2. A valid, working URL. To get this, search for the product on a reputable Indian e-commerce site (like BigHaat, IFFCO BAZAR, Amazon.in, or Flipkart) and provide the URL of the **top search result**. Do not provide a broken link or a link to a search query page. The link must be a functioning page.
-3. The direct URL for the product's thumbnail image from the purchase page. This must be a full, valid image URL. If you absolutely cannot find a real image URL, you must return an empty string for the imageUrl.
+2. A valid, working URL. To get this, search for the product on a major Indian online retailer and provide the URL of the **first search result**. This can be a product page or a search results page. **The most important rule is that the link MUST work and not lead to a "not found" page.**
+3. The direct URL for the product's thumbnail image from the purchase or search page. This must be a full, valid image URL. If you absolutely cannot find a real image URL, you must return an empty string for the imageUrl.
 4. A 'dataAiHint' with one or two keywords for the product (e.g., "neem oil", "pesticide bottle").
 
 Finally, include a friendly disclaimer. The disclaimer should state that this is an AI-generated diagnosis and that for confirmation, consulting a local expert is recommended.
