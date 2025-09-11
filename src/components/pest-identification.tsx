@@ -21,6 +21,7 @@ import { Separator } from './ui/separator';
 import ReactCrop, { type Crop as CropType, centerCrop, makeAspectCrop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import { useI18n } from '@/context/i18n-provider';
+import { ProductSuggestions } from './product-suggestions';
 
 function getCroppedImg(
   image: HTMLImageElement,
@@ -80,7 +81,7 @@ const RemedyChat = ({ diagnosis, remedy, remedyTitle }: { diagnosis: string, rem
     const { toast } = useToast();
     const [followUp, setFollowUp] = useState<FollowUpState>({ question: '', loading: false, messages: [] });
     const [loadingAudio, setLoadingAudio] = useState(false);
-    const [isPlaying, setIsPlaying] = useState(false);
+    const [isPlaying, setIsPlaying]_useState(false);
     const [isRecording, setIsRecording] = useState(false);
     const audioRef = useRef<HTMLAudioElement>(null);
     const recognitionRef = useRef<any>(null);
@@ -494,10 +495,16 @@ export function PestIdentification() {
             <div className="w-full">
               <h3 className="font-bold text-lg flex items-center gap-2"><Leaf className="w-5 h-5"/>{t('organicRemedies')}:</h3>
               <RemedyChat diagnosis={result.diagnosis} remedy={result.organicRemedies} remedyTitle={t('organicRemedies')} />
+              {result.suggestedOrganicProducts && result.suggestedOrganicProducts.length > 0 && (
+                <ProductSuggestions products={result.suggestedOrganicProducts} />
+              )}
             </div>
             <div className="w-full">
               <h3 className="font-bold text-lg flex items-center gap-2"><FlaskConical className="w-5 h-5"/>{t('inorganicRemedies')}:</h3>
               <RemedyChat diagnosis={result.diagnosis} remedy={result.inorganicRemedies} remedyTitle={t('inorganicRemedies')} />
+               {result.suggestedInorganicProducts && result.suggestedInorganicProducts.length > 0 && (
+                <ProductSuggestions products={result.suggestedInorganicProducts} />
+              )}
             </div>
           </CardFooter>
         </>

@@ -127,5 +127,7 @@
   "speechError": {
     "title": "Speech Recognition Error",
     "description": "An error occurred during speech recognition. Please try again."
-  }
+  },
+  "whereToBuy": "Where to Buy",
+  "buyNow": "Buy Now"
 }
