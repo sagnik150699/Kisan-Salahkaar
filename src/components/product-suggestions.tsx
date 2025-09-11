@@ -55,8 +55,8 @@ export function ProductSuggestions({ products }: ProductSuggestionsProps) {
                         className="rounded-md object-cover w-24 h-24"
                       />
                     </div>
-                    <div className="flex-grow flex items-center mt-2">
-                      <p className="text-xs font-medium text-center leading-tight line-clamp-3">
+                    <div className="flex-grow flex flex-col items-center justify-center mt-2 text-center">
+                      <p className="text-xs font-medium leading-tight line-clamp-3">
                         {product.name}
                       </p>
                     </div>
