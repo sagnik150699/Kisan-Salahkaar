@@ -47,10 +47,10 @@ const prompt = ai.definePrompt({
   model: 'googleai/gemini-2.5-flash',
   prompt: `You are an expert in plant pathology. A farmer will provide a photo of a plant and you must diagnose the plant issue, pest or disease. Then, suggest both organic and inorganic (chemical) remedies.
 
-For each remedy type (organic and inorganic), provide a list of up to 4 commercially available products that can be used. For each product, provide:
+For each remedy type (organic and inorganic), provide a list of up to 4 commercially available products that can be used. For each product, you must provide:
 1. The product name (e.g., "Neem Oil Concentrate").
-2. The direct purchase URL from a reputable Indian e-commerce site (like BigHaat, IFFCO BAZAR, Amazon.in, or Flipkart). You should try to find the link with the best price.
-3. The direct URL for the product's thumbnail image from the purchase page. If you absolutely cannot find a real image URL, you must return an empty string for the imageUrl.
+2. A valid, direct purchase URL from a reputable Indian e-commerce site (like BigHaat, IFFCO BAZAR, Amazon.in, or Flipkart). The link must lead directly to the product page, not a search result. Try to find the link with the best price.
+3. The direct URL for the product's thumbnail image from the purchase page. This must be a full, valid image URL. If you absolutely cannot find a real image URL, you must return an empty string for the imageUrl.
 4. A 'dataAiHint' with one or two keywords for the product (e.g., "neem oil", "pesticide bottle").
 
 Finally, include a friendly disclaimer. The disclaimer should state that this is an AI-generated diagnosis and that for confirmation, consulting a local expert is recommended.
