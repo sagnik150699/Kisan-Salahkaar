@@ -25,6 +25,15 @@ interface ProductSuggestionsProps {
   products: Product[];
 }
 
+function getFaviconUrl(link: string) {
+    try {
+        const url = new URL(link);
+        return `https://www.google.com/s2/favicons?domain=${url.hostname}&sz=64`;
+    } catch (error) {
+        return 'https://placehold.co/200x200/EEE/31343C?text=No+Image'; // Fallback for invalid URLs
+    }
+}
+
 export function ProductSuggestions({ products }: ProductSuggestionsProps) {
   const { t } = useI18n();
 
@@ -46,7 +55,7 @@ export function ProductSuggestions({ products }: ProductSuggestionsProps) {
                   <CardContent className="flex flex-col items-center justify-between p-2 h-full">
                     <div className="flex-shrink-0">
                       <Image
-                        src={product.imageUrl || 'https://placehold.co/200x200/EEE/31343C?text=No+Image'}
+                        src={product.imageUrl || getFaviconUrl(product.buyLink)}
                         alt={product.name}
                         width={100}
                         height={100}
