@@ -258,7 +258,10 @@ export function PestIdentification() {
   const [crop, setCrop] = useState<CropType>();
   const [completedCrop, setCompletedCrop] = useState<CropType>();
   const imgRef = useRef<HTMLImageElement>(null);
-  
+  const [loadingAudio, setLoadingAudio] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -339,6 +342,60 @@ export function PestIdentification() {
     }
     setLoading(false);
   };
+  
+  const handleReadAloud = async (text: string) => {
+     if (isPlaying && audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      setIsPlaying(false);
+      setLoadingAudio(false);
+      return;
+    }
+    
+    setLoadingAudio(true);
+    const response = await handleTextToSpeech({ text });
+    if (response.success && response.data && audioRef.current) {
+        audioRef.current.src = response.data.audioDataUri;
+        audioRef.current.play().catch(e => {
+          console.error("Audio play failed", e)
+           toast({
+            variant: 'destructive',
+            title: t('audioFailed.title'),
+            description: t('audioFailed.description'),
+        });
+        setLoadingAudio(false);
+        });
+    } else {
+        toast({
+            variant: 'destructive',
+            title: t('audioFailed.title'),
+            description: response.error || t('audioFailed.description'),
+        });
+        setLoadingAudio(false);
+    }
+  };
+  
+  useEffect(() => {
+    const audioElement = audioRef.current;
+    if (audioElement) {
+      const onPlaying = () => {
+        setIsPlaying(true);
+        setLoadingAudio(false);
+      };
+      const onEnded = () => setIsPlaying(false);
+      const onPause = () => setIsPlaying(false);
+
+      audioElement.addEventListener('playing', onPlaying);
+      audioElement.addEventListener('ended', onEnded);
+      audioElement.addEventListener('pause', onPause);
+
+      return () => {
+        audioElement.removeEventListener('playing', onPlaying);
+        audioElement.removeEventListener('ended', onEnded);
+        audioElement.removeEventListener('pause', onPause);
+      };
+    }
+  }, []);
 
 
   return (
@@ -404,6 +461,15 @@ export function PestIdentification() {
              <div className="w-full">
                 <div className="flex items-center justify-between w-full">
                     <h3 className="font-bold text-lg flex items-center gap-2"><Bug className="w-5 h-5"/>{t('diagnosis')}:</h3>
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleReadAloud(result.diagnosis)}
+                        disabled={loadingAudio}
+                        aria-label={t('readAloud')}
+                    >
+                        {loadingAudio ? <Loader2 className="animate-spin" /> : isPlaying ? <StopCircle /> : <Volume2 />}
+                    </Button>
                 </div>
                 <p className="text-sm text-foreground/80">{result.diagnosis}</p>
                  <p className="text-xs text-muted-foreground mt-2 italic">{result.disclaimer}</p>
@@ -419,6 +485,7 @@ export function PestIdentification() {
           </CardFooter>
         </>
       )}
+       <audio ref={audioRef} className="hidden" />
     </Card>
   );
 }
