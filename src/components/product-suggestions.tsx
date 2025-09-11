@@ -27,6 +27,11 @@ interface ProductSuggestionsProps {
 
 export function ProductSuggestions({ products }: ProductSuggestionsProps) {
   const { t } = useI18n();
+  
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    const randomSeed = Math.floor(Math.random() * 1000) + 1;
+    e.currentTarget.src = `https://picsum.photos/seed/${randomSeed}/200/200`;
+  };
 
   return (
     <div className="w-full mt-4">
@@ -40,7 +45,7 @@ export function ProductSuggestions({ products }: ProductSuggestionsProps) {
       >
         <CarouselContent className="-ml-2">
           {products.map((product, index) => (
-            <CarouselItem key={index} className="pl-2 basis-1/2 md:basis-1/3 lg:basis-1/4">
+            <CarouselItem key={index} className="pl-2 basis-1/2 sm:basis-1/3 md:basis-1/4">
               <div className="p-1">
                 <Card className="overflow-hidden">
                   <CardContent className="flex flex-col items-center justify-between p-2 aspect-square">
@@ -51,6 +56,7 @@ export function ProductSuggestions({ products }: ProductSuggestionsProps) {
                       height={100}
                       data-ai-hint={product.dataAiHint}
                       className="rounded-md object-cover w-24 h-24"
+                      onError={handleImageError}
                     />
                     <p className="text-xs font-medium text-center mt-2 leading-tight h-8">
                       {product.name}
