@@ -84,6 +84,7 @@ const RemedyChat = ({ diagnosis, remedy, remedyTitle }: { diagnosis: string, rem
     const [isRecording, setIsRecording] = useState(false);
     const audioRef = useRef<HTMLAudioElement>(null);
     const recognitionRef = useRef<any>(null);
+    const [activeAudio, setActiveAudio] = useState<string | null>(null);
 
      useEffect(() => {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -159,16 +160,18 @@ const RemedyChat = ({ diagnosis, remedy, remedyTitle }: { diagnosis: string, rem
         }
     };
     
-    const handleReadAloud = async (text: string) => {
-        if (isPlaying && audioRef.current) {
+    const handleReadAloud = async (text: string, audioId: string) => {
+        if (isPlaying && activeAudio === audioId && audioRef.current) {
             audioRef.current.pause();
             audioRef.current.currentTime = 0;
             setIsPlaying(false);
             setLoadingAudio(false);
+            setActiveAudio(null);
             return;
         }
 
         setLoadingAudio(true);
+        setActiveAudio(audioId);
         const response = await handleTextToSpeech({ text });
         if (response.success && response.data && audioRef.current) {
             audioRef.current.src = response.data.audioDataUri;
@@ -176,10 +179,12 @@ const RemedyChat = ({ diagnosis, remedy, remedyTitle }: { diagnosis: string, rem
                 console.error("Audio play failed", err);
                 toast({ variant: 'destructive', title: t('audioFailed.title'), description: t('audioFailed.description') });
                 setLoadingAudio(false);
+                setActiveAudio(null);
             });
         } else {
             toast({ variant: 'destructive', title: t('audioFailed.title'), description: response.error || t('audioFailed.description') });
             setLoadingAudio(false);
+            setActiveAudio(null);
         }
     };
 
@@ -187,8 +192,8 @@ const RemedyChat = ({ diagnosis, remedy, remedyTitle }: { diagnosis: string, rem
         const audioElement = audioRef.current;
         if (audioElement) {
             const onPlaying = () => { setLoadingAudio(false); setIsPlaying(true); };
-            const onEnded = () => setIsPlaying(false);
-            const onPause = () => setIsPlaying(false);
+            const onEnded = () => { setIsPlaying(false); setActiveAudio(null); };
+            const onPause = () => { setIsPlaying(false); setActiveAudio(null);};
             audioElement.addEventListener('playing', onPlaying);
             audioElement.addEventListener('ended', onEnded);
             audioElement.addEventListener('pause', onPause);
@@ -201,8 +206,20 @@ const RemedyChat = ({ diagnosis, remedy, remedyTitle }: { diagnosis: string, rem
     }, []);
 
     return (
-        <div className="w-full mt-4 space-y-4 rounded-md border p-4">
-          <p className="text-sm text-foreground/80">{remedy}</p>
+        <div className="w-full mt-2 space-y-4 rounded-md border p-4">
+            <div className="flex items-start gap-2">
+                <p className="text-sm text-foreground/80 flex-grow">{remedy}</p>
+                 <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-6 w-6 shrink-0"
+                    onClick={() => handleReadAloud(remedy, 'initial-remedy')}
+                    disabled={loadingAudio && activeAudio !== 'initial-remedy'}
+                    aria-label={t('readAloud')}
+                >
+                    {(loadingAudio && activeAudio === 'initial-remedy') ? <Loader2 className="animate-spin" /> : (isPlaying && activeAudio === 'initial-remedy') ? <StopCircle /> : <Volume2 />}
+                </Button>
+            </div>
 
           {followUp.messages.length > 0 && (
             <div className="space-y-4">
@@ -210,16 +227,16 @@ const RemedyChat = ({ diagnosis, remedy, remedyTitle }: { diagnosis: string, rem
                 <div key={index} className="space-y-2">
                   <p className="font-semibold text-sm">{t('you')}: <span className="font-normal">{msg.user}</span></p>
                   <div className="flex items-start gap-2">
-                    <p className="font-semibold text-sm">{t('assistant')}: <span className="font-normal">{msg.assistant}</span></p>
+                    <p className="font-semibold text-sm flex-grow">{t('assistant')}: <span className="font-normal">{msg.assistant}</span></p>
                      <Button
                         variant="ghost"
                         size="icon"
                         className="h-6 w-6 shrink-0"
-                        onClick={() => handleReadAloud(msg.assistant)}
-                        disabled={loadingAudio}
+                        onClick={() => handleReadAloud(msg.assistant, `msg-${index}`)}
+                        disabled={loadingAudio && activeAudio !== `msg-${index}`}
                         aria-label={t('readAloud')}
                     >
-                        {loadingAudio ? <Loader2 className="animate-spin" /> : isPlaying ? <StopCircle /> : <Volume2 />}
+                        {(loadingAudio && activeAudio === `msg-${index}`) ? <Loader2 className="animate-spin" /> : (isPlaying && activeAudio === `msg-${index}`) ? <StopCircle /> : <Volume2 />}
                     </Button>
                   </div>
                 </div>
@@ -471,7 +488,7 @@ export function PestIdentification() {
                         {loadingAudio ? <Loader2 className="animate-spin" /> : isPlaying ? <StopCircle /> : <Volume2 />}
                     </Button>
                 </div>
-                <p className="text-sm text-foreground/80">{result.diagnosis}</p>
+                <p className="text-sm text-foreground/80 mt-1">{result.diagnosis}</p>
                  <p className="text-xs text-muted-foreground mt-2 italic">{result.disclaimer}</p>
             </div>
             <div className="w-full">
