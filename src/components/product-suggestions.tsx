@@ -17,7 +17,7 @@ import { useI18n } from '@/context/i18n-provider';
 interface Product {
   name: string;
   buyLink: string;
-  imageUrl: string;
+  imageUrl?: string;
   dataAiHint: string;
 }
 
@@ -27,11 +27,6 @@ interface ProductSuggestionsProps {
 
 export function ProductSuggestions({ products }: ProductSuggestionsProps) {
   const { t } = useI18n();
-  
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    const randomSeed = Math.floor(Math.random() * 1000) + 1;
-    e.currentTarget.src = `https://picsum.photos/seed/${randomSeed}/200/200`;
-  };
 
   return (
     <div className="w-full mt-4">
@@ -50,13 +45,12 @@ export function ProductSuggestions({ products }: ProductSuggestionsProps) {
                 <Card className="overflow-hidden">
                   <CardContent className="flex flex-col items-center justify-between p-2 aspect-square">
                     <Image
-                      src={product.imageUrl}
+                      src={product.imageUrl || 'https://placehold.co/200x200/EEE/31343C?text=No+Image'}
                       alt={product.name}
                       width={100}
                       height={100}
                       data-ai-hint={product.dataAiHint}
                       className="rounded-md object-cover w-24 h-24"
-                      onError={handleImageError}
                     />
                     <p className="text-xs font-medium text-center mt-2 leading-tight h-8">
                       {product.name}
