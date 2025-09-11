@@ -35,7 +35,7 @@ const prompt = ai.definePrompt({
   name: 'identifyPestOrDiseasePrompt',
   input: {schema: IdentifyPestOrDiseaseInputSchema},
   output: {schema: IdentifyPestOrDiseaseOutputSchema},
-  model: 'googleai/gemini-2.5-pro',
+  model: 'googleai/gemini-2.5-flash',
   prompt: `You are an expert in plant pathology. A farmer will provide a photo of a plant and you must diagnose the plant issue, pest or disease. Then, suggest both organic and inorganic (chemical) remedies.
 
 Finally, include a friendly disclaimer. The disclaimer should state that this is an AI-generated diagnosis and that for confirmation, consulting a local expert is recommended.
