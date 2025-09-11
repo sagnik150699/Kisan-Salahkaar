@@ -81,7 +81,7 @@ const RemedyChat = ({ diagnosis, remedy, remedyTitle }: { diagnosis: string, rem
     const { toast } = useToast();
     const [followUp, setFollowUp] = useState<FollowUpState>({ question: '', loading: false, messages: [] });
     const [loadingAudio, setLoadingAudio] = useState(false);
-    const [isPlaying, setIsPlaying]_useState(false);
+    const [isPlaying, setIsPlaying] = useState(false);
     const [isRecording, setIsRecording] = useState(false);
     const audioRef = useRef<HTMLAudioElement>(null);
     const recognitionRef = useRef<any>(null);
