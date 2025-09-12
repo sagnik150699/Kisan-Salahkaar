@@ -479,7 +479,7 @@ export function PestIdentification() {
               <FileUp className="mr-2 h-4 w-4" />
               {t('chooseFile')}
             </Button>
-            <span className="text-sm text-muted-foreground truncate">
+            <span className="text-sm text-muted-foreground truncate max-w-40">
               {fileName || t('noFileChosen')}
             </span>
           </div>
