@@ -42,7 +42,11 @@ export async function identifyPestOrDisease(input: IdentifyPestOrDiseaseInput): 
   return identifyPestOrDiseaseFlow(input);
 }
 
-const promptText = `You are an expert in plant pathology. A farmer will provide a photo of a plant and you must diagnose the plant issue, pest or disease. Then, suggest both organic and inorganic (chemical) remedies.
+const prompt = ai.definePrompt({
+    name: 'identifyPestOrDiseasePrompt',
+    input: { schema: IdentifyPestOrDiseaseInputSchema },
+    output: { schema: IdentifyPestOrDiseaseOutputSchema },
+    prompt: `You are an expert in plant pathology. A farmer will provide a photo of a plant and you must diagnose the plant issue, pest or disease. Then, suggest both organic and inorganic (chemical) remedies.
 
 For each remedy type (organic and inorganic), provide a list of up to 4 commercially available products. For each product, you must provide:
 1. The product name (e.g., "Neem Oil Concentrate").
@@ -57,7 +61,8 @@ If the image is not a plant or is unclear, state that you can only analyze clear
 IMPORTANT: You must provide your entire response, including the diagnosis, remedies, product names, and disclaimer, in the following language: {{{language}}}
 
 Photo: {{media url=photoDataUri}}
-`;
+`,
+});
 
 
 const identifyPestOrDiseaseFlow = ai.defineFlow(
@@ -72,26 +77,18 @@ const identifyPestOrDiseaseFlow = ai.defineFlow(
     },
   },
   async input => {
-    const sharedConfig: GenerateOptions = {
-        output: { schema: IdentifyPestOrDiseaseOutputSchema },
-        prompt: {
-          text: promptText,
-          input,
-        },
-    };
-    
     let response;
     try {
-        response = await ai.generate({
-            model: 'googleai/gemini-2.5-pro',
-            ...sharedConfig,
+        response = await prompt({
+            input,
+            model: 'googleai/gemini-2.5-pro'
         });
     } catch(e) {
         console.error("Gemini 2.5 Pro failed for identifyPestOrDisease, falling back to Flash", e);
-        response = await ai.generate({
-            model: 'googleai/gemini-2.5-flash',
-            ...sharedConfig,
-        })
+        response = await prompt({
+            input,
+            model: 'googleai/gemini-2.5-flash'
+        });
     }
 
     const output = response.output;

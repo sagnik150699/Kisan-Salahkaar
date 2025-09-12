@@ -39,7 +39,11 @@ export async function generateCropRecommendations(input: GenerateCropRecommendat
   return generateCropRecommendationsFlow(input);
 }
 
-const promptText = `You are an expert agricultural advisor. Your role is to assist with farming-related questions. If you receive irrelevant or non-agricultural input, provide a helpful message about your purpose.
+const prompt = ai.definePrompt({
+    name: 'generateCropRecommendationsPrompt',
+    input: { schema: GenerateCropRecommendationsInputSchema },
+    output: { schema: GenerateCropRecommendationsOutputSchema },
+    prompt: `You are an expert agricultural advisor. Your role is to assist with farming-related questions. If you receive irrelevant or non-agricultural input, provide a helpful message about your purpose.
 
 Based on the provided location, soil type, and weather patterns, recommend the 3 best crops to plant.
 
@@ -51,7 +55,8 @@ IMPORTANT: You must respond entirely in the following language: {{{language}}}
 
 Location: {{{location}}}
 Soil Type: {{{soilType}}}
-Weather Patterns: {{{weatherPatterns}}}`;
+Weather Patterns: {{{weatherPatterns}}}`,
+});
 
 
 const generateCropRecommendationsFlow = ai.defineFlow(
@@ -70,26 +75,18 @@ const generateCropRecommendationsFlow = ai.defineFlow(
   },
   async input => {
     
-    const sharedConfig: GenerateOptions = {
-      output: { schema: GenerateCropRecommendationsOutputSchema },
-      prompt: {
-        text: promptText,
-        input,
-      },
-    };
-    
     let response;
     try {
-        response = await ai.generate({
-            model: 'googleai/gemini-2.5-pro',
-            ...sharedConfig,
+        response = await prompt({
+            input,
+            model: 'googleai/gemini-2.5-pro'
         });
     } catch(e) {
         console.error("Gemini 2.5 Pro failed for generateCropRecommendations, falling back to Flash", e);
-        response = await ai.generate({
-            model: 'googleai/gemini-2.5-flash',
-            ...sharedConfig,
-        })
+        response = await prompt({
+            input,
+            model: 'googleai/gemini-2.5-flash'
+        });
     }
 
     const output = response.output;
