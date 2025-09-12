@@ -460,8 +460,8 @@ export function PestIdentification() {
           )}
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-2">
-          <div className="flex-1 flex items-center gap-2">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
             <Input
               id="file-upload"
               ref={fileInputRef}
@@ -479,11 +479,11 @@ export function PestIdentification() {
               <FileUp className="mr-2 h-4 w-4" />
               {t('chooseFile')}
             </Button>
-            <span className="text-sm text-muted-foreground truncate flex-1">
+            <span className="text-sm text-muted-foreground truncate">
               {fileName || t('noFileChosen')}
             </span>
           </div>
-          <Button onClick={handleSubmit} disabled={loading || !imgSrc} className="w-full sm:w-auto">
+          <Button onClick={handleSubmit} disabled={loading || !imgSrc}>
             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {t('diagnosePlant')}
           </Button>
@@ -530,5 +530,3 @@ export function PestIdentification() {
     </Card>
   );
 }
-
-    
