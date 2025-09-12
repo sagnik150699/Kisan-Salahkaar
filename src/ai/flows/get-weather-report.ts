@@ -12,6 +12,7 @@ import {z} from 'genkit';
 
 const GetWeatherReportInputSchema = z.object({
   location: z.string().describe('The location to get the weather report for.'),
+  language: z.string().describe('The language for the response (e.g., "English", "Hindi").'),
 });
 export type GetWeatherReportInput = z.infer<typeof GetWeatherReportInputSchema>;
 
@@ -33,6 +34,8 @@ const prompt = ai.definePrompt({
   input: {schema: GetWeatherReportInputSchema},
   output: {schema: GetWeatherReportOutputSchema},
   prompt: `You are a helpful assistant that provides a concise weather report. Given a location, provide the current temperature, humidity, wind speed/direction, and a brief forecast.
+
+Respond in the following language: {{{language}}}
 
 Location: {{{location}}}
 

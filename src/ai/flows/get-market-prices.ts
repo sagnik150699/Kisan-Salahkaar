@@ -12,6 +12,7 @@ import {z} from 'genkit';
 
 const GetMarketPricesInputSchema = z.object({
   location: z.string().describe('The location to get market prices for.'),
+  language: z.string().describe('The language for the response (e.g., "English", "Hindi").'),
 });
 export type GetMarketPricesInput = z.infer<typeof GetMarketPricesInputSchema>;
 
@@ -36,6 +37,8 @@ const prompt = ai.definePrompt({
   input: {schema: GetMarketPricesInputSchema},
   output: {schema: GetMarketPricesOutputSchema},
   prompt: `You are a helpful assistant that provides current market prices for crops. Given a location, provide a list of 5 common crops with their prices at a nearby major market. Ensure the currency is in Indian Rupees, using the '₹' symbol.
+
+Respond in the following language: {{{language}}}
 
 Location: {{{location}}}
 

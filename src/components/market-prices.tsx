@@ -26,7 +26,7 @@ interface MarketPricesProps {
 }
 
 export function MarketPrices({ location }: MarketPricesProps) {
-  const { t } = useI18n();
+  const { t, language } = useI18n();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [marketData, setMarketData] = useState<GetMarketPricesOutput['prices'] | null>(null);
@@ -35,7 +35,7 @@ export function MarketPrices({ location }: MarketPricesProps) {
     if (!currentLocation) return;
     setLoading(true);
     setMarketData(null);
-    const response = await handleGetMarketPrices({ location: currentLocation });
+    const response = await handleGetMarketPrices({ location: currentLocation, language });
 
     if (response.success && response.data) {
       setMarketData(response.data.prices);
@@ -47,7 +47,7 @@ export function MarketPrices({ location }: MarketPricesProps) {
       });
     }
     setLoading(false);
-  }, [t, toast]);
+  }, [t, toast, language]);
 
   useEffect(() => {
     if (location) {

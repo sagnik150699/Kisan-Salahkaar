@@ -18,7 +18,7 @@ interface WeatherReportProps {
 }
 
 export function WeatherReport({ location }: WeatherReportProps) {
-  const { t } = useI18n();
+  const { t, language } = useI18n();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [report, setReport] = useState<GetWeatherReportOutput | null>(null);
@@ -30,7 +30,7 @@ export function WeatherReport({ location }: WeatherReportProps) {
     };
     setLoading(true);
     setReport(null);
-    const response = await handleGetWeatherReport({ location: currentLocation });
+    const response = await handleGetWeatherReport({ location: currentLocation, language });
 
     if (response.success && response.data) {
       setReport(response.data);
@@ -43,7 +43,7 @@ export function WeatherReport({ location }: WeatherReportProps) {
       });
     }
     setLoading(false);
-  }, [t, toast]);
+  }, [t, toast, language]);
 
   useEffect(() => {
     if (location) {
