@@ -38,7 +38,9 @@ const prompt = ai.definePrompt({
   output: {schema: GetMarketPricesOutputSchema},
   prompt: `You are a helpful assistant that provides current market prices for crops. Given a location, provide a list of 5 common crops with their prices at a nearby major market. Ensure the currency is in Indian Rupees, using the '₹' symbol.
 
-IMPORTANT: You must provide your entire response, including crop names, market names, and formatted prices, in the following language: {{{language}}}
+The 'price' field in the output MUST be a string that includes the currency symbol and the unit (e.g., /kg, /qtl), and this entire string must be translated to the requested language.
+
+IMPORTANT: You must provide your ENTIRE response, including crop names, market names, and fully formatted prices, in the following language: {{{language}}}
 
 Location: {{{location}}}
 
