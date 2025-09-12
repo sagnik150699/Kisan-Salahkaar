@@ -1,7 +1,6 @@
 
 'use client';
 
-import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
 import {
   Carousel,
@@ -13,6 +12,7 @@ import {
 import { Button } from './ui/button';
 import { ShoppingCart } from 'lucide-react';
 import { useI18n } from '@/context/i18n-provider';
+import { SafeImage } from './safe-image';
 
 interface Product {
   name: string;
@@ -46,13 +46,14 @@ export function ProductSuggestions({ products }: ProductSuggestionsProps) {
                 <Card className="overflow-hidden h-full">
                   <CardContent className="flex flex-col items-center justify-between p-2 h-full">
                     <div className="flex-shrink-0">
-                      <Image
+                      <SafeImage
                         src={product.imageUrl || placeholderImageUrl}
                         alt={product.name}
                         width={100}
                         height={100}
                         data-ai-hint={product.dataAiHint}
                         className="rounded-md object-cover w-24 h-24"
+                        placeholderSrc={placeholderImageUrl}
                       />
                     </div>
                     <div className="flex-grow flex flex-col items-center justify-center mt-2 text-center">
