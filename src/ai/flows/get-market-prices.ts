@@ -19,7 +19,7 @@ export type GetMarketPricesInput = z.infer<typeof GetMarketPricesInputSchema>;
 const MarketPriceSchema = z.object({
     crop: z.string().describe('The name of the crop.'),
     market: z.string().describe('The name of the nearby market.'),
-    price: z.string().describe('The current price of the crop (e.g., "₹25/kg", "₹2,125/qtl").'),
+    price: z.string().describe('The current price of the crop (e.g., "₹25/kg", "₹2,125/qtl", "₹২৫/কেজি"). The price must be formatted as a string including the currency symbol and unit, translated appropriately for the requested language.'),
 });
 
 const GetMarketPricesOutputSchema = z.object({
@@ -38,18 +38,18 @@ const prompt = ai.definePrompt({
   output: {schema: GetMarketPricesOutputSchema},
   prompt: `You are a helpful assistant that provides current market prices for crops. Given a location, provide a list of 5 common crops with their prices at a nearby major market. Ensure the currency is in Indian Rupees, using the '₹' symbol.
 
-Respond in the following language: {{{language}}}
+IMPORTANT: You must provide your entire response, including crop names, market names, and formatted prices, in the following language: {{{language}}}
 
 Location: {{{location}}}
 
-Example response for Bangalore:
+Example response for Bangalore in Bengali (language: "Bengali"):
 {
   "prices": [
-    { "crop": "Tomato", "market": "Bangalore (K.R. Market)", "price": "₹28/kg" },
-    { "crop": "Onion", "market": "Bangalore (Yeshwanthpur)", "price": "₹22/kg" },
-    { "crop": "Potato", "market": "Bangalore (K.R. Market)", "price": "₹20/kg" },
-    { "crop": "Carrot", "market": "Bangalore (Yeshwanthpur)", "price": "₹45/kg" },
-    { "crop": "Ragi", "market": "Bangalore (APMC)", "price": "₹3,200/qtl" }
+    { "crop": "টমেটো", "market": "বেঙ্গালুরু (কে.আর. মার্কেট)", "price": "₹২৮/কেজি" },
+    { "crop": "পেঁয়াজ", "market": "বেঙ্গালুরু (যಶವಂತಪುರ)", "price": "₹২২/কেজি" },
+    { "crop": "আলু", "market": "বেঙ্গালুরু (কে.আর. মার্কেট)", "price": "₹২০/কেজি" },
+    { "crop": "গাজর", "market": "বেঙ্গালুরু (যಶವಂತಪುರ)", "price": "₹৪৫/কেজি" },
+    { "crop": "রাগি", "market": "বেঙ্গালুরু (এপিএমসি)", "price": "₹৩,২০০/কুইন্টাল" }
   ]
 }`,
 });

@@ -35,16 +35,18 @@ const prompt = ai.definePrompt({
   output: {schema: GetWeatherReportOutputSchema},
   prompt: `You are a helpful assistant that provides a concise weather report. Given a location, provide the current temperature, humidity, wind speed/direction, and a brief forecast.
 
-Respond in the following language: {{{language}}}
+IMPORTANT: You must provide your entire response, including the forecast text, in the following language: {{{language}}}
+
+The temperature, humidity, and wind values themselves should remain in the standard format (e.g., "28°C", "55%", "12 km/h W") but the forecast description must be translated.
 
 Location: {{{location}}}
 
-Example response for Bangalore:
+Example response for Bangalore in Bengali (language: "Bengali"):
 {
   "temperature": "28°C",
   "humidity": "55%",
   "wind": "12 km/h W",
-  "forecast": "Partly cloudy with a chance of light rain in the evening."
+  "forecast": "আংশিক মেঘলা এবং সন্ধ্যায় হালকা বৃষ্টির সম্ভাবনা।"
 }`,
 });
 

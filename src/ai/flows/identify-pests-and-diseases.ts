@@ -54,7 +54,7 @@ Finally, include a friendly disclaimer. The disclaimer should state that this is
 
 If the image is not a plant or is unclear, state that you can only analyze clear images of plants and cannot provide a diagnosis or remedies.
 
-Respond in the following language: {{{language}}}
+IMPORTANT: You must provide your entire response, including the diagnosis, remedies, product names, and disclaimer, in the following language: {{{language}}}
 
 Photo: {{media url=photoDataUri}}
 `;

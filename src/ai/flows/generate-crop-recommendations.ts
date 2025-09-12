@@ -47,7 +47,7 @@ For each crop, provide a brief reason for the recommendation. Also provide a sho
 
 Finally, include a friendly disclaimer. The disclaimer should state that these are AI-generated suggestions and that for critical decisions, consulting a local agricultural expert is recommended.
 
-Respond in the following language: {{{language}}}
+IMPORTANT: You must respond entirely in the following language: {{{language}}}
 
 Location: {{{location}}}
 Soil Type: {{{soilType}}}
