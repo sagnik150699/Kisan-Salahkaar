@@ -72,7 +72,10 @@ const generateCropRecommendationsFlow = ai.defineFlow(
     
     const sharedConfig: GenerateOptions = {
       output: { schema: GenerateCropRecommendationsOutputSchema },
-      prompt: promptText,
+      prompt: {
+        text: promptText,
+        input,
+      },
     };
     
     let response;
@@ -80,20 +83,12 @@ const generateCropRecommendationsFlow = ai.defineFlow(
         response = await ai.generate({
             model: 'googleai/gemini-2.5-pro',
             ...sharedConfig,
-            prompt: {
-              ...sharedConfig.prompt,
-              input,
-            }
         });
     } catch(e) {
         console.error("Gemini 2.5 Pro failed for generateCropRecommendations, falling back to Flash", e);
         response = await ai.generate({
             model: 'googleai/gemini-2.5-flash',
             ...sharedConfig,
-            prompt: {
-              ...sharedConfig.prompt,
-              input,
-            }
         })
     }
 
