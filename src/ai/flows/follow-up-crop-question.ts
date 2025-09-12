@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview An AI agent that answers follow-up questions about crop recommendations.
@@ -9,7 +10,6 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
-import type {GenerateOptions} from 'genkit';
 
 const FollowUpCropQuestionInputSchema = z.object({
   recommendation: z.string().describe('The original crop recommendation provided.'),
@@ -27,7 +27,11 @@ export async function followUpCropQuestion(input: FollowUpCropQuestionInput): Pr
   return followUpCropQuestionFlow(input);
 }
 
-const promptText = `You are an expert agricultural advisor. Your role is to assist with farming-related questions. If the user asks a question that is not about agriculture, crop science, or farming practices, politely decline to answer and state that you can only help with farming topics.
+const followUpCropQuestionPrompt = ai.definePrompt({
+    name: 'followUpCropQuestionPrompt',
+    input: { schema: FollowUpCropQuestionInputSchema },
+    output: { schema: FollowUpCropQuestionOutputSchema },
+    prompt: `You are an expert agricultural advisor. Your role is to assist with farming-related questions. If the user asks a question that is not about agriculture, crop science, or farming practices, politely decline to answer and state that you can only help with farming topics.
 
 A user has received a crop recommendation and now has a follow-up question. Provide a clear and concise answer to their question based on the context provided.
 
@@ -36,7 +40,8 @@ Respond in the following language: {{{language}}}
 Original Recommendation: {{{recommendation}}}
 User's Question: {{{question}}}
 
-Answer the user's question directly and helpfully.`;
+Answer the user's question directly and helpfully.`,
+});
 
 
 const followUpCropQuestionFlow = ai.defineFlow(
@@ -51,25 +56,16 @@ const followUpCropQuestionFlow = ai.defineFlow(
     },
   },
   async (input) => {
-     const sharedConfig: GenerateOptions = {
-        output: { schema: FollowUpCropQuestionOutputSchema },
-        prompt: promptText,
-     };
-
     let response;
     try {
-        response = await ai.generate({
-            model: 'googleai/gemini-2.5-pro',
-            ...sharedConfig,
-            input,
+        response = await followUpCropQuestionPrompt(input, {
+            model: 'googleai/gemini-2.5-pro'
         });
     } catch(e) {
         console.error("Gemini 2.5 Pro failed for followUpCropQuestion, falling back to Flash", e);
-        response = await ai.generate({
-            model: 'googleai/gemini-2.5-flash',
-            ...sharedConfig,
-            input,
-        })
+        response = await followUpCropQuestionPrompt(input, {
+            model: 'googleai/gemini-2.5-flash'
+        });
     }
 
     const output = response.output;
