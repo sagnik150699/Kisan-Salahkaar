@@ -53,8 +53,10 @@ const followUpCropQuestionFlow = ai.defineFlow(
   async (input) => {
      const sharedConfig: GenerateOptions = {
         output: { schema: FollowUpCropQuestionOutputSchema },
-        prompt: promptText,
-        input,
+        prompt: {
+          text: promptText,
+          input,
+        },
      };
 
     let response;
