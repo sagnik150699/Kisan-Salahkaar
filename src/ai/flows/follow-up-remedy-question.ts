@@ -55,8 +55,10 @@ const followUpRemedyQuestionFlow = ai.defineFlow(
   async (input) => {
     const sharedConfig: GenerateOptions = {
         output: { schema: FollowUpRemedyQuestionOutputSchema },
-        prompt: promptText,
-        input,
+        prompt: {
+          text: promptText,
+          input,
+        },
     };
     
     let response;
