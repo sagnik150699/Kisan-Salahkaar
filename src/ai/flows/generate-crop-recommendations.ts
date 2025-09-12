@@ -9,7 +9,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import type {GenerateOptions} from 'genkit/generate';
+import type {GenerateOptions} from 'genkit';
 
 const GenerateCropRecommendationsInputSchema = z.object({
   location: z.string().describe('The location of the farm.'),
