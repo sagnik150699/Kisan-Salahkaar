@@ -9,7 +9,7 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
-import type {GenerateOptions} from 'genkit/generate';
+import type {GenerateOptions} from 'genkit';
 
 const FollowUpCropQuestionInputSchema = z.object({
   recommendation: z.string().describe('The original crop recommendation provided.'),
@@ -54,6 +54,7 @@ const followUpCropQuestionFlow = ai.defineFlow(
      const sharedConfig: GenerateOptions = {
         output: { schema: FollowUpCropQuestionOutputSchema },
         prompt: promptText,
+        input,
      };
 
     let response;
@@ -61,20 +62,12 @@ const followUpCropQuestionFlow = ai.defineFlow(
         response = await ai.generate({
             model: 'googleai/gemini-2.5-pro',
             ...sharedConfig,
-            prompt: {
-              ...sharedConfig.prompt,
-              input,
-            }
         });
     } catch(e) {
         console.error("Gemini 2.5 Pro failed for followUpCropQuestion, falling back to Flash", e);
         response = await ai.generate({
             model: 'googleai/gemini-2.5-flash',
             ...sharedConfig,
-            prompt: {
-              ...sharedConfig.prompt,
-              input,
-            }
         })
     }
 

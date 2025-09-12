@@ -9,7 +9,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import type {GenerateOptions} from 'genkit/generate';
+import type {GenerateOptions} from 'genkit';
 
 const IdentifyPestOrDiseaseInputSchema = z.object({
   photoDataUri: z
@@ -71,7 +71,8 @@ const identifyPestOrDiseaseFlow = ai.defineFlow(
   async input => {
     const sharedConfig: GenerateOptions = {
         output: { schema: IdentifyPestOrDiseaseOutputSchema },
-        prompt: [{text: promptText.replace('{{media url=photoDataUri}}', '')}, {media: {url: input.photoDataUri}}]
+        prompt: promptText,
+        input,
     };
     
     let response;

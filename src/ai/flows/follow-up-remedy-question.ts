@@ -9,7 +9,7 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
-import type {GenerateOptions} from 'genkit/generate';
+import type {GenerateOptions} from 'genkit';
 
 const FollowUpRemedyQuestionInputSchema = z.object({
   diagnosis: z.string().describe('The original diagnosis of the plant issue.'),
@@ -56,6 +56,7 @@ const followUpRemedyQuestionFlow = ai.defineFlow(
     const sharedConfig: GenerateOptions = {
         output: { schema: FollowUpRemedyQuestionOutputSchema },
         prompt: promptText,
+        input,
     };
     
     let response;
@@ -63,20 +64,12 @@ const followUpRemedyQuestionFlow = ai.defineFlow(
         response = await ai.generate({
             model: 'googleai/gemini-2.5-pro',
             ...sharedConfig,
-            prompt: {
-              ...sharedConfig.prompt,
-              input,
-            }
         });
     } catch(e) {
         console.error("Gemini 2.5 Pro failed for followUpRemedyQuestion, falling back to Flash", e);
         response = await ai.generate({
             model: 'googleai/gemini-2.5-flash',
             ...sharedConfig,
-            prompt: {
-              ...sharedConfig.prompt,
-              input,
-            }
         })
     }
 
