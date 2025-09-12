@@ -17,9 +17,9 @@ const GetWeatherReportInputSchema = z.object({
 export type GetWeatherReportInput = z.infer<typeof GetWeatherReportInputSchema>;
 
 const GetWeatherReportOutputSchema = z.object({
-  temperature: z.string().describe('The current temperature in Celsius (e.g., "25°C").'),
-  humidity: z.string().describe('The current humidity level (e.g., "60%").'),
-  wind: z.string().describe('The current wind speed and direction (e.g., "15 km/h SW").'),
+  temperature: z.string().describe('The current temperature in Celsius (e.g., "25°C", "২৫°C"). This value must be translated to the requested language script if appropriate.'),
+  humidity: z.string().describe('The current humidity level (e.g., "60%", "৬০%"). This value must be translated to the requested language script if appropriate.'),
+  wind: z.string().describe('The current wind speed and direction (e.g., "15 km/h SW", "১৫ কিমি/ঘন্টা দঃপঃ"). This value must be translated to the requested language script if appropriate.'),
   forecast: z.string().describe('A brief weather forecast for the next 24 hours.'),
 });
 export type GetWeatherReportOutput = z.infer<typeof GetWeatherReportOutputSchema>;
@@ -35,17 +35,15 @@ const prompt = ai.definePrompt({
   output: {schema: GetWeatherReportOutputSchema},
   prompt: `You are a helpful assistant that provides a concise weather report. Given a location, provide the current temperature, humidity, wind speed/direction, and a brief forecast.
 
-IMPORTANT: You must provide your entire response, including the forecast text, in the following language: {{{language}}}
-
-The temperature, humidity, and wind values themselves should remain in the standard format (e.g., "28°C", "55%", "12 km/h W") but the forecast description must be translated.
+IMPORTANT: You must provide your ENTIRE response in the following language, translating all values and text: {{{language}}}
 
 Location: {{{location}}}
 
 Example response for Bangalore in Bengali (language: "Bengali"):
 {
-  "temperature": "28°C",
-  "humidity": "55%",
-  "wind": "12 km/h W",
+  "temperature": "২৮°C",
+  "humidity": "৫৫%",
+  "wind": "১২ কিমি/ঘন্টা পঃ",
   "forecast": "আংশিক মেঘলা এবং সন্ধ্যায় হালকা বৃষ্টির সম্ভাবনা।"
 }`,
 });
