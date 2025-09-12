@@ -9,6 +9,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import type {GenerateOptions} from 'genkit/generate';
 
 const IdentifyPestOrDiseaseInputSchema = z.object({
   photoDataUri: z
@@ -40,12 +41,7 @@ export async function identifyPestOrDisease(input: IdentifyPestOrDiseaseInput): 
   return identifyPestOrDiseaseFlow(input);
 }
 
-const prompt = ai.definePrompt({
-  name: 'identifyPestOrDiseasePrompt',
-  input: {schema: IdentifyPestOrDiseaseInputSchema},
-  output: {schema: IdentifyPestOrDiseaseOutputSchema},
-  model: 'googleai/gemini-1.5-pro',
-  prompt: `You are an expert in plant pathology. A farmer will provide a photo of a plant and you must diagnose the plant issue, pest or disease. Then, suggest both organic and inorganic (chemical) remedies.
+const promptText = `You are an expert in plant pathology. A farmer will provide a photo of a plant and you must diagnose the plant issue, pest or disease. Then, suggest both organic and inorganic (chemical) remedies.
 
 For each remedy type (organic and inorganic), provide a list of up to 4 commercially available products. For each product, you must provide:
 1. The product name (e.g., "Neem Oil Concentrate").
@@ -58,8 +54,8 @@ Finally, include a friendly disclaimer. The disclaimer should state that this is
 If the image is not a plant or is unclear, state that you can only analyze clear images of plants and cannot provide a diagnosis or remedies.
 
 Photo: {{media url=photoDataUri}}
-`,
-});
+`;
+
 
 const identifyPestOrDiseaseFlow = ai.defineFlow(
   {
@@ -73,7 +69,26 @@ const identifyPestOrDiseaseFlow = ai.defineFlow(
     },
   },
   async input => {
-    const {output} = await prompt(input);
+    const sharedConfig: GenerateOptions = {
+        output: { schema: IdentifyPestOrDiseaseOutputSchema },
+        prompt: [{text: promptText.replace('{{media url=photoDataUri}}', '')}, {media: {url: input.photoDataUri}}]
+    };
+    
+    let response;
+    try {
+        response = await ai.generate({
+            model: 'googleai/gemini-2.5-pro',
+            ...sharedConfig,
+        });
+    } catch(e) {
+        console.error("Gemini 2.5 Pro failed for identifyPestOrDisease, falling back to Flash", e);
+        response = await ai.generate({
+            model: 'googleai/gemini-2.5-flash',
+            ...sharedConfig,
+        })
+    }
+
+    const output = response.output;
     return output!;
   }
 );

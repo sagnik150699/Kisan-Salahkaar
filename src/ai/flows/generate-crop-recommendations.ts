@@ -9,6 +9,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import type {GenerateOptions} from 'genkit/generate';
 
 const GenerateCropRecommendationsInputSchema = z.object({
   location: z.string().describe('The location of the farm.'),
@@ -38,12 +39,7 @@ export async function generateCropRecommendations(input: GenerateCropRecommendat
   return generateCropRecommendationsFlow(input);
 }
 
-const prompt = ai.definePrompt({
-  name: 'generateCropRecommendationsPrompt',
-  input: {schema: GenerateCropRecommendationsInputSchema},
-  output: {schema: GenerateCropRecommendationsOutputSchema},
-  model: 'googleai/gemini-2.5-flash',
-  prompt: `You are an expert agricultural advisor. Your role is to assist with farming-related questions. If you receive irrelevant or non-agricultural input, provide a helpful message about your purpose.
+const promptText = `You are an expert agricultural advisor. Your role is to assist with farming-related questions. If you receive irrelevant or non-agricultural input, provide a helpful message about your purpose.
 
 Based on the provided location, soil type, and weather patterns, recommend the 3 best crops to plant.
 
@@ -55,8 +51,8 @@ Respond in the following language: {{{language}}}
 
 Location: {{{location}}}
 Soil Type: {{{soilType}}}
-Weather Patterns: {{{weatherPatterns}}}`,
-});
+Weather Patterns: {{{weatherPatterns}}}`;
+
 
 const generateCropRecommendationsFlow = ai.defineFlow(
   {
@@ -73,7 +69,35 @@ const generateCropRecommendationsFlow = ai.defineFlow(
     },
   },
   async input => {
-    const {output} = await prompt(input);
+    
+    const sharedConfig: GenerateOptions = {
+      output: { schema: GenerateCropRecommendationsOutputSchema },
+      prompt: promptText,
+    };
+    
+    let response;
+    try {
+        response = await ai.generate({
+            model: 'googleai/gemini-2.5-pro',
+            ...sharedConfig,
+            prompt: {
+              ...sharedConfig.prompt,
+              input,
+            }
+        });
+    } catch(e) {
+        console.error("Gemini 2.5 Pro failed for generateCropRecommendations, falling back to Flash", e);
+        response = await ai.generate({
+            model: 'googleai/gemini-2.5-flash',
+            ...sharedConfig,
+            prompt: {
+              ...sharedConfig.prompt,
+              input,
+            }
+        })
+    }
+
+    const output = response.output;
     if (!output) {
       throw new Error('No output from prompt');
     }
