@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview An AI agent that identifies pests and diseases in plants from images.
@@ -9,7 +10,6 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import type {GenerateOptions} from 'genkit';
 
 const IdentifyPestOrDiseaseInputSchema = z.object({
   photoDataUri: z
@@ -42,7 +42,7 @@ export async function identifyPestOrDisease(input: IdentifyPestOrDiseaseInput): 
   return identifyPestOrDiseaseFlow(input);
 }
 
-const prompt = ai.definePrompt({
+const pestOrDiseasePrompt = ai.definePrompt({
     name: 'identifyPestOrDiseasePrompt',
     input: { schema: IdentifyPestOrDiseaseInputSchema },
     output: { schema: IdentifyPestOrDiseaseOutputSchema },
@@ -64,7 +64,6 @@ Photo: {{media url=photoDataUri}}
 `,
 });
 
-
 const identifyPestOrDiseaseFlow = ai.defineFlow(
   {
     name: 'identifyPestOrDiseaseFlow',
@@ -79,13 +78,13 @@ const identifyPestOrDiseaseFlow = ai.defineFlow(
   async input => {
     let response;
     try {
-        response = await prompt({
+        response = await pestOrDiseasePrompt({
             input,
             model: 'googleai/gemini-2.5-pro'
         });
     } catch(e) {
         console.error("Gemini 2.5 Pro failed for identifyPestOrDisease, falling back to Flash", e);
-        response = await prompt({
+        response = await pestOrDiseasePrompt({
             input,
             model: 'googleai/gemini-2.5-flash'
         });

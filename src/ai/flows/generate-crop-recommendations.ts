@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview Crop recommendation AI agent.
@@ -9,7 +10,6 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import type {GenerateOptions} from 'genkit';
 
 const GenerateCropRecommendationsInputSchema = z.object({
   location: z.string().describe('The location of the farm.'),
@@ -39,7 +39,7 @@ export async function generateCropRecommendations(input: GenerateCropRecommendat
   return generateCropRecommendationsFlow(input);
 }
 
-const prompt = ai.definePrompt({
+const cropRecommendationPrompt = ai.definePrompt({
     name: 'generateCropRecommendationsPrompt',
     input: { schema: GenerateCropRecommendationsInputSchema },
     output: { schema: GenerateCropRecommendationsOutputSchema },
@@ -58,7 +58,6 @@ Soil Type: {{{soilType}}}
 Weather Patterns: {{{weatherPatterns}}}`,
 });
 
-
 const generateCropRecommendationsFlow = ai.defineFlow(
   {
     name: 'generateCropRecommendationsFlow',
@@ -74,16 +73,15 @@ const generateCropRecommendationsFlow = ai.defineFlow(
     },
   },
   async input => {
-    
     let response;
     try {
-        response = await prompt({
+        response = await cropRecommendationPrompt({
             input,
             model: 'googleai/gemini-2.5-pro'
         });
     } catch(e) {
         console.error("Gemini 2.5 Pro failed for generateCropRecommendations, falling back to Flash", e);
-        response = await prompt({
+        response = await cropRecommendationPrompt({
             input,
             model: 'googleai/gemini-2.5-flash'
         });
