@@ -55,10 +55,7 @@ const followUpRemedyQuestionFlow = ai.defineFlow(
   async (input) => {
     const sharedConfig: GenerateOptions = {
         output: { schema: FollowUpRemedyQuestionOutputSchema },
-        prompt: {
-          text: promptText,
-          input,
-        },
+        prompt: promptText,
     };
     
     let response;
@@ -66,12 +63,14 @@ const followUpRemedyQuestionFlow = ai.defineFlow(
         response = await ai.generate({
             model: 'googleai/gemini-2.5-pro',
             ...sharedConfig,
+            input,
         });
     } catch(e) {
         console.error("Gemini 2.5 Pro failed for followUpRemedyQuestion, falling back to Flash", e);
         response = await ai.generate({
             model: 'googleai/gemini-2.5-flash',
             ...sharedConfig,
+            input,
         })
     }
 

@@ -53,10 +53,7 @@ const followUpCropQuestionFlow = ai.defineFlow(
   async (input) => {
      const sharedConfig: GenerateOptions = {
         output: { schema: FollowUpCropQuestionOutputSchema },
-        prompt: {
-          text: promptText,
-          input,
-        },
+        prompt: promptText,
      };
 
     let response;
@@ -64,12 +61,14 @@ const followUpCropQuestionFlow = ai.defineFlow(
         response = await ai.generate({
             model: 'googleai/gemini-2.5-pro',
             ...sharedConfig,
+            input,
         });
     } catch(e) {
         console.error("Gemini 2.5 Pro failed for followUpCropQuestion, falling back to Flash", e);
         response = await ai.generate({
             model: 'googleai/gemini-2.5-flash',
             ...sharedConfig,
+            input,
         })
     }
 
