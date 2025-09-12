@@ -460,8 +460,8 @@ export function PestIdentification() {
           )}
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-2 flex-1 min-w-[200px]">
             <Input
               id="file-upload"
               ref={fileInputRef}
@@ -475,11 +475,12 @@ export function PestIdentification() {
               variant="outline"
               onClick={() => fileInputRef.current?.click()}
               disabled={loading}
+              className="flex-shrink-0"
             >
               <FileUp className="mr-2 h-4 w-4" />
               {t('chooseFile')}
             </Button>
-            <span className="text-sm text-muted-foreground truncate max-w-40">
+            <span className="text-sm text-muted-foreground truncate">
               {fileName || t('noFileChosen')}
             </span>
           </div>
