@@ -70,6 +70,7 @@
     "uploadPlaceholder": "शुरू करण वास्ते एक छवि अपलोड करो"
   },
   "chooseFile": "फ़ाइल चुणो",
+  "noFileChosen": "कोई फ़ाइल नीं चुणी",
   "cropImage": "छवि काटो",
   "diagnosePlant": "पौधो रो निदान करो",
   "diagnosis": "निदान",
@@ -114,3 +115,5 @@
   "whereToBuy": "कठै सूं खरीदणो है",
   "buyNow": "अबै खरीदो"
 }
+
+    

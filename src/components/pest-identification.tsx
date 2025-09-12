@@ -3,7 +3,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
-import { Bug, Leaf, Loader2, Upload, Volume2, StopCircle, FlaskConical, Send, Mic, MicOff } from 'lucide-react';
+import { Bug, Leaf, Loader2, Upload, Volume2, StopCircle, FlaskConical, Send, Mic, MicOff, FileUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -272,6 +272,7 @@ export function PestIdentification() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<IdentifyPestOrDiseaseOutput | null>(null);
   const [imgSrc, setImgSrc] = useState('');
+  const [fileName, setFileName] = useState('');
   const { toast } = useToast();
   const [crop, setCrop] = useState<CropType>();
   const [completedCrop, setCompletedCrop] = useState<CropType>();
@@ -279,12 +280,14 @@ export function PestIdentification() {
   const [loadingAudio, setLoadingAudio] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       setCrop(undefined) // Makes crop preview update between images.
       setResult(null);
+      setFileName(file.name);
       const reader = new FileReader();
       reader.addEventListener('load', () =>
         setImgSrc(reader.result?.toString() || ''),
@@ -292,7 +295,7 @@ export function PestIdentification() {
       reader.readAsDataURL(file);
     }
   };
-
+  
   const onImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
     imgRef.current = e.currentTarget;
     const { width, height } = e.currentTarget;
@@ -458,14 +461,28 @@ export function PestIdentification() {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-2">
-           <Input
-            id="file-upload"
-            type="file"
-            accept="image/*"
-            onChange={handleFileChange}
-            className="flex-1 cursor-pointer"
-            disabled={loading}
-          />
+          <div className="flex-1 flex items-center gap-2">
+            <Input
+              id="file-upload"
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+              className="hidden"
+              disabled={loading}
+            />
+            <Button
+              variant="outline"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={loading}
+            >
+              <FileUp className="mr-2 h-4 w-4" />
+              {t('chooseFile')}
+            </Button>
+            <span className="text-sm text-muted-foreground truncate flex-1">
+              {fileName || t('noFileChosen')}
+            </span>
+          </div>
           <Button onClick={handleSubmit} disabled={loading || !imgSrc} className="w-full sm:w-auto">
             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {t('diagnosePlant')}
@@ -513,3 +530,5 @@ export function PestIdentification() {
     </Card>
   );
 }
+
+    

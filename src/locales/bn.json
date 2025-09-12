@@ -70,6 +70,7 @@
     "uploadPlaceholder": "শুরু করতে একটি ছবি আপলোড করুন"
   },
   "chooseFile": "ফাইল পছন্দ কর",
+  "noFileChosen": "কোন ফাইল নির্বাচন করা হয়নি",
   "cropImage": "ছবি কাটুন",
   "diagnosePlant": "উদ্ভিদ নির্ণয় করুন",
   "diagnosis": "রোগ নির্ণয়",
@@ -114,3 +115,5 @@
   "whereToBuy": "কোথায় কিনবেন",
   "buyNow": "এখনই কিনুন"
 }
+
+    

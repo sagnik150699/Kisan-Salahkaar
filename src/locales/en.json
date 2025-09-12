@@ -69,7 +69,8 @@
     "previewAlt": "Plant preview",
     "uploadPlaceholder": "Upload an image to get started"
   },
-  "chooseFile": "Choose file",
+  "chooseFile": "Choose File",
+  "noFileChosen": "No file chosen",
   "cropImage": "Crop Image",
   "diagnosePlant": "Diagnose Plant",
   "diagnosis": "Diagnosis",
@@ -131,3 +132,5 @@
   "whereToBuy": "Where to Buy",
   "buyNow": "Buy Now"
 }
+
+    

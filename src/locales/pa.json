@@ -70,6 +70,7 @@
     "uploadPlaceholder": "ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਇੱਕ ਚਿੱਤਰ ਅਪਲੋਡ ਕਰੋ"
   },
   "chooseFile": "ਫਾਈਲ ਚੁਣੋ",
+  "noFileChosen": "ਕੋਈ ਫਾਈਲ ਨਹੀਂ ਚੁਣੀ ਗਈ",
   "cropImage": "ਚਿੱਤਰ ਨੂੰ ਕੱਟੋ",
   "diagnosePlant": "ਪੌਦੇ ਦਾ ਨਿਦਾਨ ਕਰੋ",
   "diagnosis": "ਨਿਦਾਨ",
@@ -114,3 +115,5 @@
   "whereToBuy": "ਕਿੱਥੋਂ ਖਰੀਦਣਾ ਹੈ",
   "buyNow": "ਹੁਣੇ ਖਰੀਦੋ"
 }
+
+    
