@@ -22,6 +22,7 @@ import ReactCrop, { type Crop as CropType, centerCrop, makeAspectCrop } from 're
 import 'react-image-crop/dist/ReactCrop.css';
 import { useI18n } from '@/context/i18n-provider';
 import { ProductSuggestions } from './product-suggestions';
+import { SafeImage } from './safe-image';
 
 function getCroppedImg(
   image: HTMLImageElement,
@@ -268,7 +269,7 @@ const RemedyChat = ({ diagnosis, remedy, remedyTitle }: { diagnosis: string, rem
 
 
 export function PestIdentification() {
-  const { t } = useI18n();
+  const { t, language } = useI18n();
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<IdentifyPestOrDiseaseOutput | null>(null);
   const [imgSrc, setImgSrc] = useState('');
@@ -350,7 +351,7 @@ export function PestIdentification() {
     }
 
 
-    const response = await handlePestIdentification({ photoDataUri: imageDataToSubmit });
+    const response = await handlePestIdentification({ photoDataUri: imageDataToSubmit, language });
 
     if (response.success && response.data) {
       setResult(response.data);

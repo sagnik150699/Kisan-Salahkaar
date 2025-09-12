@@ -17,6 +17,7 @@ const IdentifyPestOrDiseaseInputSchema = z.object({
     .describe(
       "A photo of a plant, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
     ),
+   language: z.string().describe('The language for the response (e.g., "English", "Hindi").'),
 });
 export type IdentifyPestOrDiseaseInput = z.infer<typeof IdentifyPestOrDiseaseInputSchema>;
 
@@ -53,6 +54,8 @@ Finally, include a friendly disclaimer. The disclaimer should state that this is
 
 If the image is not a plant or is unclear, state that you can only analyze clear images of plants and cannot provide a diagnosis or remedies.
 
+Respond in the following language: {{{language}}}
+
 Photo: {{media url=photoDataUri}}
 `;
 
@@ -71,8 +74,10 @@ const identifyPestOrDiseaseFlow = ai.defineFlow(
   async input => {
     const sharedConfig: GenerateOptions = {
         output: { schema: IdentifyPestOrDiseaseOutputSchema },
-        prompt: promptText,
-        input,
+        prompt: {
+          text: promptText,
+          input,
+        },
     };
     
     let response;
