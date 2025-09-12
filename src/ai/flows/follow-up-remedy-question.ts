@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview An AI agent that answers follow-up questions about plant remedies.
@@ -9,7 +10,6 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
-import type {GenerateOptions} from 'genkit';
 
 const FollowUpRemedyQuestionInputSchema = z.object({
   diagnosis: z.string().describe('The original diagnosis of the plant issue.'),
@@ -28,7 +28,11 @@ export async function followUpRemedyQuestion(input: FollowUpRemedyQuestionInput)
   return followUpRemedyQuestionFlow(input);
 }
 
-const promptText = `You are an expert agricultural advisor. Your role is to assist with farming-related questions. If the user asks a question that is not about agriculture, plant health, or farming practices, politely decline to answer and state that you can only help with farming topics.
+const followUpRemedyQuestionPrompt = ai.definePrompt({
+    name: 'followUpRemedyQuestionPrompt',
+    input: { schema: FollowUpRemedyQuestionInputSchema },
+    output: { schema: FollowUpRemedyQuestionOutputSchema },
+    prompt: `You are an expert agricultural advisor. Your role is to assist with farming-related questions. If the user asks a question that is not about agriculture, plant health, or farming practices, politely decline to answer and state that you can only help with farming topics.
 
 A user has received a diagnosis and a suggested remedy for their plant. They now have a follow-up question. Provide a clear and concise answer to their question based on the context provided.
 
@@ -38,7 +42,8 @@ Original Diagnosis: {{{diagnosis}}}
 Suggested Remedy: {{{remedy}}}
 User's Question: {{{question}}}
 
-Answer the user's question directly and helpfully.`;
+Answer the user's question directly and helpfully.`,
+});
 
 
 const followUpRemedyQuestionFlow = ai.defineFlow(
@@ -53,25 +58,16 @@ const followUpRemedyQuestionFlow = ai.defineFlow(
     },
   },
   async (input) => {
-    const sharedConfig: GenerateOptions = {
-        output: { schema: FollowUpRemedyQuestionOutputSchema },
-        prompt: promptText,
-    };
-    
     let response;
     try {
-        response = await ai.generate({
-            model: 'googleai/gemini-2.5-pro',
-            ...sharedConfig,
-            input,
+        response = await followUpRemedyQuestionPrompt(input, {
+            model: 'googleai/gemini-2.5-pro'
         });
     } catch(e) {
         console.error("Gemini 2.5 Pro failed for followUpRemedyQuestion, falling back to Flash", e);
-        response = await ai.generate({
-            model: 'googleai/gemini-2.5-flash',
-            ...sharedConfig,
-            input,
-        })
+        response = await followUpRemedyQuestionPrompt(input, {
+            model: 'googleai/gemini-2.5-flash'
+        });
     }
 
     const output = response.output;
