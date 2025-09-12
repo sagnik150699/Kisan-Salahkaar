@@ -75,14 +75,12 @@ const generateCropRecommendationsFlow = ai.defineFlow(
   async input => {
     let response;
     try {
-        response = await cropRecommendationPrompt({
-            input,
+        response = await cropRecommendationPrompt(input, {
             model: 'googleai/gemini-2.5-pro'
         });
     } catch(e) {
         console.error("Gemini 2.5 Pro failed for generateCropRecommendations, falling back to Flash", e);
-        response = await cropRecommendationPrompt({
-            input,
+        response = await cropRecommendationPrompt(input, {
             model: 'googleai/gemini-2.5-flash'
         });
     }

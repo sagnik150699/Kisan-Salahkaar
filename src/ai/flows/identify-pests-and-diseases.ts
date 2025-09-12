@@ -78,14 +78,12 @@ const identifyPestOrDiseaseFlow = ai.defineFlow(
   async input => {
     let response;
     try {
-        response = await pestOrDiseasePrompt({
-            input,
+        response = await pestOrDiseasePrompt(input, {
             model: 'googleai/gemini-2.5-pro'
         });
     } catch(e) {
         console.error("Gemini 2.5 Pro failed for identifyPestOrDisease, falling back to Flash", e);
-        response = await pestOrDiseasePrompt({
-            input,
+        response = await pestOrDiseasePrompt(input, {
             model: 'googleai/gemini-2.5-flash'
         });
     }
